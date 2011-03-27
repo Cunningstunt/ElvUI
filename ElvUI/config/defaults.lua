@@ -13,7 +13,8 @@ DB["media"] = {
 	["blank"] = "ElvUI Blank",
 	
 	["raidicons"] = [[Interface\AddOns\ElvUI\media\textures\raidicons.blp]], -- new raid icon textures by hankthetank
-	
+	["arrow"] = [[Interface\AddOns\ElvUI\media\textures\arrow.tga]],	-- arrow texture for target and focus gps
+
 	-- sound
 	["whisper"] = "ElvUI Whisper",
 	["warning"] = "ElvUI Warning",

@@ -117,7 +117,7 @@ local function BuildBNTable(total)
 	sort(BNTable, function(a, b)
 		if a[2] and b[2] then
 			if a[2] == b[2] then return a[3] < b[3] end
-			return a[2] < b[2]
+			return a[2] > b[2]
 		end
 	end)
 end
@@ -184,7 +184,7 @@ Stat:SetScript("OnMouseUp", function(self, btn)
 
 					if UnitInParty(info[4]) or UnitInRaid(info[4]) then grouped = 1 else grouped = 2 end
 					menuCountInvites = menuCountInvites + 1
-					menuList[2].menuList[menuCountInvites] = {text = format(levelNameString,levelc.r*255,levelc.g*255,levelc.b*255,info[16],classc.r*255,classc.g*255,classc.b*255,info[4]), arg1 = info[4],notCheckable=true, func = inviteClick}
+					menuList[2].menuList[menuCountInvites] = {text = format(levelNameString,levelc.r*255,levelc.g*255,levelc.b*255,info[16],classc.r*255,classc.g*255,classc.b*255,realID), arg1 = info[4],notCheckable=true, func = inviteClick}
 				end
 			end
 		end

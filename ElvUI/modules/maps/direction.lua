@@ -46,55 +46,55 @@ local function OnUnitFramesLoad(self, event, addon)
 		texture:SetTexCoord(ULx, ULy, LLx, LLy, URx, URy, LRx, LRy);
 	end
 	
-	local function SetupGpsFrame(type, parent, unit, point, relative, xoffset, yoffset)
-		type:SetTemplate("Default")
-		type:SetParent(parent)
-		type:EnableMouse(false)
-		type:SetFrameStrata("MEDIUM")
-		type:SetFrameLevel(3)
-	  type:SetWidth(E.Scale(44))
-	  type:SetHeight(E.Scale(14))
-	  type:SetAlpha(.9)
-		type:SetPoint(point, parent, relative, xoffset, yoffset)
-	  type:Show()
+	local function SetupGpsFrame(frame, parent, unit, point, relative, xoffset, yoffset)
+		frame:SetTemplate("Default")
+		frame:SetParent(parent)
+		frame:EnableMouse(false)
+		frame:SetFrameStrata("MEDIUM")
+		frame:SetFrameLevel(3)
+	  frame:SetWidth(E.Scale(44))
+	  frame:SetHeight(E.Scale(14))
+	  frame:SetAlpha(.9)
+		frame:SetPoint(point, parent, relative, xoffset, yoffset)
+	  frame:Show()
 	  
-	  type.unit = unit
-	  type.parent = parent
+	  frame.unit = unit
+	  frame.parent = parent
 	  
-	  type.texture = type:CreateTexture("OVERLAY")
-	  type.texture:SetTexture(C["media"].arrow)
-	  type.texture:SetBlendMode("BLEND")
-	  type.texture:SetAlpha(.9)
-	  type.texture:SetWidth(E.Scale(12))
-	  type.texture:SetHeight(E.Scale(12))
-	  type.texture:SetPoint("LEFT", type, "LEFT", E.mult, 0)
+	  frame.texture = frame:CreateTexture("OVERLAY")
+	  frame.texture:SetTexture(C["media"].arrow)
+	  frame.texture:SetBlendMode("BLEND")
+	  frame.texture:SetAlpha(.9)
+	  frame.texture:SetWidth(E.Scale(12))
+	  frame.texture:SetHeight(E.Scale(12))
+	  frame.texture:SetPoint("LEFT", frame, "LEFT", E.mult, 0)
 
-		type.text = type:CreateFontString(nil, "OVERLAY")
-		type.text:SetFont(C.media.font, 10, "THINOUTLINE")
-		type.text:SetShadowOffset(E.mult, -E.mult)
-		type.text:SetPoint("RIGHT", type, "RIGHT", 0 , 0)
+		frame.text = frame:CreateFontString(nil, "OVERLAY")
+		frame.text:SetFont(C.media.font, 10, "THINOUTLINE")
+		frame.text:SetShadowOffset(E.mult, -E.mult)
+		frame.text:SetPoint("RIGHT", frame, "RIGHT", 0 , 0)
 	end
 			
-	local function UpdateGps(type)
-		local angle, px, py, tx, ty = GetBearing(type.unit)
+	local function UpdateGps(frame)
+		local angle, px, py, tx, ty = GetBearing(frame.unit)
 		if angle == 999 then
-			if type.parent:IsVisible() and (inParty(type.unit) or inRaid(type.unit)) then
+			if frame.parent:IsVisible() and (inParty(frame.unit) or inRaid(frame.unit)) then
 				-- we have a unit type that is in raid / party, but no bearing show ??? to indicate we are lost :)
-    		type.text:SetText("???")
-				type.texture:Hide()
-				type:Show()
+    		frame.text:SetText("???")
+				frame.texture:Hide()
+				frame:Show()
 			else
 				-- no focus or target
-				type:Hide()
+				frame:Hide()
 			end
 			return 
 		end
-	  RotateTexture(type.texture, angle)
-    type.texture:Show()
+	  RotateTexture(frame.texture, angle)
+    frame.texture:Show()
 	
 		local distance = mapfiles:Distance(mapfile, 0, px, py, tx, ty)
-    type.text:SetFormattedText("%d", distance)
-		type:Show()
+    frame.text:SetFormattedText("%d", distance)
+		frame:Show()
 	end
 	
 	local int = .1
