@@ -926,9 +926,30 @@ function ElvuiConfig.GenerateOptionsInternal()
 							},
 						},
 					},
+					GPSGroup = {
+						order = 6,
+						type = "group",
+						name = L["GPS Tracking"],
+						guiInline = true,
+						disabled = function() return (not db.unitframes.enable) end,	
+						args = {
+							targetgps = {
+								type = "toggle",
+								order = 1,
+								name = L["Show target GPS"],
+								desc = L["Display a tracker arrow and range on the target frame"],							
+							},						
+							focusgps = {
+								type = "toggle",
+								order = 1,
+								name = L["Show focus GPS"],
+								desc = L["Display a tracker arrow and range next to the focus frame"],						
+							},												
+						},
+					},
 					PowerColors = {
 						type = "group",
-						order = 6,
+						order = 7,
 						name = L["Power Colors"],
 						guiInline = true,
 						get = function(info)
@@ -972,27 +993,6 @@ function ElvuiConfig.GenerateOptionsInternal()
 								name = L["Runic Power"],
 								hasAlpha = false,							
 							},
-						},
-					},
-					GPSGroup = {
-						order = 7,
-						type = "group",
-						name = L["GPS Tracking"],
-						guiInline = true,
-						disabled = function() return (not db.unitframes.enable) end,	
-						args = {
-							targetgps = {
-								type = "toggle",
-								order = 1,
-								name = L["Show target GPS"],
-								desc = L["Display a tracker arrow and range on the target frame"],							
-							},						
-							focusgps = {
-								type = "toggle",
-								order = 1,
-								name = L["Show focus GPS"],
-								desc = L["Display a tracker arrow and range next to the focus frame"],						
-							},												
 						},
 					},
 				},
