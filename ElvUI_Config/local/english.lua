@@ -135,6 +135,8 @@ L["Unit Frames"] = true
 	L["Display Aggro"] = true
 		L["Enable red glow around the player frame when you have aggro"] = true
 		L["Change the frame's border to red when a unit has aggro"] = true
+	L["Autmatically change tracked reputation"] = true
+		L["Change the tracked reputation when the standing with a faction changes"] = true
 	
 L["Frame Sizes"] = true
 	L["Controls the size of the frame"] = true
@@ -393,6 +395,8 @@ L["Misc"] = true
 		L["Automatically sell gray items when visiting a vendor"] = true
 	L["Auto Repair"] = true
 		L["Automatically repair when visiting a vendor"] = true
+	L["Use guild bank for Auto Repair"] = true
+		L["Use the guild bank for auto repair when available."] = true
 	L["Combat"] = true
 	L["Buff Reminder"] = true
 		L["Icon at center of screen when you are missing a buff, or you have a buff you shouldn't have"] = true

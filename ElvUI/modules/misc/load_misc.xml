@@ -1,6 +1,7 @@
 ﻿<Ui xmlns="http://www.blizzard.com/wow/ui/">	
 	<Script file="autodez.lua"/>
 	<Script file="autorelease.lua"/>
+	<Script file="autorepchange.lua"/>
 	<Script file="announce.lua"/>
 	<Script file="error.lua"/>
 	<Script file="invite.lua"/>

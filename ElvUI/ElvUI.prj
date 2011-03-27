@@ -1,0 +1,265 @@
+[Project ID]
+Signature=UE Proj: v.1
+[Project Information]
+Use Relative Directory=1
+Relative to Project File=1
+Include Sub Directories=1
+Project Tagfile=
+Project Wordfile=
+Filter=
+Create Tagfile=0
+[Group]
+0=config
+1=core
+2=developer
+3=layout
+4=media
+5=modules
+6=modules - actionbars
+7=modules - addonskins
+8=modules - bags
+9=modules - buffs
+10=modules - chat
+11=modules - classtimer
+12=modules - datatext
+13=modules - loot
+14=modules - maps
+15=modules - misc
+16=modules - nameplates
+17=modules - tooltip
+18=media - fonts
+19=media - sounds
+20=media - textures
+21=locales
+22=libs
+23=libs - CallbackHandler_1.0
+24=libs - LibMapData_1.0
+25=libs - LibSharedMedia_3.0
+26=libs - LibStub
+27=libs - LibRangeCheck_2.0
+28=modules - addonskins - skins
+29=modules - blizzard
+30=config - filters
+31=modules - unitframes
+32=modules - unitframes - core
+33=modules - unitframes - layouts
+34=modules - unitframes - plugins
+35=modules - unitframes - templates
+[Files - config]
+0=config\autodisable.lua
+1=config\classtimers_spellist.lua
+2=config\configui.lua
+3=config\defaults.lua
+4=config\load_config.xml
+5=config\extra_defaults.lua
+[Files]
+0=Bindings.xml
+1=ElvUI.ISILDUR.Roland.pui
+2=ElvUI.toc
+3=init.lua
+4=LICENSE
+[Files - core]
+0=core\animation.lua
+1=core\colors.lua
+2=core\commands.lua
+3=core\core.lua
+4=core\debug.lua
+5=core\fonts.lua
+6=core\kill.lua
+7=core\load_core.xml
+8=core\math.lua
+9=core\pixelperfect.lua
+10=core\staticpopups.lua
+11=core\toolkit.lua
+12=core\uf_functions.lua
+13=core\movers.lua
+14=core\deprecated.lua
+15=core\launch.lua
+[Files - developer]
+0=developer\frame.lua
+1=developer\load_developer.xml
+2=developer\reloadui.lua
+3=developer\test.lua
+[Files - layout]
+0=layout\layout.lua
+1=layout\load_layout.xml
+2=layout\extra_layout.lua
+[Files - media]
+0=media\load_media.xml
+1=media\sharedmedia.lua
+[Files - modules - actionbars]
+0=modules\actionbars\ActionbarFunctions.lua
+1=modules\actionbars\Bar1.lua
+2=modules\actionbars\Bar2.lua
+3=modules\actionbars\Bar3.lua
+4=modules\actionbars\Bar4.lua
+5=modules\actionbars\Bar5.lua
+6=modules\actionbars\BarPet.lua
+7=modules\actionbars\BarShift.lua
+8=modules\actionbars\BarTotem.lua
+9=modules\actionbars\BarVehicle.lua
+10=modules\actionbars\Bind.lua
+11=modules\actionbars\Cooldown.lua
+12=modules\actionbars\Hide.lua
+13=modules\actionbars\load_actionbars.xml
+14=modules\actionbars\Microbar.lua
+15=modules\actionbars\Movers.lua
+16=modules\actionbars\Others.lua
+17=modules\actionbars\Range.lua
+18=modules\actionbars\Style.lua
+[Files - modules - addonskins]
+0=modules\addonskins\load_addonskins.xml
+1=modules\addonskins\LoadSkins.lua
+[Files - modules - bags]
+0=modules\bags\bags.lua
+1=modules\bags\load_bags.xml
+[Files - modules - buffs]
+0=modules\buffs\buffs.lua
+1=modules\buffs\load_buffs.xml
+[Files - modules - chat]
+0=modules\chat\chat.lua
+1=modules\chat\chatanimations.lua
+2=modules\chat\copyurl.lua
+3=modules\chat\load_chat.xml
+4=modules\chat\spam.lua
+[Files - modules - classtimer]
+0=modules\classtimer\classtimer.lua
+1=modules\classtimer\load_classtimer.xml
+[Files - modules - datatext]
+0=modules\datatexts\bags.lua
+1=modules\datatexts\battleground.lua
+2=modules\datatexts\currency.lua
+3=modules\datatexts\dps.lua
+4=modules\datatexts\durability.lua
+5=modules\datatexts\friend.lua
+6=modules\datatexts\gold.lua
+7=modules\datatexts\guild.lua
+8=modules\datatexts\haste.lua
+9=modules\datatexts\hps.lua
+10=modules\datatexts\load_datatexts.xml
+11=modules\datatexts\position.lua
+12=modules\datatexts\specswitch.lua
+13=modules\datatexts\stat1.lua
+14=modules\datatexts\stat2.lua
+15=modules\datatexts\system.lua
+16=modules\datatexts\time.lua
+17=modules\datatexts\range.lua
+[Files - modules]
+0=modules\load_modules.xml
+[Files - modules - loot]
+0=modules\loot\load_loot.xml
+1=modules\loot\loot.lua
+2=modules\loot\loot_roll.lua
+[Files - modules - maps]
+0=modules\maps\load_maps.xml
+1=modules\maps\map.lua
+2=modules\maps\minimap.lua
+3=modules\maps\tinymap.lua
+4=modules\maps\direction.lua
+[Files - modules - misc]
+0=modules\misc\arenatrack.lua
+1=modules\misc\autodez.lua
+2=modules\misc\autorelease.lua
+3=modules\misc\autorepchange.lua
+4=modules\misc\error.lua
+5=modules\misc\invite.lua
+6=modules\misc\load_misc.xml
+7=modules\misc\merchant.lua
+8=modules\misc\mirror.lua
+9=modules\misc\quests.lua
+10=modules\misc\raidBuffReminder.lua
+11=modules\misc\raidmarker.lua
+12=modules\misc\raidUtility.lua
+13=modules\misc\reminder.lua
+[Files - modules - nameplates]
+0=modules\nameplates\load_nameplates.xml
+1=modules\nameplates\nameplates.lua
+[Files - modules - tooltip]
+0=modules\tooltip\item.lua
+1=modules\tooltip\load_tooltip.xml
+2=modules\tooltip\tooltip.lua
+[Files - media - fonts]
+0=media\fonts\Action_Man.ttf
+1=media\fonts\PT_Sans_Narrow.ttf
+2=media\fonts\Invisible.ttf
+[Files - media - sounds]
+0=media\sounds\warning.mp3
+1=media\sounds\whisper.mp3
+[Files - media - textures]
+0=media\textures\blank.tga
+1=media\textures\cross.tga
+2=media\textures\glowTex.tga
+3=media\textures\lfdicons.blp
+4=media\textures\mail.tga
+5=media\textures\normTex.tga
+6=media\textures\normTex2.tga
+7=media\textures\raidicons.blp
+8=media\textures\vehicleexit.tga
+9=media\textures\arrow.tga
+[Files - locales]
+0=locales\china.lua
+1=locales\english.lua
+2=locales\french.lua
+3=locales\german.lua
+4=locales\korean.lua
+5=locales\load_locales.xml
+6=locales\russian.lua
+7=locales\spanish.lua
+8=locales\taiwan.lua
+[Files - libs]
+0=libs\load_libs.xml
+[Files - libs - CallbackHandler_1.0]
+0=libs\CallbackHandler-1.0\CallbackHandler-1.0.lua
+1=libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
+[Files - libs - LibMapData_1.0]
+0=libs\LibMapData-1.0\library.lua
+[Files - libs - LibSharedMedia_3.0]
+0=libs\LibSharedMedia-3.0\lib.xml
+1=libs\LibSharedMedia-3.0\LibSharedMedia-3.0.lua
+[Files - libs - LibStub]
+0=libs\LibStub\LibStub.lua
+1=libs\LibStub\LibStub.toc
+[Files - libs - LibRangeCheck_2.0]
+0=libs\LibRangeCheck-2.0\LibRangeCheck-2.0.lua
+[Files - modules - addonskins - skins]
+0=modules\addonskins\skins\DXE.lua
+1=modules\addonskins\skins\Omen.lua
+2=modules\addonskins\skins\Recount.lua
+3=modules\addonskins\skins\Skada.lua
+4=modules\addonskins\skins\DBM.lua
+[Files - modules - blizzard]
+0=modules\blizzard\achievements.lua
+1=modules\blizzard\bubbles.lua
+2=modules\blizzard\capturebar.lua
+3=modules\blizzard\durability.lua
+4=modules\blizzard\gm.lua
+5=modules\blizzard\load_blizzard.xml
+6=modules\blizzard\skin.lua
+7=modules\blizzard\vehicle.lua
+8=modules\blizzard\watchframe.lua
+[Files - config - filters]
+0=config\filters\buffwatch.lua
+1=config\filters\classtimer.lua
+2=config\filters\load_filters.xml
+3=config\filters\nameplate.lua
+4=config\filters\raid_reminder.lua
+5=config\filters\reminder.lua
+6=config\filters\unitframe.lua
+[Files - modules - unitframes]
+0=modules\unitframes\colors.lua
+1=modules\unitframes\init.lua
+2=modules\unitframes\load_unitframes.xml
+3=modules\unitframes\move_ele.lua
+4=modules\unitframes\tags.lua
+5=modules\unitframes\uf_functions.lua
+[Files - modules - unitframes - plugins]
+0=modules\unitframes\plugins\load_plugins.xml
+[Files - modules - unitframes - layouts]
+0=modules\unitframes\layouts\elvdps.lua
+1=modules\unitframes\layouts\elvheal.lua
+2=modules\unitframes\layouts\load_layouts.xml
+[Files - modules - unitframes - templates]
+0=modules\unitframes\templates\healerpets.xml
+1=modules\unitframes\templates\load_templates.xml
+2=modules\unitframes\templates\maintanktargets.xml
+3=modules\unitframes\templates\partytargets.xml

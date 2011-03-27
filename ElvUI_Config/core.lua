@@ -675,6 +675,12 @@ function ElvuiConfig.GenerateOptionsInternal()
 								name = L["Display Aggro"],
 								desc = L["Enable red glow around the player frame when you have aggro"],
 							},
+							autorepchange = {
+								type = "toggle",
+								order = 23,
+								name = L["Autmatically change tracked reputation"],
+								desc = L["Change the tracked reputation when the standing with a faction changes"],
+							},							
 						},
 					},
 					UFSizeGroup = {
@@ -1945,6 +1951,12 @@ function ElvuiConfig.GenerateOptionsInternal()
 								order = 4,
 								name = L["Auto Repair"],
 								desc = L["Automatically repair when visiting a vendor"],							
+							},
+							guildbankrepair = {
+								type = "toggle",
+								order = 4,
+								name = L["Use guild bank for Auto Repair"],
+								desc = L["Use the guild bank for auto repair when available."],							
 							},
 						},
 					},
