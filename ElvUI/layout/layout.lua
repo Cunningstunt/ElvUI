@@ -102,7 +102,7 @@ end
 -- VEHICLE BAR
 if C["actionbar"].enable == true then
 	local vbarbg = CreateFrame("Frame", "ElvuiVehicleBarBackground", UIParent)
-	vbarbg:CreatePanel("Default", 1, 1, "BOTTOM", UIParent, "BOTTOM", 0, E.Scale(4))
+	vbarbg:CreatePanel("Default", 1, 1, "BOTTOM", UIParent, "BOTTOM", 0, E.Scale(28))
 	vbarbg:SetWidth((E.buttonsize * 12) + (E.buttonspacing * 13))
 	vbarbg:SetHeight(E.buttonsize + (E.buttonspacing * 2))
 	vbarbg:CreateShadow("Default")
@@ -233,6 +233,15 @@ inforight:SetPoint("BOTTOMRIGHT", chatrbgdummy2, "BOTTOMRIGHT", E.Scale(-17), E.
 	inforightRbutton:FontString(nil, C["media"].font, C["general"].fontscale, "THINOUTLINE")
 	inforightRbutton.text:SetText(">")
 	inforightRbutton.text:SetPoint("CENTER")
+	
+--INFO BOTTOM
+local infobottom = CreateFrame("Frame", "ElvuiInfoBottom", UIParent)
+infobottom:SetTemplate("Default", true)
+infobottom:SetFrameLevel(2)
+infobottom:CreateShadow("Default")
+infobottom:SetPoint("TOPLEFT", UIParent, "BOTTOM", E.Scale(-300), E.Scale(25))
+infobottom:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOM", E.Scale(300), E.Scale(3))
+
 	
 TukuiInfoLeft = ElvuiInfoLeft -- conversion
 TukuiInfoRight = ElvuiInfoRight -- conversion	
