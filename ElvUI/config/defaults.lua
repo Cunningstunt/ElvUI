@@ -76,6 +76,7 @@ DB["unitframes"] = {
 	["arena"] = true,                 -- enable elvui arena unitframes (requirement : Elvui unitframes enabled)	
 	["swing"] = false,
 	["displayaggro"] = true,
+	["autorepchange"] = true,					-- Enable automitic change of reputation tracking on faction standing change
 	
 	--frame sizes
 	["playtarwidth"] = 275,					--width of player/target frame
@@ -110,6 +111,10 @@ DB["unitframes"] = {
 	["castfocuswidth"] = 275,
 	["castbarcolor"] = DB["media"].bordercolor, -- Color of player castbar
 	["nointerruptcolor"] = { r = 0.78, g = 0.25, g = 0.25, a = 0.5 }, -- Color of target castbar
+	
+	--GPS Tracker
+	["targetgps"] = true,
+	["focusgps"] = true,
 	
 	["POWER_MANA"] = {r = 0.31, g = 0.45, b = 0.63},
 	["POWER_RAGE"] = {r = 0.78, g = 0.25, b = 0.25},
@@ -208,7 +213,8 @@ DB["datatext"] = {
 	["dps_text"] = 0,						-- show current dps
 	["hps_text"] = 0,						-- show current hps
 	["currency"] = 0,						-- show watched items in backpack
-	["specswitch"] = 0,
+	["specswitch"] = 0,					-- talent switch and Show current talent tree
+	["range"] = 0,							-- show range to target
 	["battleground"] = true,               -- enable 3 stats in battleground only that replace stat1,stat2,stat3.
 	["time24"] = false,                     -- set time to 24h format.
 	["localtime"] = true,                 -- set time to local time instead of server time.
@@ -253,6 +259,7 @@ DB["others"] = {
 	["autogreed"] = true,                  -- auto-dez or auto-greed item at max level.	
 	["sellgrays"] = true,                  -- automaticly sell grays?
 	["autorepair"] = true,                 -- automaticly repair?
+	["guildbankrepair"] = true,						 -- use guildbank for auto repair (when available)
 	
 	["buffreminder"] = true,                     -- this is now the new innerfire warning script for all armor/aspect class.
 	["remindersound"] = true,                      -- enable warning sound notification for reminder.

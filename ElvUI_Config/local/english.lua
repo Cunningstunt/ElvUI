@@ -191,7 +191,13 @@ L["Power Colors"] = true
 	L["Focus"] = true
 	L["Energy"] = true
 	L["Runic Power"] = true
-		
+
+L["GPS Tracking"]=true
+	L["Show target GPS"] = true
+		L["Display a tracker arrow and range on the target frame"] = true
+	L["Show focus GPS"] = true
+		L["Display a tracker arrow and range next to the focus frame"] = true
+
 --Raidframe
 L["Raid Frames"] = true
 	L["Enable Raidframes"] = true
@@ -320,6 +326,8 @@ L["Data Texts"] = true
 		L["Display current watched items in backpack"] = true
 	L["Talent Spec"] = true	
 		L["Display current spec"] = true
+	L["Target Range"] = true
+		L["Display the range to the current target"] = true
 
 --chat
 L["Chat"] = true

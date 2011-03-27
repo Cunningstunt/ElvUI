@@ -2,4 +2,5 @@
 	<Script file='minimap.lua'/>
 	<Script file='map.lua'/>
 	<Script file='tinymap.lua'/>
+	<script file='direction.lua'/>
 </Ui>

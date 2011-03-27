@@ -974,6 +974,27 @@ function ElvuiConfig.GenerateOptionsInternal()
 							},
 						},
 					},
+					GPSGroup = {
+						order = 7,
+						type = "group",
+						name = L["GPS Tracking"],
+						guiInline = true,
+						disabled = function() return (not db.unitframes.enable) end,	
+						args = {
+							targetgps = {
+								type = "toggle",
+								order = 1,
+								name = L["Show target GPS"],
+								desc = L["Display a tracker arrow and range on the target frame"],							
+							},						
+							focusgps = {
+								type = "toggle",
+								order = 1,
+								name = L["Show focus GPS"],
+								desc = L["Display a tracker arrow and range next to the focus frame"],						
+							},												
+						},
+					},
 				},
 			},
 			raidframes = {
@@ -1580,6 +1601,13 @@ function ElvuiConfig.GenerateOptionsInternal()
 								type = "range",
 								name = L["Talent Spec"],
 								desc = L["Display current spec"]..L["DATATEXT_POS"],
+								min = 0, max = 8, step = 1,								
+							},
+							range = {
+								order = 14,
+								type = "range",
+								name = L["Target Range"],
+								desc = L["Display the range to the current target"]..L["DATATEXT_POS"],
 								min = 0, max = 8, step = 1,								
 							},
 						},
