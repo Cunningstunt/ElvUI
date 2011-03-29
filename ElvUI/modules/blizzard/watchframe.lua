@@ -117,6 +117,25 @@ local function setup()
 	WatchFrameTitle:Hide()
 	WatchFrameTitle.Show = E.dummy
 	WatchFrameCollapseExpandButton.Disable = E.dummy
+	
+	-- skin watchframe collapse expand button
+	WatchFrameCollapseExpandButton:SetFrameStrata(WatchFrameHeader:GetFrameStrata())
+	WatchFrameCollapseExpandButton:SetFrameLevel(WatchFrameHeader:GetFrameLevel() + 1)
+	WatchFrameCollapseExpandButton:SetNormalTexture("")
+	WatchFrameCollapseExpandButton:SetPushedTexture("")
+	WatchFrameCollapseExpandButton:SetHighlightTexture("")
+	WatchFrameCollapseExpandButton:SetSize(12, 12)
+	WatchFrameCollapseExpandButton:SetTemplate("Default")
+	WatchFrameCollapseExpandButton:FontString("text", C.media.font, 10, "NONE")
+	WatchFrameCollapseExpandButton.text:SetText("X")
+	WatchFrameCollapseExpandButton.text:SetPoint("CENTER", 1, -1)
+	WatchFrameCollapseExpandButton:HookScript("OnClick", function(self) 
+		if WatchFrame.collapsed then 
+			self.text:SetText("V") 
+		else 
+			self.text:SetText("X")
+		end 
+	end)	
 end
 
 ElvuiWatchFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
