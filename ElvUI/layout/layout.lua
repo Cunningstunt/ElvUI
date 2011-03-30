@@ -178,25 +178,25 @@ end
 local chatlbgdummy = CreateFrame("Frame", "ChatLBackground", UIParent)
 chatlbgdummy:SetWidth(C["chat"].chatwidth)
 chatlbgdummy:SetHeight(C["chat"].chatheight+6)
-chatlbgdummy:SetPoint("BOTTOMLEFT", ElvuiBottomPanel, "TOPLEFT", E.Scale(4),  E.Scale(7))
+chatlbgdummy:SetPoint("BOTTOMLEFT", ElvuiBottomPanel, "TOPLEFT", E.Scale(4),  E.Scale(2))
 
 -- CHAT BACKGROUND LEFT (DOESN'T MOVE THIS IS WHAT WE ATTACH FRAMES TO)
 local chatlbgdummy2 = CreateFrame("Frame", "ChatLBackground2", UIParent)
 chatlbgdummy2:SetWidth(C["chat"].chatwidth)
 chatlbgdummy2:SetHeight(C["chat"].chatheight+6)
-chatlbgdummy2:SetPoint("BOTTOMLEFT", ElvuiBottomPanel, "TOPLEFT", E.Scale(4),  E.Scale(7))
+chatlbgdummy2:SetPoint("BOTTOMLEFT", ElvuiBottomPanel, "TOPLEFT", E.Scale(4),  E.Scale(2))
 
 -- CHAT BACKGROUND RIGHT (MOVES)
 local chatrbgdummy = CreateFrame("Frame", "ChatRBackground", UIParent)
 chatrbgdummy:SetWidth(C["chat"].chatwidth)
 chatrbgdummy:SetHeight(C["chat"].chatheight+6)
-chatrbgdummy:SetPoint("BOTTOMRIGHT", ElvuiBottomPanel, "TOPRIGHT", E.Scale(-4),  E.Scale(7))
+chatrbgdummy:SetPoint("BOTTOMRIGHT", ElvuiBottomPanel, "TOPRIGHT", E.Scale(-4),  E.Scale(2))
 
 -- CHAT BACKGROUND RIGHT (DOESN'T MOVE THIS IS WHAT WE ATTACH FRAMES TO)
 local chatrbgdummy2 = CreateFrame("Frame", "ChatRBackground2", UIParent)
 chatrbgdummy2:SetWidth(C["chat"].chatwidth)
 chatrbgdummy2:SetHeight(C["chat"].chatheight+6)
-chatrbgdummy2:SetPoint("BOTTOMRIGHT", ElvuiBottomPanel, "TOPRIGHT", E.Scale(-4),  E.Scale(7))
+chatrbgdummy2:SetPoint("BOTTOMRIGHT", ElvuiBottomPanel, "TOPRIGHT", E.Scale(-4),  E.Scale(2))
 
 E.ChatRightShown = true
 if C["chat"].showbackdrop == true then
