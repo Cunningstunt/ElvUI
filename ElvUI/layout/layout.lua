@@ -5,6 +5,7 @@ E.buttonsize = E.Scale(C["actionbar"].buttonsize)
 E.buttonspacing = E.Scale(C["actionbar"].buttonspacing)
 E.petbuttonsize = E.Scale(C["actionbar"].petbuttonsize)
 E.buttonspacing = E.Scale(C["actionbar"].buttonspacing)
+E.textbarheight = E.Scale(C.datatext.fontsize + 6)
 E.minimapsize = E.Scale(168)
 
 --

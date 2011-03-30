@@ -42,23 +42,23 @@ function E.PP(p, obj)
 		obj:SetHeight(rightHeight)
 		obj:SetPoint("RIGHT", right, "RIGHT", -E.Scale(5), 0)
 		if t ~= true then obj:SetParent(right) else obj:GetParent():SetParent(right) end
-	elseif p == 9 then
+	elseif p == 11 then
 		obj:SetHeight(bottomHeight)
 		obj:SetPoint("LEFT", bottom, "LEFT", E.Scale(5), 0)
 		if t ~= true then obj:SetParent(bottom) else obj:GetParent():SetParent(bottom) end
-	elseif p == 10 then
+	elseif p == 12 then
 		obj:SetHeight(bottomHeight)
 		obj:SetPoint("LEFT", bottom, "LEFT", E.Scale(120), 0)
 		if t ~= true then obj:SetParent(bottom) else obj:GetParent():SetParent(bottom) end
-	elseif p == 11 then
+	elseif p == 13 then
 		obj:SetHeight(bottomHeight)
 		obj:SetPoint("CENTER", bottom, "CENTER")
 		if t ~= true then obj:SetParent(bottom) else obj:GetParent():SetParent(bottom) end
-	elseif p == 12 then
+	elseif p == 14 then
 		obj:SetHeight(bottomHeight)
 		obj:SetPoint("RIGHT", bottom, "RIGHT", -E.Scale(120), 0)
 		if t ~= true then obj:SetParent(bottom) else obj:GetParent():SetParent(bottom) end	
-	elseif p == 13 then
+	elseif p == 15 then
 		obj:SetHeight(bottomHeight)
 		obj:SetPoint("RIGHT", bottom, "RIGHT", -E.Scale(5), 0)
 		if t ~= true then obj:SetParent(bottom) else obj:GetParent():SetParent(bottom) end	

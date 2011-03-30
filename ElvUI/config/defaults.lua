@@ -204,20 +204,20 @@ DB["nameplate"] = {
 }
 
 DB["datatext"] = {
-	["stat1"] = 9,						   -- Stat Based on your Role (Avoidance-Tank, AP-Melee, SP/HP-Caster)
+	["stat1"] = 11,						   -- Stat Based on your Role (Avoidance-Tank, AP-Melee, SP/HP-Caster)
 	["dur"] = 2,                           -- show your equipment durability on panels.
-	["stat2"] = 10, 						   -- Stat Based on your Role (Armor-Tank, Crit-Melee, Crit-Caster)
+	["stat2"] = 12, 						   -- Stat Based on your Role (Armor-Tank, Crit-Melee, Crit-Caster)
 	["system"] = 4,                        -- show fps and ms on panels, and total addon memory in tooltip
 	["wowtime"] = 8,                       -- show time on panels
-	["gold"] = 13,                          -- show your current gold on panels
+	["gold"] = 15,                          -- show your current gold on panels
 	["guild"] = 1,                         -- show number on guildmate connected on panels
 	["friends"] = 3,                       -- show number of friends connected.
 	["bags"] = 6,							-- show ammount of bag space available
 	["dps_text"] = 0,						-- show current dps
 	["hps_text"] = 0,						-- show current hps
 	["currency"] = 0,						-- show watched items in backpack
-	["specswitch"] = 11,					-- talent switch and Show current talent tree
-	["range"] = 12,							-- show range to target
+	["specswitch"] = 13,					-- talent switch and Show current talent tree
+	["range"] = 14,							-- show range to target
 	["battleground"] = true,               -- enable 3 stats in battleground only that replace stat1,stat2,stat3.
 	["time24"] = false,                     -- set time to 24h format.
 	["localtime"] = true,                 -- set time to local time instead of server time.
