@@ -79,7 +79,7 @@ local function SetChatStyle(frame)
 	_G[chat.."TabText"]:SetShadowOffset(E.mult, -E.mult)
 	_G[chat.."TabText"].SetTextColor = E.dummy
 	local originalpoint = select(2, _G[chat.."TabText"]:GetPoint())
-	_G[chat.."TabText"]:SetPoint("LEFT", originalpoint, "RIGHT", 0, -E.mult*2)
+	_G[chat.."TabText"]:SetPoint("LEFT", originalpoint, "RIGHT", 0, -E.mult * 6)
 	_G[chat]:SetMinResize(250,70)
 	
 	--Reposition the "New Message" orange glow so its aligned with the bottom of the chat tab
@@ -241,9 +241,9 @@ local function SetupChatFont(self)
 		
 		local _, fontSize = FCF_GetChatWindowInfo(id)
 		
-		--font under fontsize 12 is unreadable.
-		if fontSize < 12 then		
-			FCF_SetChatWindowFontSize(nil, chat, 12)
+		--font under fontsize 10 is unreadable.
+		if fontSize < 10 then		
+			FCF_SetChatWindowFontSize(nil, chat, 10)
 		else
 			FCF_SetChatWindowFontSize(nil, chat, fontSize)
 		end
@@ -525,7 +525,7 @@ function E.ChatCopyButtons(id)
 	
 	if not button then
 		local button = CreateFrame("Button", format("ButtonCF%d", id), cf)
-		button:SetHeight(E.Scale(22))
+		button:SetHeight(E.textbarheight)
 		button:SetWidth(E.Scale(20))
 		button:SetAlpha(0)
 		button:SetPoint("TOPRIGHT", 0, 0)
