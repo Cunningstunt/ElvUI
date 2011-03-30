@@ -74,12 +74,12 @@ local function SetChatStyle(frame)
 	end
 	
 	_G[chat.."TabText"]:SetTextColor(unpack(C["media"].valuecolor))
-	_G[chat.."TabText"]:SetFont(C["media"].font,C["general"].fontscale,"THINOUTLINE")
+	_G[chat.."TabText"]:SetFont(C["media"].font, C["datatext"].fontsize, "THINOUTLINE")
 	_G[chat.."TabText"]:SetShadowColor(0, 0, 0, 0.4)
 	_G[chat.."TabText"]:SetShadowOffset(E.mult, -E.mult)
 	_G[chat.."TabText"].SetTextColor = E.dummy
 	local originalpoint = select(2, _G[chat.."TabText"]:GetPoint())
-	_G[chat.."TabText"]:SetPoint("LEFT", originalpoint, "RIGHT", 0, -E.mult * 6)
+	_G[chat.."TabText"]:SetPoint("LEFT", originalpoint, "RIGHT", 0, -((E.Scale(27) - E.textbarheight) / 2))
 	_G[chat]:SetMinResize(250,70)
 	
 	--Reposition the "New Message" orange glow so its aligned with the bottom of the chat tab
