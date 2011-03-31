@@ -124,9 +124,9 @@ function EmbedSkada()
 		EmbedWindow(windows[1], (C["chat"].chatwidth - 8) / 2, C["chat"].chatheight - spacing, "TOPRIGHT", ChatRBackground2, "TOPRIGHT", -borderWidth, -borderWidth)
 		EmbedWindow(windows[2], (C["chat"].chatwidth - 8) / 2, C["chat"].chatheight - spacing, "TOPLEFT", ChatRBackground2, "TOPLEFT", borderWidth, -borderWidth)
 	elseif #windows > 2 then
-		EmbedWindow(windows[1], (C["chat"].chatwidth - 8) / 2, C["chat"].chatheight - spacing - barSpacing, "TOPRIGHT", ChatRBackground2, "TOPRIGHT", -borderWidth, -borderWidth)
+		EmbedWindow(windows[1], (C["chat"].chatwidth - 8) / 2, C["chat"].chatheight - spacing, "TOPRIGHT", ChatRBackground2, "TOPRIGHT", -borderWidth, -borderWidth)
 		EmbedWindow(windows[2], (C["chat"].chatwidth - 8) / 2, ((C["chat"].chatheight - spacing) / 2) - borderWidth, "TOPLEFT", ChatRBackground2, "TOPLEFT", borderWidth, -borderWidth)
-		EmbedWindow(windows[3], (C["chat"].chatwidth - 8) / 2, ((C["chat"].chatheight - spacing) / 2) - borderWidth, "TOPLEFT", windows[2].bargroup.bgframe, "BOTTOMLEFT", borderWidth, -borderWidth)
+		EmbedWindow(windows[3], (C["chat"].chatwidth - 8) / 2, ((C["chat"].chatheight - spacing) / 2) - borderWidth, "TOPLEFT", windows[2].bargroup.bgframe, "BOTTOMLEFT", borderWidth, -borderWidth - barSpacing)
 	end
 end
 
