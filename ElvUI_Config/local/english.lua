@@ -130,6 +130,8 @@ L["Unit Frames"] = true
 		L["Display class specific bar (runebar/totembar/holypowerbar/soulshardbar/eclipsebar)"] = true
 	L["Combat Fade"] = true
 		L["Fade main unitframes out when not in combat, unless you cast or mouseover the frame"] = true
+	L["Powerbar Offset"] = true
+		L["Detach and offset the power bar on the main unitframes"] = true
 	L["Mini-Powerbar Theme"] = true
 		L["Style the unitframes with a smaller powerbar"] = true
 	L["Arena Frames"] = true
@@ -297,6 +299,8 @@ L["Data Texts"] = true
 	L["DATATEXT_POS"] = "\n\n0 - Disabled\n1 - LEFT PANEL, LEFT\n2 - LEFT PANEL, CENTER\n3 - LEFT PANEL, RIGHT\n4 - RIGHT PANEL, LEFT\n5 - RIGHT PANEL, CENTER\n6 - RIGHT PANEL, RIGHT\n7 - MINIMAP LEFT\n8 - MINIMAP RIGHT"
 	L["DATATEXT_POS2"] = "\n\n0 - Disabled\n1 - LEFT PANEL, LEFT\n2 - LEFT PANEL, CENTER\n3 - LEFT PANEL, RIGHT\n4 - RIGHT PANEL, LEFT\n5 - RIGHT PANEL, CENTER\n6 - RIGHT PANEL, RIGHT\n7 - MINIMAP LEFT\n8 - MINIMAP RIGHT\n9 - TOPBAR LEFT\n10 - TOPBAR RIGHT"
 	L["Text Positions"] = true
+	L["Mastery Spell"] = true
+		L["Display the mastery spell on the mastery datatext"] = true
 	L["BG Text"] = true
 		L["Display special datatexts when inside a battleground"] = true
 		L["Font size for datatexts"] = true
@@ -333,6 +337,16 @@ L["Data Texts"] = true
 		L["Display current spec"] = true
 	L["Target Range"] = true
 		L["Display the range to the current target"] = true
+	L["Mastery"] = true
+		L["Display Mastery Rating"] = true
+	L["Hit Rating"] = true
+		L["Display Hit Rating"] = true
+	L["Haste Rating"] = true
+		L["Display Haste Rating"] = true
+	L["Crit Rating"] = true
+		L["Display Critical Strike Rating"] = true
+	L["Mana Regen"] = true
+		L["Display Mana Regen Rate"] = true
 
 --chat
 L["Chat"] = true
@@ -428,6 +442,33 @@ L["Misc"] = true
 	L["Map Skin"] = true
 		L["Enable/Disable the map skin"] = true
 		
+L["Filters"] = true
+L["SPELL_FILTER_DESC"] = "Filter everything from spell names to nameplate names."
+	L["Aura Names"] = true
+	L["Nameplate Names"] = true
+	L["Choose Filter"] = true
+		L["Choose the filter you want to modify."] = true
+		L["Raid Debuffs"] = true
+		L["Debuff Blacklist"] = true
+		L["Debuff Whitelist"] = true
+		L["Arena Buffs"] = true
+		L["Target Debuffs (PvP Only)"] = true
+		L["Nameplate Blacklist"] = true
+		
+	L["Filter whether or not a nameplate is shown by the name of the nameplate"] = true
+	L["Filter the buffs that get displayed on arena units."] = true
+	L["Set buffs that will never get displayed."] = true
+	L["These debuffs will always get displayed on the Target Frame, Arena Frames, and Nameplates."] = true
+	L["These debuffs only get displayed on the target unit when the unit happens to be an enemy player."] = true
+	L["These debuffs will be displayed on your raid frames in addition to any debuff that is dispellable."] = true
+	
+	L["New name"] = true
+		L["Add a new name to the list."] = true
+	L["Remove name"] = true
+		L["Remove a name from the list."] = true
+	L["You may only delete spells that you have added. Default spells can be disabled by unchecking the option"] = true
+	L["Spell not found in list"] = true
+	
 --Profiles
 L["Profiles"] = true
 L["CFG_RELOAD"] = "A setting you have changed requires a ReloadUI for changes to take effect, when you are done configing hit Accept to ReloadUI."

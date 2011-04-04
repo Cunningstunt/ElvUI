@@ -9,7 +9,7 @@ if IsAddOnLoaded("ElvUI_ConfigUI") then
 end
 
 function ElvuiConfig:LoadDefaults()
-	local _, _, _, DB = unpack(ElvUI)
+	local E, _, _, DB = unpack(ElvUI)
 	--Defaults
 	defaults = {
 		profile = {
@@ -25,6 +25,15 @@ function ElvuiConfig:LoadDefaults()
 			chat = DB["chat"],
 			tooltip = DB["tooltip"],
 			others = DB["others"],
+			spellfilter = {
+				FilterPicker = "RaidDebuffs",
+				RaidDebuffs = E["RaidDebuffs"],
+				DebuffBlacklist = E["DebuffBlacklist"],
+				TargetPVPOnly = E["TargetPVPOnly"],
+				DebuffWhiteList = E["DebuffWhiteList"],
+				ArenaBuffWhiteList = E["ArenaBuffWhiteList"],
+				PlateBlacklist = E["PlateBlacklist"],
+			},
 		},
 	}
 end	
@@ -62,7 +71,6 @@ end
 
 function ElvuiConfig:SetupOptions()
 	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("ElvuiConfig", self.GenerateOptions)
-	
 	--Create Profiles Table
 	self.profileOptions = LibStub("AceDBOptions-3.0"):GetOptionsTable(self.db);
 	LibStub("AceConfig-3.0"):RegisterOptionsTable("ElvProfiles", self.profileOptions)
@@ -81,6 +89,7 @@ function ElvuiConfig:SetupOptions()
 	self.optionsFrames.Chat = ACD3:AddToBlizOptions("ElvuiConfig", L["Chat"], "ElvUI", "chat")
 	self.optionsFrames.Tooltip = ACD3:AddToBlizOptions("ElvuiConfig", L["Tooltip"], "ElvUI", "tooltip")
 	self.optionsFrames.Skins = ACD3:AddToBlizOptions("ElvuiConfig", L["Addon Skins"], "ElvUI", "skin")
+	self.optionsFrames.SpellFilter = ACD3:AddToBlizOptions("ElvuiConfig", L["Filters"], "ElvUI", "spellfilter")
 	self.optionsFrames.Others = ACD3:AddToBlizOptions("ElvuiConfig", L["Misc"], "ElvUI", "others")
 	self.optionsFrames.Profiles = ACD3:AddToBlizOptions("ElvProfiles", L["Profiles"], "ElvUI")
 	self.SetupOptions = nil
@@ -91,7 +100,6 @@ function ElvuiConfig.GenerateOptions()
 	if not ElvuiConfig.Options then
 		ElvuiConfig.GenerateOptionsInternal()
 		ElvuiConfig.GenerateOptionsInternal = nil
-		moduleOptions = nil
 	end
 	return ElvuiConfig.Options
 end
@@ -110,6 +118,84 @@ function ElvuiConfig.GenerateOptionsInternal()
 
 	if C["general"].upperpanel == true then
 		L["DATATEXT_POS"] = L["DATATEXT_POS2"]
+	end
+	
+	local function CreateFilterTable(tab)
+		local spelltable = db.spellfilter[tab]
+		if not spelltable then error("db.spellfilter could not find value 'tab'") return {} end
+		local newtable = {}
+		
+		local ORDER = 1
+		if tab == "RaidDebuffs" then --RaidDebuffs require a reloadui
+			for spell, value in pairs(spelltable) do
+				if db.spellfilter[tab][spell] ~= nil then
+					newtable[spell] = {
+						order = ORDER,
+						name = spell,
+						type = "toggle",
+						get = function(info) if db.spellfilter[tab][spell] then return true else return false end end,
+						set = function(info, value) db.spellfilter[tab][spell] = value; E[tab] = db.spellfilter[tab]; StaticPopup_Show("CFG_RELOAD") end,
+					}
+					ORDER = ORDER + 1
+				end
+			end
+		else
+			for spell, value in pairs(spelltable) do
+				if db.spellfilter[tab][spell] ~= nil then
+					newtable[spell] = {
+						order = ORDER,
+						name = spell,
+						type = "toggle",
+						get = function(info) if db.spellfilter[tab][spell] then return true else return false end end,
+						set = function(info, value) db.spellfilter[tab][spell] = value; E[tab] = db.spellfilter[tab] end,
+					}
+					ORDER = ORDER + 1
+				end
+			end		
+		end
+				
+		return newtable
+	end		
+				
+	local function GetFilterDesc()
+		if db.spellfilter.FilterPicker == "PlateBlacklist" then
+			return L["Filter whether or not a nameplate is shown by the name of the nameplate"]
+		elseif db.spellfilter.FilterPicker == "ArenaBuffWhiteList" then
+			return L["Filter the buffs that get displayed on arena units."]
+		elseif db.spellfilter.FilterPicker == "DebuffBlacklist" then
+			return L["Set buffs that will never get displayed."]
+		elseif db.spellfilter.FilterPicker == "DebuffWhiteList" then
+			return L["These debuffs will always get displayed on the Target Frame, Arena Frames, and Nameplates."]
+		elseif db.spellfilter.FilterPicker == "TargetPVPOnly" then
+			return L["These debuffs only get displayed on the target unit when the unit happens to be an enemy player."]
+		elseif db.spellfilter.FilterPicker == "RaidDebuffs" then
+			return L["These debuffs will be displayed on your raid frames in addition to any debuff that is dispellable."]
+		else
+			return ""
+		end
+	end
+	
+	local function GetFilterName()
+		if db.spellfilter.FilterPicker == "PlateBlacklist" then
+			return L["Nameplate Names"]
+		else
+			return L["Aura Names"]
+		end	
+	end
+	
+	local function UpdateSpellFilter()
+		local config = LibStub("AceConfigRegistry-3.0"):GetOptionsTable("ElvuiConfig", "dialog", "MyLib-1.2")
+		local curfilter = db.spellfilter.FilterPicker
+		
+		config.args.spellfilter.args.SpellListTable.args = CreateFilterTable(curfilter)
+		config.args.spellfilter.args.FilterDesc.name = GetFilterDesc()
+		config.args.spellfilter.args.SpellListTable.name = GetFilterName()
+		
+		
+
+		
+		LibStub("AceConfigRegistry-3.0"):NotifyChange("ElvuiConfig")
+		collectgarbage("collect") -- Memory dump
 	end
 	
 	ElvuiConfig.Options = {
@@ -662,32 +748,40 @@ function ElvuiConfig.GenerateOptionsInternal()
 								name = L["Combat Fade"],
 								desc = L["Fade main unitframes out when not in combat, unless you cast or mouseover the frame"],								
 							},
+							powerbar_offset = {
+								type = "range",
+								order = 18,
+								name = L["Powerbar Offset"],
+								desc = L["Detach and offset the power bar on the main unitframes"],
+								min = 0, max = 12, step = 1,	
+							},
 							mini_powerbar = {
 								type = "toggle",
-								order = 18,
+								order = 19,
 								name = L["Mini-Powerbar Theme"],
-								desc = L["Style the unitframes with a smaller powerbar"],							
+								desc = L["Style the unitframes with a smaller powerbar"],		
+								disabled = function() return not db.unitframes.enable or db.unitframes.powerbar_offset ~= 0 end,	
 							},
 							arena = {
 								type = "toggle",
-								order = 19,
+								order = 20,
 								name = L["Arena Frames"],							
 							},
 							showboss = {
 								type = "toggle",
-								order = 20,
+								order = 21,
 								name = L["Boss Frames"],							
 							},
 							swing = {
 								type = "toggle",
-								order = 21,
+								order = 22,
 								name = L["Swing Bar"],
 								desc = L["Bar that displays time between melee attacks"],
 								disabled = function() return (not db.unitframes.enable or not (IsAddOnLoaded("ElvUI_RaidDPS") or db.general.layoutoverride == "DPS")) end,	
 							},
 							displayaggro = {
 								type = "toggle",
-								order = 22,
+								order = 23,
 								name = L["Display Aggro"],
 								desc = L["Enable red glow around the player frame when you have aggro"],
 							},
@@ -1516,14 +1610,21 @@ function ElvuiConfig.GenerateOptionsInternal()
 						desc = L["Display local time instead of server time"],	
 						disabled = function() return db.datatext.wowtime == 0 end,					
 					},
-					classcolor = {
+					masteryspell = {
 						order = 6,
+						type = "toggle",
+						name = L["Mastery Spell"],
+						desc = L["Display the mastery spell on the mastery datatext"],	
+						disabled = function() return db.datatext.mastery == 0 end,
+					},					
+					classcolor = {
+						order = 7,
 						type = "toggle",
 						name = L["Class Color"],
 						desc = L["Color the datatext values based on your class"],
 					},
 					DataGroup = {
-						order = 7,
+						order = 8,
 						type = "group",
 						name = L["Text Positions"],
 						guiInline = true,
@@ -1625,6 +1726,41 @@ function ElvuiConfig.GenerateOptionsInternal()
 								name = L["Target Range"],
 								desc = L["Display the range to the current target"]..L["DATATEXT_POS"],
 								min = 0, max = 15, step = 1,								
+							},
+							mastery = {
+								order = 14,
+								type = "range",
+								name = L["Mastery"],
+								desc = L["Display Mastery Rating"]..L["DATATEXT_POS"],
+								min = 0, max = 8, step = 1,								
+							},
+							hit = {
+								order = 15,
+								type = "range",
+								name = L["Hit Rating"],
+								desc = L["Display Hit Rating"]..L["DATATEXT_POS"],
+								min = 0, max = 8, step = 1,								
+							},
+							haste = {
+								order = 16,
+								type = "range",
+								name = L["Haste Rating"],
+								desc = L["Display Haste Rating"]..L["DATATEXT_POS"],
+								min = 0, max = 8, step = 1,								
+							},
+							crit = {
+								order = 17,
+								type = "range",
+								name = L["Crit Rating"],
+								desc = L["Display Critical Strike Rating"]..L["DATATEXT_POS"],
+								min = 0, max = 8, step = 1,									
+							},
+							manaregen = {
+								order = 17,
+								type = "range",
+								name = L["Mana Regen"],
+								desc = L["Display Mana Regen Rate"]..L["DATATEXT_POS"],
+								min = 0, max = 8, step = 1,									
 							},
 						},
 					},
@@ -1909,9 +2045,98 @@ function ElvuiConfig.GenerateOptionsInternal()
 						},
 					},						
 				},
-			},			
-			others = {
+			},	
+			spellfilter = {
 				order = 9,
+				type = "group",
+				name = L["Filters"],
+				desc = L["SPELL_FILTER_DESC"],
+				get = function(info) return db.spellfilter[ info[#info] ] end,
+				set = function(info, value) db.spellfilter[ info[#info] ] = value end,
+				args = {
+					intro = {
+						order = 1,
+						type = "description",
+						name = L["SPELL_FILTER_DESC"],
+					},
+					FilterPicker = {
+						order = 2,
+						type = "select",
+						name = L["Choose Filter"],
+						desc = L["Choose the filter you want to modify."],
+						set = function(info, value) 
+							db.spellfilter[ info[#info] ] = value 
+							UpdateSpellFilter()
+						end,
+						values = {
+							["RaidDebuffs"] = L["Raid Debuffs"],
+							["DebuffBlacklist"] = L["Debuff Blacklist"],	
+							["DebuffWhiteList"] = L["Debuff Whitelist"],
+							["TargetPVPOnly"] = L["Target Debuffs (PvP Only)"],
+							["ArenaBuffWhiteList"] = L["Arena Buffs"],
+							["PlateBlacklist"] = L["Nameplate Blacklist"],
+						},						
+					},			
+					spacer = {
+						type = 'description',
+						name = '',
+						desc = '',
+						order = 3,
+					},		
+					FilterDesc = {
+						type = 'description',
+						name = GetFilterDesc(),
+						order = 4,
+					},						
+					NewName = {
+						type = 'input',
+						name = L["New name"],
+						desc = L["Add a new name to the list."],
+						get = function(info) return "" end,
+						set = function(info, value)
+							local name_list = db.spellfilter[db.spellfilter.FilterPicker]
+							name_list[value] = true
+							UpdateSpellFilter()
+							E[name_list] = db.spellfilter[name_list]
+							if name_list == "RaidDebuffs" then
+								StaticPopup_Show("CFG_RELOAD")
+							end
+						end,
+						order = 5,
+					},
+					DeleteName = {
+						type = 'input',
+						name = L["Remove name"],
+						desc = L["Remove a name from the list."],
+						get = function(info) return "" end,
+						set = function(info, value)
+							local name_list = db.spellfilter[db.spellfilter.FilterPicker]
+							
+							if db.spellfilter[db.spellfilter.FilterPicker][value] == nil then
+								print(L["Spell not found in list"])
+							else
+								name_list[value] = nil
+								UpdateSpellFilter()
+								E[name_list] = db.spellfilter[name_list]
+								
+								if name_list == "RaidDebuffs" then
+									StaticPopup_Show("CFG_RELOAD")
+								end
+							end
+						end,
+						order = 6,
+					},
+					SpellListTable = {
+						order = 7,
+						type = "group",
+						name = GetFilterName(),
+						guiInline = true,
+						args = CreateFilterTable(db.spellfilter.FilterPicker),
+					},
+				},
+			},
+			others = {
+				order = 10,
 				type = "group",
 				name = L["Misc"],
 				desc = L["MISC_DESC"],
