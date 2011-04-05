@@ -296,8 +296,7 @@ L["Action Bars"] = true
 --Datatext
 L["Data Texts"] = true
 	L["DATATEXT_DESC"] = "Edit display of informational text on panels"
-	L["DATATEXT_POS"] = "\n\n0 - Disabled\n1 - LEFT PANEL, LEFT\n2 - LEFT PANEL, CENTER\n3 - LEFT PANEL, RIGHT\n4 - RIGHT PANEL, LEFT\n5 - RIGHT PANEL, CENTER\n6 - RIGHT PANEL, RIGHT\n7 - MINIMAP LEFT\n8 - MINIMAP RIGHT"
-	L["DATATEXT_POS2"] = "\n\n0 - Disabled\n1 - LEFT PANEL, LEFT\n2 - LEFT PANEL, CENTER\n3 - LEFT PANEL, RIGHT\n4 - RIGHT PANEL, LEFT\n5 - RIGHT PANEL, CENTER\n6 - RIGHT PANEL, RIGHT\n7 - MINIMAP LEFT\n8 - MINIMAP RIGHT\n9 - TOPBAR LEFT\n10 - TOPBAR RIGHT"
+	L["DATATEXT_POS"] = "\n\n0 - Disabled\n1 - LEFT PANEL, LEFT\n2 - LEFT PANEL, CENTER\n3 - LEFT PANEL, RIGHT\n4 - RIGHT PANEL, LEFT\n5 - RIGHT PANEL, CENTER\n6 - RIGHT PANEL, RIGHT\n7 - MINIMAP LEFT\n8 - MINIMAP RIGHT\n9 - TOPBAR LEFT\n10 - TOPBAR RIGHT\n11 - 15 BOTTOM CENTER BAR"
 	L["Text Positions"] = true
 	L["Mastery Spell"] = true
 		L["Display the mastery spell on the mastery datatext"] = true

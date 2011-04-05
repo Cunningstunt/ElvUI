@@ -115,10 +115,6 @@ function ElvuiConfig.GenerateOptionsInternal()
 		timeout = 0,
 		whileDead = 1,
 	}
-
-	if C["general"].upperpanel == true then
-		L["DATATEXT_POS"] = L["DATATEXT_POS2"]
-	end
 	
 	local function CreateFilterTable(tab)
 		local spelltable = db.spellfilter[tab]
@@ -2275,14 +2271,5 @@ function ElvuiConfig.GenerateOptionsInternal()
 				},		
 			},
 		},
-	}
-	
-	if C["general"].upperpanel == true then
-		for _, option in pairs(ElvuiConfig.Options.args.datatext.args.DataGroup.args) do
-			option.max = 10
-		end
-		L["DATATEXT_POS"] = L["DATATEXT_POS2"]
-	end
+	}	
 end
-
-
