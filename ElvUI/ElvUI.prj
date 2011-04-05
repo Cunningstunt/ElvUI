@@ -137,6 +137,10 @@ Create Tagfile=0
 15=modules\datatexts\system.lua
 16=modules\datatexts\time.lua
 17=modules\datatexts\range.lua
+18=modules\datatexts\crit.lua
+19=modules\datatexts\hit.lua
+20=modules\datatexts\mastery.lua
+21=modules\datatexts\regen.lua
 [Files - modules]
 0=modules\load_modules.xml
 [Files - modules - loot]

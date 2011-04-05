@@ -7,7 +7,7 @@ if not C["datatext"].stat1 or C["datatext"].stat1 == 0 then return end
 
 local Stat = CreateFrame("Frame")
 Stat:EnableMouse(true)
-Stat:SetFrameStrata("MEDIUM")
+Stat:SetFrameStrata("BACKGROUND")
 Stat:SetFrameLevel(3)
 
 local Text  = ElvuiInfoLeft:CreateFontString(nil, "OVERLAY")

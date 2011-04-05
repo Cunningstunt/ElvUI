@@ -9,7 +9,7 @@ local E, C, L, DB = unpack(select(2, ...)) -- Import Functions/Constants, Config
 if C["datatext"].currency and C["datatext"].currency > 0 then
 	local Stat = CreateFrame("Frame")
 	Stat:EnableMouse(true)
-	Stat:SetFrameStrata("MEDIUM")
+	Stat:SetFrameStrata("BACKGROUND")
 	Stat:SetFrameLevel(3)
 
 	local Text  = ElvuiInfoLeft:CreateFontString(nil, "OVERLAY")

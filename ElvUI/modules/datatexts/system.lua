@@ -6,7 +6,7 @@ local E, C, L, DB = unpack(select(2, ...)) -- Import Functions/Constants, Config
 if not C["datatext"].system or C["datatext"].system == 0 then return end
 
 local Stat = CreateFrame("Frame")
-Stat:SetFrameStrata("MEDIUM")
+Stat:SetFrameStrata("BACKGROUND")
 Stat:SetFrameLevel(3)
 Stat:EnableMouse(true)
 Stat.tooltip = false
