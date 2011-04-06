@@ -283,7 +283,7 @@ function ElvuiConfig.GenerateOptionsInternal()
 						order = 11,
 						type = "toggle",
 						name = L["Lower Frame"],
-						desc = L["Enable a bar accross the bottom of the screen, mostly for decoration."],					
+						desc = L["Enable the data text bar at the bottom of the screen, adding data text positions 11 through 15."],					
 					},
 				},
 			},

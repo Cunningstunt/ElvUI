@@ -8,27 +8,19 @@ E.buttonspacing = E.Scale(C["actionbar"].buttonspacing)
 E.textbarheight = E.Scale(C.datatext.fontsize + 6)
 E.minimapsize = E.Scale(168)
 
---
-
 --BOTTOM PANEL
-
 local f = CreateFrame("Frame", "ElvuiBottomPanel", UIParent)
-f:SetHeight(23)
+f:SetHeight(E.textbarheight)
 f:SetWidth(UIParent:GetWidth() + (E.mult * 2))
 f:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", -E.mult, -E.mult)
 f:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", E.mult, -E.mult)
 f:SetFrameStrata("BACKGROUND")
 f:SetFrameLevel(0)
 
-if C["general"].lowerpanel == true then	
-	f:SetTemplate("Transparent")
-	f:CreateShadow("Default")
-end
-
 --TOP PANEL
 if C["general"].upperpanel == true then
 	local f = CreateFrame("Frame", "ElvuiTopPanel", UIParent)
-	f:SetHeight(23)
+	f:SetHeight(E.textbarheight)
 	f:SetWidth(UIParent:GetWidth() + (E.mult * 2))
 	f:SetPoint("TOPLEFT", UIParent, "TOPLEFT", -E.mult, E.mult)
 	f:SetPoint("TOPRIGHT", UIParent, "TOPRIGHT", E.mult, E.mult)
@@ -38,7 +30,7 @@ if C["general"].upperpanel == true then
 	f:CreateShadow("Default")
 	
 	local f = CreateFrame("Frame", "ElvuiLoc", ElvuiTopPanel)
-	f:SetHeight(23)
+	f:SetHeight(E.textbarheight)
 	f:SetWidth(E.minimapsize)
 	f:SetFrameLevel(2)
 	f:SetTemplate("Default", true)
@@ -46,7 +38,7 @@ if C["general"].upperpanel == true then
 	f:Point("CENTER", ElvuiTopPanel, "BOTTOM")
 	
 	local f = CreateFrame("Frame", "ElvuiLocX", ElvuiLoc)
-	f:SetHeight(23)
+	f:SetHeight(E.textbarheight)
 	f:SetWidth(E.minimapsize / 6)
 	f:SetFrameLevel(2)
 	f:SetTemplate("Default", true)
@@ -54,7 +46,7 @@ if C["general"].upperpanel == true then
 	f:Point("RIGHT", ElvuiLoc, "LEFT", -2, 0)	
 	
 	local f = CreateFrame("Frame", "ElvuiLocY", ElvuiLoc)
-	f:SetHeight(23)
+	f:SetHeight(E.textbarheight)
 	f:SetWidth(E.minimapsize / 6)
 	f:SetFrameLevel(2)
 	f:SetTemplate("Default", true)
@@ -62,7 +54,7 @@ if C["general"].upperpanel == true then
 	f:Point("LEFT", ElvuiLoc, "RIGHT", 2, 0)	
 
 	local f = CreateFrame("Frame", "ElvuiStat9Block", ElvuiTopPanel)
-	f:SetHeight(23)
+	f:SetHeight(E.textbarheight)
 	f:SetWidth(E.minimapsize / 1.3)
 	f:SetFrameLevel(2)
 	f:SetTemplate("Default", true)
@@ -70,7 +62,7 @@ if C["general"].upperpanel == true then
 	f:Point("RIGHT", ElvuiLocX, "LEFT", -6, 0)			
 	
 	local f = CreateFrame("Frame", "ElvuiStat10Block", ElvuiTopPanel)
-	f:SetHeight(23)
+	f:SetHeight(E.textbarheight)
 	f:SetWidth(E.minimapsize / 1.3)
 	f:SetFrameLevel(2)
 	f:SetTemplate("Default", true)
@@ -178,25 +170,25 @@ end
 local chatlbgdummy = CreateFrame("Frame", "ChatLBackground", UIParent)
 chatlbgdummy:SetWidth(C["chat"].chatwidth)
 chatlbgdummy:SetHeight(C["chat"].chatheight+6)
-chatlbgdummy:SetPoint("BOTTOMLEFT", ElvuiBottomPanel, "TOPLEFT", E.Scale(4),  E.Scale(4))
+chatlbgdummy:SetPoint("BOTTOMLEFT", ElvuiBottomPanel, "TOPLEFT", E.Scale(4),  E.Scale(8))
 
 -- CHAT BACKGROUND LEFT (DOESN'T MOVE THIS IS WHAT WE ATTACH FRAMES TO)
 local chatlbgdummy2 = CreateFrame("Frame", "ChatLBackground2", UIParent)
 chatlbgdummy2:SetWidth(C["chat"].chatwidth)
 chatlbgdummy2:SetHeight(C["chat"].chatheight+6)
-chatlbgdummy2:SetPoint("BOTTOMLEFT", ElvuiBottomPanel, "TOPLEFT", E.Scale(4),  E.Scale(4))
+chatlbgdummy2:SetPoint("BOTTOMLEFT", ElvuiBottomPanel, "TOPLEFT", E.Scale(4),  E.Scale(8))
 
 -- CHAT BACKGROUND RIGHT (MOVES)
 local chatrbgdummy = CreateFrame("Frame", "ChatRBackground", UIParent)
 chatrbgdummy:SetWidth(C["chat"].chatwidth)
 chatrbgdummy:SetHeight(C["chat"].chatheight+6)
-chatrbgdummy:SetPoint("BOTTOMRIGHT", ElvuiBottomPanel, "TOPRIGHT", E.Scale(-4),  E.Scale(4))
+chatrbgdummy:SetPoint("BOTTOMRIGHT", ElvuiBottomPanel, "TOPRIGHT", E.Scale(-4),  E.Scale(8))
 
 -- CHAT BACKGROUND RIGHT (DOESN'T MOVE THIS IS WHAT WE ATTACH FRAMES TO)
 local chatrbgdummy2 = CreateFrame("Frame", "ChatRBackground2", UIParent)
 chatrbgdummy2:SetWidth(C["chat"].chatwidth)
 chatrbgdummy2:SetHeight(C["chat"].chatheight+6)
-chatrbgdummy2:SetPoint("BOTTOMRIGHT", ElvuiBottomPanel, "TOPRIGHT", E.Scale(-4),  E.Scale(4))
+chatrbgdummy2:SetPoint("BOTTOMRIGHT", ElvuiBottomPanel, "TOPRIGHT", E.Scale(-4),  E.Scale(8))
 
 E.ChatRightShown = true
 if C["chat"].showbackdrop == true then
@@ -208,7 +200,7 @@ if C["chat"].showbackdrop == true then
 	local chatltbg = CreateFrame("Frame", nil, chatlbg)
 	chatltbg:SetTemplate("Default", true)
 	chatltbg:SetPoint("BOTTOMLEFT", chatlbg, "TOPLEFT", 0, E.Scale(3))
-	chatltbg:SetPoint("BOTTOMRIGHT", chatlbg, "TOPRIGHT", E.Scale(-24), E.Scale(3))
+	chatltbg:SetPoint("BOTTOMRIGHT", chatlbg, "TOPRIGHT", -E.textbarheight, E.Scale(3))
 	chatltbg:SetHeight(E.textbarheight)
 	chatltbg:SetFrameStrata("BACKGROUND")
 	
@@ -226,7 +218,7 @@ if C["chat"].showbackdrop == true then
 	local chatrtbg = CreateFrame("Frame", nil, chatrbg)
 	chatrtbg:SetTemplate("Default", true)
 	chatrtbg:SetPoint("BOTTOMLEFT", chatrbg, "TOPLEFT", 0, E.Scale(3))
-	chatrtbg:SetPoint("BOTTOMRIGHT", chatrbg, "TOPRIGHT", E.Scale(-24), E.Scale(3))
+	chatrtbg:SetPoint("BOTTOMRIGHT", chatrbg, "TOPRIGHT", -E.textbarheight, E.Scale(3))
 	chatrtbg:SetHeight(E.textbarheight)
 	chatrtbg:SetFrameStrata("BACKGROUND")
 	chatrbg:CreateShadow("Default")
@@ -257,11 +249,11 @@ infoleft:SetPoint("BOTTOMRIGHT", chatlbgdummy2, "BOTTOMRIGHT", E.Scale(-17), E.S
 	infoleft.shadow:SetPoint("TOPLEFT", infoleftLbutton, "TOPLEFT", E.Scale(-4), E.Scale(4))
 	infoleft.shadow:SetPoint("BOTTOMRIGHT", infoleftRbutton, "BOTTOMRIGHT", E.Scale(4), E.Scale(-4))
 
-	infoleftLbutton:FontString(nil, C["media"].font, C["general"].fontscale, "THINOUTLINE")
+	infoleftLbutton:FontString(nil, C["media"].font, C["datatext"].fontsize, "THINOUTLINE")
 	infoleftLbutton.text:SetText("<")
 	infoleftLbutton.text:SetPoint("CENTER")
 
-	infoleftRbutton:FontString(nil, C["media"].font, C["general"].fontscale, "THINOUTLINE")
+	infoleftRbutton:FontString(nil, C["media"].font, C["datatext"].fontsize, "THINOUTLINE")
 	infoleftRbutton.text:SetText("L")
 	infoleftRbutton.text:SetPoint("CENTER")
 
@@ -289,22 +281,23 @@ inforight:SetPoint("BOTTOMRIGHT", chatrbgdummy2, "BOTTOMRIGHT", E.Scale(-17), E.
 	inforight.shadow:SetPoint("TOPLEFT", inforightLbutton, "TOPLEFT", E.Scale(-4), E.Scale(4))
 	inforight.shadow:SetPoint("BOTTOMRIGHT", inforightRbutton, "BOTTOMRIGHT", E.Scale(4), E.Scale(-4))
 
-	inforightLbutton:FontString(nil, C["media"].font, C["general"].fontscale, "THINOUTLINE")
+	inforightLbutton:FontString(nil, C["media"].font, C["datatext"].fontsize, "THINOUTLINE")
 	inforightLbutton.text:SetText("R")
 	inforightLbutton.text:SetPoint("CENTER")
 
-	inforightRbutton:FontString(nil, C["media"].font, C["general"].fontscale, "THINOUTLINE")
+	inforightRbutton:FontString(nil, C["media"].font, C["datatext"].fontsize, "THINOUTLINE")
 	inforightRbutton.text:SetText(">")
 	inforightRbutton.text:SetPoint("CENTER")
 	
 --INFO BOTTOM
-local infobottom = CreateFrame("Frame", "ElvuiInfoBottom", UIParent)
-infobottom:SetTemplate("Default", true)
-infobottom:SetFrameLevel(2)
-infobottom:CreateShadow("Default")
-infobottom:SetPoint("TOPLEFT", UIParent, "BOTTOM", E.Scale(-300), E.Scale(2) + E.textbarheight)
-infobottom:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOM", E.Scale(300), E.Scale(2))
-
+if C["general"].lowerpanel == true then	
+	local infobottom = CreateFrame("Frame", "ElvuiInfoBottom", UIParent)
+	infobottom:SetTemplate("Default", true)
+	infobottom:SetFrameLevel(2)
+	infobottom:CreateShadow("Default")
+	infobottom:SetPoint("TOPLEFT", UIParent, "BOTTOM", E.Scale(-300), E.Scale(2) + E.textbarheight)
+	infobottom:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOM", E.Scale(300), E.Scale(2))
+end
 	
 TukuiInfoLeft = ElvuiInfoLeft -- conversion
 TukuiInfoRight = ElvuiInfoRight -- conversion	

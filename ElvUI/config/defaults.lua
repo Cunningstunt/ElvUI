@@ -38,7 +38,7 @@ DB["general"] = {
 	["layoutoverride"] = "NONE",			--ovverride layout (DPS, Healer)
 	["sharpborders"] = true,
 	["upperpanel"] = false,
-	["lowerpanel"] = false,
+	["lowerpanel"] = true,
 }
 
 DB["skin"] = {
@@ -56,7 +56,7 @@ DB["skin"] = {
 DB["unitframes"] = {
 	-- general options
 	["enable"] = true,                     -- do i really need to explain this?
-	["fontsize"] = 12,						-- default font height for unitframes
+	["fontsize"] = 11,						-- default font height for unitframes
 	["lowThreshold"] = 20,                 -- global low threshold, for low mana warning.
 	["targetpowerplayeronly"] = true,         -- enable power text on pvp target only
 	["showfocustarget"] = false,           -- show focus's target
@@ -76,7 +76,7 @@ DB["unitframes"] = {
 	["combat"] = false,						-- only show main unitframes when in combat/havetarget/or mouseover
 	["mini_powerbar"] = false,
 	["powerbar_offset"] = 0,
-	["showboss"] = true,                   -- enable boss unit frames for PVELOL encounters.
+	["showboss"] = false,                   -- enable boss unit frames for PVELOL encounters.
 	["arena"] = true,                 -- enable elvui arena unitframes (requirement : Elvui unitframes enabled)	
 	["swing"] = false,
 	["displayaggro"] = true,
@@ -105,10 +105,9 @@ DB["unitframes"] = {
 	["playtarbuffperrow"] = 8,				-- buffs/debuffs per row on player/target frames
 	["smallbuffperrow"] = 5,				-- debuffs per row on targettarget/focus frames
 	
-	
 	--castbar
 	["unitcastbar"] = true, -- enable Elvui castbar
-	["cblatency"] = false, -- enable castbar latency
+	["cblatency"] = true, -- enable castbar latency
 	["cbicons"] = true, -- enable icons on castbar
 	["castplayerwidth"] = 275,
 	["casttargetwidth"] = 275,
@@ -236,8 +235,8 @@ DB["chat"] = {
 	["enable"] = true,                     -- blah
 	["whispersound"] = true,               -- play a sound when receiving whisper
 	["showbackdrop"] = true,				-- show a backdrop on the chat panels
-	["chatwidth"] = 348,					-- width of chat frame
-	["chatheight"] = 121,					-- height of chat frame
+	["chatwidth"] = 368,					-- width of chat frame
+	["chatheight"] = 141,					-- height of chat frame
 	["fadeoutofuse"] = true,				-- fade chat text when out of use
 	["sticky"] = true,						-- when opening the chat edit box resort to previous channel
 	["combathide"] = "NONE",			-- Set to "Left", "Right", "Both", or "NONE"
@@ -252,18 +251,16 @@ DB["tooltip"] = {
 	["hideuf"] = false,                    -- hide tooltip on unitframes
 	["cursor"] = false,                    -- show anchored to cursor
 	["colorreaction"] = false,				-- always color border of tooltip by unit reaction
-	["itemid"] = true,						--display itemid on item tooltips 
+	["itemid"] = false,						--display itemid on item tooltips 
 	["whotargetting"] = true,				--show who is targetting the unit (in raid or party)
 }
 
 DB["others"] = {
-	["pvpautorelease"] = false,            -- enable auto-release in bg or wintergrasp.
+	["pvpautorelease"] = true,            -- enable auto-release in bg or wintergrasp.
 	["errorenable"] = true,                     -- true to enable this mod, false to disable
 	["autoacceptinv"] = true,                 -- auto-accept invite from guildmate and friends.
 	["enablemap"] = true,                     -- reskin the map to fit Elvui
 	["enablebag"] = true,                     -- enable an all in one bag mod that fit Elvui perfectly
-	
-
 	["lootframe"] = true,                  -- reskin the loot frame to fit Elvui
 	["rolllootframe"] = true,              -- reskin the roll frame to fit Elvui
 	["autogreed"] = true,                  -- auto-dez or auto-greed item at max level.	

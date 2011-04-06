@@ -123,9 +123,14 @@ function E.PositionAllPanels()
 	ElvuiActionBarBackground:ClearAllPoints()
 	ElvuiPetActionBarBackground:ClearAllPoints()
 	ElvuiLineToPetActionBarBackground:ClearAllPoints()
+
+	local yOffSet = 0	
+	if C["general"].lowerpanel == true then	
+		yOffSet = E.textbarheight
+	end
 	
 	if C["actionbar"].bottompetbar ~= true then
-		ElvuiActionBarBackground:SetPoint("BOTTOM", UIParent, "BOTTOM", 0, E.Scale(4) + E.textbarheight)
+		ElvuiActionBarBackground:SetPoint("BOTTOM", UIParent, "BOTTOM", 0, E.Scale(4) + yOffSet)
 		if E["actionbar"].rightbars > 0 then
 			ElvuiPetActionBarBackground:SetPoint("RIGHT", ElvuiActionBarBackgroundRight, "LEFT", E.Scale(-6), 0)
 		else
@@ -135,9 +140,9 @@ function E.PositionAllPanels()
 		ElvuiLineToPetActionBarBackground:SetSize(30, 265)
 		ElvuiLineToPetActionBarBackground:SetPoint("LEFT", ElvuiPetActionBarBackground, "RIGHT", 0, 0)
 	else
-		ElvuiActionBarBackground:SetPoint("BOTTOM", UIParent, "BOTTOM", 0, (E.buttonsize + (E.buttonspacing * 2)) + E.Scale(8) + E.textbarheight)	
+		ElvuiActionBarBackground:SetPoint("BOTTOM", UIParent, "BOTTOM", 0, (E.buttonsize + (E.buttonspacing * 2)) + E.Scale(8) + yOffSet)	
 		ElvuiPetActionBarBackground:SetSize((E.petbuttonsize * 10) + (E.buttonspacing * 11), E.petbuttonsize + (E.buttonspacing * 2))
-		ElvuiPetActionBarBackground:SetPoint("BOTTOM", UIParent, "BOTTOM", 0, E.Scale(4) + E.textbarheight)
+		ElvuiPetActionBarBackground:SetPoint("BOTTOM", UIParent, "BOTTOM", 0, E.Scale(4) + yOffSet)
 		ElvuiLineToPetActionBarBackground:SetSize(265, 30)
 		ElvuiLineToPetActionBarBackground:SetPoint("BOTTOM", ElvuiPetActionBarBackground, "TOP", 0, 0)
 	end

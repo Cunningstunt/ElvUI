@@ -38,7 +38,6 @@ _G.CHAT_YELL_GET = "%s:\32"
 _G.CHAT_FLAG_AFK = "|cffFF0000"..L.chat_FLAG_AFK.."|r "
 _G.CHAT_FLAG_DND = "|cffE7E716"..L.chat_FLAG_DND.."|r "
 _G.CHAT_FLAG_GM = "|cff4154F5"..L.chat_FLAG_GM.."|r "
- 
 
 -- don't replace this with custom colors, since many addons
 -- use these strings to detect if friends come on-line or go off-line 
@@ -298,7 +297,6 @@ ElvuiChat:SetScript("OnUpdate", function(self, elapsed)
 			if ChatRBG then ChatRBG:SetAlpha(0) end
 			E.RightChatWindowID = nil
 		end
-
 		
 		for i = 1, CreatedFrames do
 			chat = _G[format("ChatFrame%d", i)]
@@ -520,14 +518,14 @@ function E.ChatCopyButtons(id)
 	if not button then
 		local button = CreateFrame("Button", format("ButtonCF%d", id), cf)
 		button:SetHeight(E.textbarheight)
-		button:SetWidth(E.Scale(20))
+		button:SetWidth(E.Scale(17) - 2)
 		button:SetAlpha(0)
 		button:SetPoint("TOPRIGHT", 0, 0)
 		button:SetTemplate("Default", true)
 		button:CreateShadow("Default")
 		
 		local buttontext = button:CreateFontString(nil,"OVERLAY",nil)
-		buttontext:SetFont(C["media"].font,C["general"].fontscale,"THINOUTLINE")
+		buttontext:SetFont(C["media"].font,C["datatext"].fontsize,"THINOUTLINE")
 		buttontext:SetShadowColor(0, 0, 0, 0.4)
 		buttontext:SetShadowOffset(E.mult, -E.mult)
 		buttontext:SetText("C")
@@ -535,7 +533,6 @@ function E.ChatCopyButtons(id)
 		buttontext:SetJustifyH("CENTER")
 		buttontext:SetJustifyV("CENTER")
 		buttontext:SetTextColor(unpack(C["media"].valuecolor))
-		
 		
 		if id == 1 then
 			button:SetScript("OnMouseUp", function(self, btn)
