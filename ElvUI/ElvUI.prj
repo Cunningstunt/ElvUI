@@ -168,6 +168,9 @@ Create Tagfile=0
 11=modules\misc\raidmarker.lua
 12=modules\misc\raidUtility.lua
 13=modules\misc\reminder.lua
+14=modules\misc\announce.lua
+15=modules\misc\damage.lua
+16=modules\misc\threat.lua
 [Files - modules - nameplates]
 0=modules\nameplates\load_nameplates.xml
 1=modules\nameplates\nameplates.lua
