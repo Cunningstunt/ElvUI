@@ -111,10 +111,10 @@ Create Tagfile=0
 1=modules\buffs\load_buffs.xml
 [Files - modules - chat]
 0=modules\chat\chat.lua
-1=modules\chat\chatanimations.lua
-2=modules\chat\copyurl.lua
-3=modules\chat\load_chat.xml
-4=modules\chat\spam.lua
+1=modules\chat\copyurl.lua
+2=modules\chat\load_chat.xml
+3=modules\chat\spam.lua
+4=modules\chat\chattoggle.lua
 [Files - modules - classtimer]
 0=modules\classtimer\classtimer.lua
 1=modules\classtimer\load_classtimer.xml

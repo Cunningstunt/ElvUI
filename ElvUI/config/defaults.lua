@@ -37,7 +37,7 @@ DB["general"] = {
 	["resolutionoverride"] = "NONE",		--override lowversion (Low, High)
 	["layoutoverride"] = "NONE",			--ovverride layout (DPS, Healer)
 	["sharpborders"] = true,
-	["upperpanel"] = false,
+	["upperpanel"] = true,
 	["lowerpanel"] = true,
 }
 
@@ -213,8 +213,8 @@ DB["datatext"] = {
 	["guild"] = 1,                         -- show number on guildmate connected on panels
 	["friends"] = 3,                       -- show number of friends connected.
 	["bags"] = 6,							-- show ammount of bag space available
-	["dps_text"] = 0,						-- show current dps
-	["hps_text"] = 0,						-- show current hps
+	["dps_text"] = 9,						-- show current dps
+	["hps_text"] = 10,						-- show current hps
 	["currency"] = 0,						-- show watched items in backpack
 	["specswitch"] = 13,					-- talent switch and Show current talent tree
 	["range"] = 14,							-- show range to target

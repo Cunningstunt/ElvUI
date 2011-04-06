@@ -10,12 +10,17 @@ E.minimapsize = E.Scale(168)
 
 --BOTTOM PANEL
 local f = CreateFrame("Frame", "ElvuiBottomPanel", UIParent)
-f:SetHeight(E.textbarheight)
+f:SetHeight(E.textbarheight + E.Scale(4))
 f:SetWidth(UIParent:GetWidth() + (E.mult * 2))
 f:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", -E.mult, -E.mult)
 f:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", E.mult, -E.mult)
 f:SetFrameStrata("BACKGROUND")
 f:SetFrameLevel(0)
+
+if C["general"].lowerpanel == true then	
+	f:SetTemplate("Transparent")
+	f:CreateShadow("Default")
+end
 
 --TOP PANEL
 if C["general"].upperpanel == true then
@@ -292,11 +297,12 @@ inforight:SetPoint("BOTTOMRIGHT", chatrbgdummy2, "BOTTOMRIGHT", E.Scale(-17), E.
 --INFO BOTTOM
 if C["general"].lowerpanel == true then	
 	local infobottom = CreateFrame("Frame", "ElvuiInfoBottom", UIParent)
-	infobottom:SetTemplate("Default", true)
 	infobottom:SetFrameLevel(2)
+	infobottom:SetPoint("TOPLEFT", UIParent, "BOTTOM", E.Scale(-300), E.Scale(6) + E.textbarheight)
+	infobottom:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOM", E.Scale(300), E.Scale(6))
+
+	infobottom:SetTemplate("Default", true)
 	infobottom:CreateShadow("Default")
-	infobottom:SetPoint("TOPLEFT", UIParent, "BOTTOM", E.Scale(-300), E.Scale(2) + E.textbarheight)
-	infobottom:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOM", E.Scale(300), E.Scale(2))
 end
 	
 TukuiInfoLeft = ElvuiInfoLeft -- conversion

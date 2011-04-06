@@ -10,8 +10,6 @@ function E.PP(p, obj)
 	local rightHeight = right:GetHeight() - E.Scale(4)
 	local mapleft = ElvuiMinimapStatsLeft
 	local mapright = ElvuiMinimapStatsRight
-	local bottom = ElvuiInfoBottom
-	local bottomHeight = bottom:GetHeight() - E.Scale(4)
 	local t
 	if obj:GetParent():GetName() == "TimeDataText" or obj:GetParent():GetName() == "DurabilityDataText" then t = true else t = false end
 	
@@ -42,26 +40,6 @@ function E.PP(p, obj)
 		obj:SetHeight(rightHeight)
 		obj:SetPoint("RIGHT", right, "RIGHT", -E.Scale(5), 0)
 		if t ~= true then obj:SetParent(right) else obj:GetParent():SetParent(right) end
-	elseif p == 11 then
-		obj:SetHeight(bottomHeight)
-		obj:SetPoint("LEFT", bottom, "LEFT", E.Scale(5), 0)
-		if t ~= true then obj:SetParent(bottom) else obj:GetParent():SetParent(bottom) end
-	elseif p == 12 then
-		obj:SetHeight(bottomHeight)
-		obj:SetPoint("LEFT", bottom, "LEFT", E.Scale(120), 0)
-		if t ~= true then obj:SetParent(bottom) else obj:GetParent():SetParent(bottom) end
-	elseif p == 13 then
-		obj:SetHeight(bottomHeight)
-		obj:SetPoint("CENTER", bottom, "CENTER")
-		if t ~= true then obj:SetParent(bottom) else obj:GetParent():SetParent(bottom) end
-	elseif p == 14 then
-		obj:SetHeight(bottomHeight)
-		obj:SetPoint("RIGHT", bottom, "RIGHT", -E.Scale(120), 0)
-		if t ~= true then obj:SetParent(bottom) else obj:GetParent():SetParent(bottom) end	
-	elseif p == 15 then
-		obj:SetHeight(bottomHeight)
-		obj:SetPoint("RIGHT", bottom, "RIGHT", -E.Scale(5), 0)
-		if t ~= true then obj:SetParent(bottom) else obj:GetParent():SetParent(bottom) end	
 	end
 	
 	if ElvuiMinimap then
@@ -86,6 +64,33 @@ function E.PP(p, obj)
 			obj:SetPoint("CENTER", ElvuiStat10Block, 0, 0)
 			if t ~= true then obj:SetParent(ElvuiStat10Block) else obj:GetParent():SetParent(ElvuiStat10Block) end
 		end	
+	end
+	
+	if C["general"].lowerpanel == true then
+		local bottom = ElvuiInfoBottom
+		local bottomHeight = bottom:GetHeight() - E.Scale(4)
+
+		if p == 11 then
+			obj:SetHeight(bottomHeight)
+			obj:SetPoint("LEFT", bottom, "LEFT", E.Scale(5), 0)
+			if t ~= true then obj:SetParent(bottom) else obj:GetParent():SetParent(bottom) end
+		elseif p == 12 then
+			obj:SetHeight(bottomHeight)
+			obj:SetPoint("LEFT", bottom, "LEFT", E.Scale(120), 0)
+			if t ~= true then obj:SetParent(bottom) else obj:GetParent():SetParent(bottom) end
+		elseif p == 13 then
+			obj:SetHeight(bottomHeight)
+			obj:SetPoint("CENTER", bottom, "CENTER")
+			if t ~= true then obj:SetParent(bottom) else obj:GetParent():SetParent(bottom) end
+		elseif p == 14 then
+			obj:SetHeight(bottomHeight)
+			obj:SetPoint("RIGHT", bottom, "RIGHT", -E.Scale(120), 0)
+			if t ~= true then obj:SetParent(bottom) else obj:GetParent():SetParent(bottom) end	
+		elseif p == 15 then
+			obj:SetHeight(bottomHeight)
+			obj:SetPoint("RIGHT", bottom, "RIGHT", -E.Scale(5), 0)
+			if t ~= true then obj:SetParent(bottom) else obj:GetParent():SetParent(bottom) end	
+		end
 	end
 end
 
