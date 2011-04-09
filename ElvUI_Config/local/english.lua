@@ -143,6 +143,8 @@ L["Unit Frames"] = true
 		L["Change the frame's border to red when a unit has aggro"] = true
 	L["Autmatically change tracked reputation"] = true
 		L["Change the tracked reputation when the standing with a faction changes"] = true
+	L["Mini-Classbar Theme"] = true
+		L["Make classbars smaller and restyle them"] = true
 	
 L["Frame Sizes"] = true
 	L["Controls the size of the frame"] = true
@@ -156,13 +158,19 @@ L["Frame Sizes"] = true
 	L["Assist/Tank Height"] = true
 
 L["Auras"] = true
-	L["Player Auras"] = true
 		L["Display auras on frame"] = true
-	L["Hide Player's Buffs"] = true
-		L["Don't display player's buffs"] = true
-	L["Target Auras"] = true
+	L["Player Buffs"] = true
+	L["Player Debuffs"] = true
+	L["Target Buffs"] = true
+	L["Target Debuffs"] = true
+	L["Boss Buffs"] = true
+	L["Boss Debuffs"] = true
+	L["Arena Buffs"] = true
+		L["Display important buffs on the arena unit, these may be changed in the filter section of the config"] = true
+	L["Arena Debuffs"] = true
+		L["Display important debuffs on the arena unit, these may be changed in the filter section of the config"] = true
 	L["Player's Debuffs Only"] = true
-		L["Only display debuffs on the targetframe that are from yourself"] = true
+		L["Only display debuffs on the target, targettarget, boss, and arena frames that are from yourself"] = true
 	L["Aura Timer"] = true
 		L["Display aura timer"] = true
 	L["Aura Text Scale"] = true
@@ -238,7 +246,8 @@ L["Raid Frames"] = true
 		L["Glow the unitframe to the unit's Reaction/Class when mouseover'd"] = true
 	L["25 Man Layout Party"] = true
 		L["Use the 25 man layout inside a party group"] = true
-
+	L["Display Debuffs"] = true
+	
 --Classtimer		
 L["Class Timers"] = true
 	L["CLASSTIMER_DESC"] = "Adjust settings for classtimers"
