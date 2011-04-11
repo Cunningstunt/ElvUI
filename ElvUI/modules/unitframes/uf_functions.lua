@@ -744,27 +744,9 @@ E.LoadUFFunctions = function(layout)
 			self:SetAlpha(0) self:SetAlpha(0.35) 
 		end
 		
-		if(not UnitExists(unit) or not UnitIsConnected(unit) or not UnitIsVisible(unit)) then
-			self:SetModelScale(4.25)
-			
-			if self.worgenfix then self.worgenfix:Hide() end
-		elseif self:GetModel() and self:GetModel().find and self:GetModel():find("worgenmale") and not C["unitframes"].charportraithealth == true then
-			self:SetModelScale(0.0000000000000001)
-			
-			if not self.worgenfix then
-				local tex = self:CreateTexture(nil, "OVERLAY")
-				tex:SetAllPoints(self)
-				tex:SetTexCoord(0.2, 0.8, 0.2, 0.8)
-				self.worgenfix = tex
-			end
-			
-			SetPortraitTexture(self.worgenfix, unit)
-			self.worgenfix:Show()
-		else
-			self:SetModelScale(1)
-			
-			if self.worgenfix then self.worgenfix:Hide() end
-		end
+		if self:GetModel() and self:GetModel().find and self:GetModel():find("worgenmale") then
+			self:SetCamera(1)
+		end	
 	end	
 	
 	E.ComboDisplay = function(self, event, unit)
@@ -952,27 +934,19 @@ E.LoadUFFunctions = function(layout)
 
 		local buffs = {}
 		if IsAddOnLoaded("Elvui_RaidDPS") then
-			if (E.DPSBuffIDs["ALL"]) then
-				for key, value in pairs(E.DPSBuffIDs["ALL"]) do
-					tinsert(buffs, value)
-				end
-			end
-
 			if (E.DPSBuffIDs[E.myclass]) then
 				for key, value in pairs(E.DPSBuffIDs[E.myclass]) do
-					tinsert(buffs, value)
-				end
-			end	
-		else
-			if (E.HealerBuffIDs["ALL"]) then
-				for key, value in pairs(E.HealerBuffIDs["ALL"]) do
-					tinsert(buffs, value)
+					if value["enabled"] == true then
+						tinsert(buffs, value)
+					end
 				end
 			end
-
+		else
 			if (E.HealerBuffIDs[E.myclass]) then
 				for key, value in pairs(E.HealerBuffIDs[E.myclass]) do
-					tinsert(buffs, value)
+					if value["enabled"] == true then
+						tinsert(buffs, value)
+					end
 				end
 			end
 		end
@@ -987,17 +961,18 @@ E.LoadUFFunctions = function(layout)
 		if (buffs) then
 			for key, spell in pairs(buffs) do
 				local icon = CreateFrame("Frame", nil, auras)
-				icon.spellID = spell[1]
-				icon.anyUnit = spell[4]
+				icon.spellID = spell["id"]
+				icon.anyUnit = spell["anyUnit"]
 				icon:SetWidth(E.Scale(C["raidframes"].buffindicatorsize))
 				icon:SetHeight(E.Scale(C["raidframes"].buffindicatorsize))
-				icon:SetPoint(spell[2], 0, 0)
+				icon:SetPoint(spell["point"], 0, 0)
 
 				local tex = icon:CreateTexture(nil, "OVERLAY")
 				tex:SetAllPoints(icon)
 				tex:SetTexture(C["media"].blank)
-				if (spell[3]) then
-					tex:SetVertexColor(unpack(spell[3]))
+				if (spell["color"]) then
+					local color = spell["color"]
+					tex:SetVertexColor(color.r, color.g, color.b)
 				else
 					tex:SetVertexColor(0.8, 0.8, 0.8)
 				end
@@ -1010,10 +985,10 @@ E.LoadUFFunctions = function(layout)
 
 				local count = icon:CreateFontString(nil, "OVERLAY")
 				count:SetFont(C["media"].uffont, 8, "THINOUTLINE")
-				count:SetPoint("CENTER", unpack(E.countOffsets[spell[2]]))
+				count:SetPoint("CENTER", unpack(E.countOffsets[spell["point"]]))
 				icon.count = count
 
-				auras.icons[spell[1]] = icon
+				auras.icons[spell["id"]] = icon
 			end
 		end
 
@@ -1027,7 +1002,7 @@ E.LoadUFFunctions = function(layout)
 	ORD.FilterDispellableDebuff = true
 	ORD.MatchBySpellName = true
 
-	ORD:RegisterDebuffs(E.RaidDebuffsList)	
+	ORD:RegisterDebuffs(E.RaidDebuffs)	
 	
 	E.LoadUFFunctions = nil
 end
