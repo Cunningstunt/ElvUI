@@ -3,6 +3,7 @@
 --------------------------------------------------------------------------
 local E, C, L = unpack(select(2, ...)) -- Import Functions/Constants, Config, Locales
 
+-- only available at max player level (the bar will Show XP otherwise)
 if E.level ~= MAX_PLAYER_LEVEL or C["unitframes"].autorepchange ~= true then end
 
 local find				= string.find
@@ -20,14 +21,17 @@ function autorepchange:CHAT_MSG_COMBAT_FACTION_CHANGE(event, arg1)
 	if faction then
 		if faction == GUILD_REPUTATION then
 			faction = GetGuildInfo("player")
-		end	
+		end
 
 		local active = GetWatchedFactionInfo()
-		
 		for factionIndex = 1, GetNumFactions() do
 			local name = GetFactionInfo(factionIndex)
 			if name == faction and name ~= active then
-				SetWatchedFactionIndex(factionIndex)
+				-- check if watch has been disabled by user
+				local inactive = IsFactionInactive(factionIndex)
+				if inactive == nil then
+					SetWatchedFactionIndex(factionIndex)
+				end
 				return
 			end
 		end
