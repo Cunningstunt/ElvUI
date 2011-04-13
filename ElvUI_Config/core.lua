@@ -37,7 +37,8 @@ function ElvuiConfig:LoadDefaults()
 				DPSBuffIDs = E["DPSBuffIDs"],
 				PetBuffs = E["PetBuffs"],
 				TRINKET_FILTER = TRINKET_FILTER,
-				CLASS_FILTERS = CLASS_FILTERS
+				CLASS_FILTERS = CLASS_FILTERS,
+				ChannelTicks = E["ChannelTicks"]
 			},
 		},
 	}
@@ -138,7 +139,20 @@ function ElvuiConfig.GenerateOptionsInternal()
 		if not spelltable then error("db.spellfilter could not find value 'tab'") return {} end
 		local newtable = {}
 		
-		if ClassTimer[tab] then
+		if tab == "ChannelTicks" then
+			for spell, value in pairs(spelltable) do
+				if db.spellfilter[tab][spell] ~= nil then
+					newtable[spell] = {
+						name = spell,
+						desc = L["To disable set to zero, otherwise set to the amount of times the spell ticks in a cast"],
+						type = "range",
+						get = function(info) return db.spellfilter[tab][spell] end,
+						set = function(info, val) db.spellfilter[tab][spell] = val; StaticPopup_Show("CFG_RELOAD") end,
+						min = 0, max = 15, step = 1,	
+					}
+				end
+			end		
+		elseif ClassTimer[tab] then
 			newtable["SelectSpellFilter"] = {
 				name = L["Choose Filter"],
 				desc = L["Choose the filter you want to modify."],
@@ -461,13 +475,17 @@ function ElvuiConfig.GenerateOptionsInternal()
 			return L["These buffs are displayed no matter your class you must have a layout enabled that uses trinkets however for them to show"]
 		elseif db.spellfilter.FilterPicker == "CLASS_FILTERS" then
 			return L["These buffs/debuffs are displayed as a classtimer, where they get positioned is based on your layout option choice"]
+		elseif db.spellfilter.FilterPicker == "ChannelTicks" then
+			return L["These spells when cast will display tick marks on the castbar"]
 		else
 			return ""
 		end
 	end
 	
 	local function GetFilterName()
-		if db.spellfilter.FilterPicker == "PlateBlacklist" then
+		if db.spellfilter.FilterPicker == "ChannelTicks" then
+			return L["Spells"]
+		elseif db.spellfilter.FilterPicker == "PlateBlacklist" then
 			return L["Nameplate Names"]
 		else
 			return L["Auras"]
@@ -1290,33 +1308,63 @@ function ElvuiConfig.GenerateOptionsInternal()
 								name = L["Castbar Icons"],
 								desc = L["Show icons on castbars"],								
 							},
+							cbticks = {
+								type = "toggle",
+								order = 4,
+								name = L["Castbar Ticks"],
+								desc = L["Display ticks on castbar when you cast a spell that is channeled, this list may be modified under filters"],
+							},
 							castplayerwidth = {
 								type = "range",
-								order = 4,
+								order = 5,
 								name = L["Width Player Castbar"],
 								desc = L["The size of the castbar"],
 								type = "range",
 								min = 200, max = math.ceil(ElvuiActionBarBackground:GetWidth()), step = .01,								
 							},
+							castplayerheight = {
+								type = "range",
+								order = 6,
+								name = L["Height Player Castbar"],
+								desc = L["The size of the castbar"],
+								type = "range",
+								min = 10, max = 50, step = 1,								
+							},
 							casttargetwidth = {
 								type = "range",
-								order = 5,
+								order = 7,
 								name = L["Width Target Castbar"],
 								desc = L["The size of the castbar"],
 								type = "range",
 								min = 200, max = math.ceil(ElvuiActionBarBackground:GetWidth()), step = .01,							
+							},								
+							casttargetheight = {
+								type = "range",
+								order = 8,
+								name = L["Height Target Castbar"],
+								desc = L["The size of the castbar"],
+								type = "range",
+								min = 10, max = 50, step = 1,								
 							},	
 							castfocuswidth = {
 								type = "range",
-								order = 6,
+								order = 9,
 								name = L["Width Focus Castbar"],
 								desc = L["The size of the castbar"],
 								type = "range",
 								min = 200, max = math.ceil(ElvuiActionBarBackground:GetWidth()), step = .01,						
-							},
+							},							
+							castfocusheight = {
+								type = "range",
+								order = 10,
+								name = L["Height Focus Castbar"],
+								desc = L["The size of the castbar"],
+								type = "range",
+								min = 10, max = 50, step = 1,								
+							},								
 							castbarcolor = {
 								type = "color",
-								order = 7,
+								order = 11,
 								name = L["Castbar Color"],
 								desc = L["Color of the castbar"],
 								hasAlpha = false,
@@ -1334,7 +1382,7 @@ function ElvuiConfig.GenerateOptionsInternal()
 							},
 							nointerruptcolor = {
 								type = "color",
-								order = 8,
+								order = 12,
 								name = L["Interrupt Color"],
 								desc = L["Color of the castbar when you can't interrupt the cast"],
 								hasAlpha = false,
@@ -2411,7 +2459,8 @@ function ElvuiConfig.GenerateOptionsInternal()
 							["DPSBuffIDs"] = L["Raid Buffs (DPS)"],
 							["PetBuffs"] = L["Pet Buffs"],
 							["TRINKET_FILTER"] = L["Class Timer (Shared)"],
-							["CLASS_FILTERS"] = L["Class Timer (Player)"]
+							["CLASS_FILTERS"] = L["Class Timer (Player)"],
+							["ChannelTicks"] = L["Castbar Ticks"]
 						},						
 					},			
 					spacer = {
@@ -2431,7 +2480,12 @@ function ElvuiConfig.GenerateOptionsInternal()
 						desc = L["Add a new spell name / ID to the list."],
 						get = function(info) return "" end,
 						set = function(info, value)
-							if ClassTimer[db.spellfilter.FilterPicker] then
+							if db.spellfilter.FilterPicker == "ChannelTicks" then
+								local name_list = db.spellfilter[db.spellfilter.FilterPicker]
+								name_list[value] = 0
+								UpdateSpellFilter()
+								StaticPopup_Show("CFG_RELOAD")
+							elseif ClassTimer[db.spellfilter.FilterPicker] then
 								if not GetSpellInfo(value) then
 									print(L["Not valid spell id"])
 								elseif not db.spellfilter["SelectSpellFilter"] then
@@ -2478,6 +2532,7 @@ function ElvuiConfig.GenerateOptionsInternal()
 						desc = L["You may only delete spells that you have added. Default spells can be disabled by unchecking the option"],
 						get = function(info) return "" end,
 						set = function(info, value)
+
 							if ClassTimer[db.spellfilter.FilterPicker] then
 								if not GetSpellInfo(value) then
 									print(L["Not valid spell id"])
