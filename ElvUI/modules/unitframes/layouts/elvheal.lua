@@ -898,7 +898,7 @@ local function Shared(self, unit)
 				portrait.backdrop = CreateFrame("Frame", nil, portrait)
 				portrait.backdrop:SetTemplate("Default")
 				portrait.backdrop:SetPoint("TOPRIGHT", self, "TOPRIGHT", 0, 0)
-				if POWERTHEME == true then
+				if POWERTHEME == true or USE_POWERBAR_OFFSET == true then
 					portrait.backdrop:Point("BOTTOMLEFT", health.backdrop, "BOTTOMRIGHT", SPACING, 0)
 				else
 					portrait.backdrop:Point("BOTTOMLEFT", power.backdrop, "BOTTOMRIGHT", SPACING, 0)
@@ -1427,7 +1427,10 @@ local function Shared(self, unit)
 	--	All Units
 	------------------------------------------------------------------------
 	if unit ~= "party" then
-		local RaidIcon = self:CreateTexture(nil, "OVERLAY")
+		local x = CreateFrame("Frame", nil, self)
+		x:SetFrameStrata("HIGH")
+		x:SetFrameLevel(20)
+		local RaidIcon = x:CreateTexture(nil, "OVERLAY")
 		RaidIcon:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\raidicons.blp") 
 		RaidIcon:Size(18, 18)
 		RaidIcon:Point("CENTER", self.Health, "TOP", 0, BORDER)
