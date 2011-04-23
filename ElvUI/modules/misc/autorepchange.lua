@@ -23,6 +23,9 @@ function autorepchange:CHAT_MSG_COMBAT_FACTION_CHANGE(event, arg1)
 			faction = GetGuildInfo("player")
 		end
 
+		-- required for the GetNumFactions() function to return all factions in the game
+		ExpandAllFactionHeaders()
+	
 		local active = GetWatchedFactionInfo()
 		for factionIndex = 1, GetNumFactions() do
 			local name = GetFactionInfo(factionIndex)
