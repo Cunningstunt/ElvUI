@@ -47,10 +47,9 @@ Create Tagfile=0
 35=modules - unitframes - templates
 [Files - config]
 0=config\autodisable.lua
-1=config\classtimers_spellist.lua
-2=config\configui.lua
-3=config\defaults.lua
-4=config\load_config.xml
+1=config\configui.lua
+2=config\defaults.lua
+3=config\load_config.xml
 [Files]
 0=Bindings.xml
 1=ElvUI.ISILDUR.Roland.pui
