@@ -236,6 +236,11 @@ Create Tagfile=0
 6=modules\blizzard\skin.lua
 7=modules\blizzard\vehicle.lua
 8=modules\blizzard\watchframe.lua
+9=modules\blizzard\colorpicker.lua
+10=modules\blizzard\fonts.lua
+11=modules\blizzard\kill.lua
+12=modules\blizzard\timerTracker.lua
+13=modules\blizzard\worldstate.lua
 [Files - config - filters]
 0=config\filters\buffwatch.lua
 1=config\filters\classtimer.lua
