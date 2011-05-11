@@ -197,6 +197,84 @@ ElvuiSkin:RegisterEvent("ADDON_LOADED")
 ElvuiSkin:SetScript("OnEvent", function(self, event, addon)
 	if IsAddOnLoaded("Skinner") or IsAddOnLoaded("Aurora") then return end
 	
+	--Archaeology
+	if addon == "Blizzard_ArchaeologyUI" then
+		ArchaeologyFrame:StripTextures(true)
+		ArchaeologyFrameInset:StripTextures(true)
+		ArchaeologyFrame:SetTemplate("Transparent")
+		ArchaeologyFrame:CreateShadow("Default")
+		
+		SkinButton(ArchaeologyFrameArtifactPageSolveFrameSolveButton, true)
+		SkinDropDownBox(ArchaeologyFrameRaceFilter, 125)
+		
+		ArchaeologyFrameRankBar:StripTextures()
+		ArchaeologyFrameRankBar:SetStatusBarTexture(C["media"].normTex)
+		ArchaeologyFrameRankBar:CreateBackdrop("Default")
+		
+		ArchaeologyFrameArtifactPageSolveFrameStatusBar:StripTextures()
+		ArchaeologyFrameArtifactPageSolveFrameStatusBar:SetStatusBarTexture(C["media"].normTex)
+		ArchaeologyFrameArtifactPageSolveFrameStatusBar:SetStatusBarColor(0.7, 0.2, 0)
+		ArchaeologyFrameArtifactPageSolveFrameStatusBar:CreateBackdrop("Default")
+		
+		for i=1, ARCHAEOLOGY_MAX_COMPLETED_SHOWN do
+			local artifact = _G["ArchaeologyFrameCompletedPageArtifact"..i]
+			
+			if artifact then
+				_G["ArchaeologyFrameCompletedPageArtifact"..i.."Border"]:Kill()
+				_G["ArchaeologyFrameCompletedPageArtifact"..i.."Bg"]:Kill()
+				_G["ArchaeologyFrameCompletedPageArtifact"..i.."Icon"]:SetTexCoord(.08, .92, .08, .92)
+				_G["ArchaeologyFrameCompletedPageArtifact"..i.."Icon"].backdrop = CreateFrame("Frame", nil, artifact)
+				_G["ArchaeologyFrameCompletedPageArtifact"..i.."Icon"].backdrop:SetTemplate("Default")
+				_G["ArchaeologyFrameCompletedPageArtifact"..i.."Icon"].backdrop:Point("TOPLEFT", _G["ArchaeologyFrameCompletedPageArtifact"..i.."Icon"], "TOPLEFT", -2, 2)
+				_G["ArchaeologyFrameCompletedPageArtifact"..i.."Icon"].backdrop:Point("BOTTOMRIGHT", _G["ArchaeologyFrameCompletedPageArtifact"..i.."Icon"], "BOTTOMRIGHT", 2, -2)
+				_G["ArchaeologyFrameCompletedPageArtifact"..i.."Icon"].backdrop:SetFrameLevel(artifact:GetFrameLevel() - 2)
+				_G["ArchaeologyFrameCompletedPageArtifact"..i.."Icon"]:SetDrawLayer("OVERLAY")
+				_G["ArchaeologyFrameCompletedPageArtifact"..i.."ArtifactName"]:SetTextColor(1, 1, 0)
+				_G["ArchaeologyFrameCompletedPageArtifact"..i.."ArtifactSubText"]:SetTextColor(0.6, 0.6, 0.6)
+			end
+		end
+		
+		for i=1, ARCHAEOLOGY_MAX_RACES do
+			local frame = _G["ArchaeologyFrameSummaryPageRace"..i]
+			
+			if frame then
+				frame.raceName:SetTextColor(1, 1, 1)
+			end
+		end
+		
+		for i=1, ArchaeologyFrameCompletedPage:GetNumRegions() do
+			local region = select(i, ArchaeologyFrameCompletedPage:GetRegions())
+			if region:GetObjectType() == "FontString" then
+				region:SetTextColor(1, 1, 0)
+			end
+		end
+		
+		for i=1, ArchaeologyFrameSummaryPage:GetNumRegions() do
+			local region = select(i, ArchaeologyFrameSummaryPage:GetRegions())
+			if region:GetObjectType() == "FontString" then
+				region:SetTextColor(1, 1, 0)
+			end
+		end
+		
+		ArchaeologyFrameCompletedPage.infoText:SetTextColor(1, 1, 1)
+		ArchaeologyFrameHelpPageTitle:SetTextColor(1, 1, 0)
+		ArchaeologyFrameHelpPageDigTitle:SetTextColor(1, 1, 0)
+		ArchaeologyFrameHelpPageHelpScrollHelpText:SetTextColor(1, 1, 1)
+		
+		ArchaeologyFrameArtifactPageHistoryTitle:SetTextColor(1, 1, 0)
+		ArchaeologyFrameArtifactPageIcon:SetTexCoord(.08, .92, .08, .92)
+		ArchaeologyFrameArtifactPageIcon.backdrop = CreateFrame("Frame", nil, ArchaeologyFrameArtifactPage)
+		ArchaeologyFrameArtifactPageIcon.backdrop:SetTemplate("Default")
+	    ArchaeologyFrameArtifactPageIcon.backdrop:Point("TOPLEFT", ArchaeologyFrameArtifactPageIcon, "TOPLEFT", -2, 2)
+		ArchaeologyFrameArtifactPageIcon.backdrop:Point("BOTTOMRIGHT", ArchaeologyFrameArtifactPageIcon, "BOTTOMRIGHT", 2, -2)
+		ArchaeologyFrameArtifactPageIcon.backdrop:SetFrameLevel(ArchaeologyFrameArtifactPage:GetFrameLevel())
+		ArchaeologyFrameArtifactPageIcon:SetParent(ArchaeologyFrameArtifactPageIcon.backdrop)
+		ArchaeologyFrameArtifactPageIcon:SetDrawLayer("OVERLAY")	
+		
+		ArchaeologyFrameArtifactPageHistoryScrollChildText:SetTextColor(1, 1, 1)
+		SkinCloseButton(ArchaeologyFrameCloseButton)
+	end
+	
 	--Guild Control
 	if addon == "Blizzard_GuildControlUI" then
 		GuildControlUI:StripTextures()
@@ -306,7 +384,8 @@ ElvuiSkin:SetScript("OnEvent", function(self, event, addon)
 			"GuildNewsBossModel",
 			"GuildNewsBossModelTextFrame",
 		}
-		
+		GuildRewardsFrameVisitText:ClearAllPoints()
+		GuildRewardsFrameVisitText:SetPoint("TOP", GuildRewardsFrame, "TOP", 0, 30)
 		for _, frame in pairs(striptextures) do
 			_G[frame]:StripTextures()
 		end
@@ -372,11 +451,16 @@ ElvuiSkin:SetScript("OnEvent", function(self, event, addon)
 		GuildFactionBar.backdrop:Point("TOPLEFT", GuildFactionBar.progress, "TOPLEFT", -2, 2)
 		GuildFactionBar.backdrop:Point("BOTTOMRIGHT", GuildFactionBar, "BOTTOMRIGHT", -2, 0)
 		
-		GuildXPBar:StripTextures()
+		GuildXPBarLeft:Kill()
+		GuildXPBarRight:Kill()
+		GuildXPBarMiddle:Kill()
+		GuildXPBarBG:Kill()
+		GuildXPBarShadow:Kill()
+		GuildXPBarCap:Kill()
 		GuildXPBar.progress:SetTexture(C["media"].normTex)
 		GuildXPBar:CreateBackdrop("Default")
 		GuildXPBar.backdrop:Point("TOPLEFT", GuildXPBar.progress, "TOPLEFT", -2, 2)
-		GuildXPBar.backdrop:Point("BOTTOMRIGHT", GuildXPBar, "BOTTOMRIGHT", -2, 2)
+		GuildXPBar.backdrop:Point("BOTTOMRIGHT", GuildXPBar, "BOTTOMRIGHT", -2, 4)
 		
 		GuildLatestPerkButton:StripTextures()
 		GuildLatestPerkButtonIconTexture:SetTexCoord(.08, .92, .08, .92)
@@ -682,19 +766,33 @@ ElvuiSkin:SetScript("OnEvent", function(self, event, addon)
 			"PlayerTalentFrame",
 			"PlayerTalentFrameInset",
 			"PlayerTalentFrameTalents",
-			"PlayerTalentFramePanel1",
-			"PlayerTalentFramePanel2",
-			"PlayerTalentFramePanel3",	
 			"PlayerTalentFramePanel1HeaderIcon",
 			"PlayerTalentFramePanel2HeaderIcon",
 			"PlayerTalentFramePanel3HeaderIcon",
 			"PlayerTalentFramePetTalents",
-			"PlayerTalentFramePetPanel"
 		}
 
 		for _, object in pairs(StripAllTextures) do
 			_G[object]:StripTextures()
 		end
+		
+		local function StripTalentFramePanelTextures(object)
+			for i=1, object:GetNumRegions() do
+				local region = select(i, object:GetRegions())
+				if region:GetObjectType() == "Texture" then
+					if region:GetName():find("Branch") then
+						region:SetDrawLayer("OVERLAY")
+					else
+						region:SetTexture(nil)
+					end
+				end
+			end
+		end
+		
+		StripTalentFramePanelTextures(PlayerTalentFramePanel1)
+		StripTalentFramePanelTextures(PlayerTalentFramePanel2)
+		StripTalentFramePanelTextures(PlayerTalentFramePanel3)
+		StripTalentFramePanelTextures(PlayerTalentFramePetPanel)
 		
 		for i=1, 3 do
 			_G["PlayerTalentFramePanel"..i.."SelectTreeButton"]:SetFrameLevel(_G["PlayerTalentFramePanel"..i.."SelectTreeButton"]:GetFrameLevel() + 5)
@@ -706,10 +804,6 @@ ElvuiSkin:SetScript("OnEvent", function(self, event, addon)
 			"PlayerTalentFramePanel1InactiveShadow",
 			"PlayerTalentFramePanel2InactiveShadow",
 			"PlayerTalentFramePanel3InactiveShadow",
-			"PlayerTalentFramePanel1Arrow",
-			"PlayerTalentFramePanel2Arrow",
-			"PlayerTalentFramePanel3Arrow",
-			"PlayerTalentFramePetPanelArrow",
 			"PlayerTalentFramePanel1SummaryRoleIcon",
 			"PlayerTalentFramePanel2SummaryRoleIcon",
 			"PlayerTalentFramePanel3SummaryRoleIcon",
@@ -719,6 +813,12 @@ ElvuiSkin:SetScript("OnEvent", function(self, event, addon)
 		for _, texture in pairs(KillTextures) do
 			_G[texture]:Kill()
 		end
+		
+		for i=1, 3 do
+			_G["PlayerTalentFramePanel"..i.."Arrow"]:SetFrameStrata("HIGH")
+		end
+		PlayerTalentFramePetPanelArrow:SetFrameStrata("HIGH")
+		
 
 		PlayerTalentFrame:SetTemplate("Transparent")
 		PlayerTalentFramePanel1:CreateBackdrop("Transparent")
@@ -1065,6 +1165,7 @@ ElvuiSkin:SetScript("OnEvent", function(self, event, addon)
 	
 	--Auction House
 	if addon == "Blizzard_AuctionUI" then
+		SkinCloseButton(AuctionFrameCloseButton)
 		AuctionFrame:StripTextures(true)
 		AuctionFrame:SetTemplate("Transparent")
 		AuctionFrame:CreateShadow("Default")
@@ -1371,6 +1472,8 @@ ElvuiSkin:SetScript("OnEvent", function(self, event, addon)
 	if addon == "Blizzard_MacroUI" then
 		SkinCloseButton(MacroFrameCloseButton)
 		
+		MacroFrame:Width(360)
+		
 		local buttons = {
 			"MacroDeleteButton",
 			"MacroNewButton",
@@ -1590,6 +1693,211 @@ ElvuiSkin:SetScript("OnEvent", function(self, event, addon)
 	-- stuff not in Blizzard load-on-demand
 	if addon == "ElvUI" then
 		
+		--Help Frame
+		do
+			local frames = {
+				"HelpFrameLeftInset",
+				"HelpFrameMainInset",
+				"HelpFrameKnowledgebase",
+				"HelpFrameHeader",
+				"HelpFrameKnowledgebaseErrorFrame",
+			}
+			
+			local buttons = {
+				"HelpFrameAccountSecurityOpenTicket",
+				"HelpFrameReportLagLoot",
+				"HelpFrameReportLagAuctionHouse",
+				"HelpFrameReportLagMail",
+				"HelpFrameReportLagMovement",
+				"HelpFrameReportLagSpell",
+				"HelpFrameReportLagChat",
+				"HelpFrameReportAbuseOpenTicket",
+				"HelpFrameOpenTicketHelpTopIssues",
+				"HelpFrameOpenTicketHelpOpenTicket",
+				"HelpFrameKnowledgebaseSearchButton",
+				"HelpFrameKnowledgebaseNavBarHomeButton",
+				"HelpFrameCharacterStuckStuck",
+				"GMChatOpenLog",
+				"HelpFrameTicketSubmit",
+				"HelpFrameTicketCancel",
+			}
+			
+			-- skin main frames
+			for i = 1, #frames do
+				_G[frames[i]]:StripTextures(true)
+				_G[frames[i]]:CreateBackdrop("Default")
+			end
+			
+			HelpFrameHeader:SetFrameLevel(HelpFrameHeader:GetFrameLevel() + 2)
+			HelpFrameKnowledgebaseErrorFrame:SetFrameLevel(HelpFrameKnowledgebaseErrorFrame:GetFrameLevel() + 2)
+			
+			HelpFrameTicketScrollFrame:StripTextures()
+			HelpFrameTicketScrollFrame:CreateBackdrop("Default")
+			HelpFrameTicketScrollFrame.backdrop:Point("TOPLEFT", -4, 4)
+			HelpFrameTicketScrollFrame.backdrop:Point("BOTTOMRIGHT", 6, -4)
+			for i=1, HelpFrameTicket:GetNumChildren() do
+				local child = select(i, HelpFrameTicket:GetChildren())
+				if not child:GetName() then
+					child:StripTextures()
+				end
+			end
+			
+			SkinScrollBar(HelpFrameKnowledgebaseScrollFrame2ScrollBar)
+			
+			-- skin sub buttons
+			for i = 1, #buttons do
+				_G[buttons[i]]:StripTextures(true)
+				SkinButton(_G[buttons[i]], true)
+				
+				if _G[buttons[i]].text then
+					_G[buttons[i]].text:ClearAllPoints()
+					_G[buttons[i]].text:SetPoint("CENTER")
+					_G[buttons[i]].text:SetJustifyH("CENTER")				
+				end
+			end
+			
+			-- skin main buttons
+			for i = 1, 6 do
+				local b = _G["HelpFrameButton"..i]
+				SkinButton(b, true)
+				b.text:ClearAllPoints()
+				b.text:SetPoint("CENTER")
+				b.text:SetJustifyH("CENTER")
+			end	
+			
+			-- skin table options
+			for i = 1, HelpFrameKnowledgebaseScrollFrameScrollChild:GetNumChildren() do
+				local b = _G["HelpFrameKnowledgebaseScrollFrameButton"..i]
+				b:StripTextures(true)
+				SkinButton(b, true)
+			end
+			
+			-- skin misc items
+			HelpFrameKnowledgebaseSearchBox:ClearAllPoints()
+			HelpFrameKnowledgebaseSearchBox:Point("TOPLEFT", HelpFrameMainInset, "TOPLEFT", 13, -10)
+			HelpFrameKnowledgebaseNavBarOverlay:Kill()
+			HelpFrame:StripTextures(true)
+			HelpFrame:CreateBackdrop("Transparent")
+			SkinEditBox(HelpFrameKnowledgebaseSearchBox)
+			SkinScrollBar(HelpFrameKnowledgebaseScrollFrameScrollBar)
+			SkinCloseButton(HelpFrameCloseButton, HelpFrame.backdrop)	
+			SkinCloseButton(HelpFrameKnowledgebaseErrorFrameCloseButton, HelpFrameKnowledgebaseErrorFrame.backdrop)
+			
+			--Hearth Stone Button
+			HelpFrameCharacterStuckHearthstone:StyleButton()
+			HelpFrameCharacterStuckHearthstone:SetTemplate("Default", true)
+			HelpFrameCharacterStuckHearthstone.IconTexture:ClearAllPoints()
+			HelpFrameCharacterStuckHearthstone.IconTexture:Point("TOPLEFT", 2, -2)
+			HelpFrameCharacterStuckHearthstone.IconTexture:Point("BOTTOMRIGHT", -2, 2)
+			HelpFrameCharacterStuckHearthstone.IconTexture:SetTexCoord(.08, .92, .08, .92)
+			
+			local function navButtonFrameLevel(self)
+				for i=1, #self.navList do
+					local navButton = self.navList[i]
+					local lastNav = self.navList[i-1]
+					if navButton and lastNav then
+						navButton:SetFrameLevel(lastNav:GetFrameLevel() - 2)
+					end
+				end			
+			end
+			
+			hooksecurefunc("NavBar_AddButton", function(self, buttonData)
+				local navButton = self.navList[#self.navList]
+				
+				
+				if not navButton.skinned then
+					SkinButton(navButton, true)
+					navButton.skinned = true
+					
+					navButton:HookScript("OnClick", function()
+						navButtonFrameLevel(self)
+					end)
+				end
+				
+				navButtonFrameLevel(self)
+			end)
+		end
+	
+		--Trade Frame
+		do
+			TradeFrame:StripTextures(true)
+			TradeFrame:CreateBackdrop("Transparent")
+			TradeFrame.backdrop:Point("TOPLEFT", 10, -4)
+			TradeFrame.backdrop:Point("BOTTOMRIGHT", -16, 35)
+			SkinButton(TradeFrameTradeButton, true)
+			SkinButton(TradeFrameCancelButton, true)
+			SkinCloseButton(TradeFrameCloseButton, TradeFrame.backdrop)
+			
+			SkinEditBox(TradePlayerInputMoneyFrameGold)
+			SkinEditBox(TradePlayerInputMoneyFrameSilver)
+			SkinEditBox(TradePlayerInputMoneyFrameCopper)
+			TradePlayerInputMoneyFrameSilver.backdrop:Point("BOTTOMRIGHT", -12, -2)
+			TradePlayerInputMoneyFrameCopper.backdrop:Point("BOTTOMRIGHT", -12, -2)
+			
+			for i=1, 7 do
+				local player = _G["TradePlayerItem"..i]
+				local recipient = _G["TradeRecipientItem"..i]
+				local player_button = _G["TradePlayerItem"..i.."ItemButton"]
+				local recipient_button = _G["TradeRecipientItem"..i.."ItemButton"]
+				local player_button_icon = _G["TradePlayerItem"..i.."ItemButtonIconTexture"]
+				local recipient_button_icon = _G["TradeRecipientItem"..i.."ItemButtonIconTexture"]
+				
+				if player_button and recipient_button then
+					player:StripTextures()
+					recipient:StripTextures()
+					player_button:StripTextures()
+					recipient_button:StripTextures()
+					
+					player_button_icon:ClearAllPoints()
+					player_button_icon:Point("TOPLEFT", player_button, "TOPLEFT", 2, -2)
+					player_button_icon:Point("BOTTOMRIGHT", player_button, "BOTTOMRIGHT", -2, 2)
+					player_button_icon:SetTexCoord(.08, .92, .08, .92)
+					player_button:SetTemplate("Default", true)
+					player_button:StyleButton()
+					player_button.bg = CreateFrame("Frame", nil, player_button)
+					player_button.bg:SetTemplate("Default")
+					player_button.bg:SetPoint("TOPLEFT", player_button, "TOPRIGHT", 4, 0)
+					player_button.bg:SetPoint("BOTTOMRIGHT", _G["TradePlayerItem"..i.."NameFrame"], "BOTTOMRIGHT", 0, 14)
+					player_button.bg:SetFrameLevel(player_button:GetFrameLevel() - 3)
+
+					recipient_button_icon:ClearAllPoints()
+					recipient_button_icon:Point("TOPLEFT", recipient_button, "TOPLEFT", 2, -2)
+					recipient_button_icon:Point("BOTTOMRIGHT", recipient_button, "BOTTOMRIGHT", -2, 2)
+					recipient_button_icon:SetTexCoord(.08, .92, .08, .92)
+					recipient_button:SetTemplate("Default", true)
+					recipient_button:StyleButton()
+					recipient_button.bg = CreateFrame("Frame", nil, recipient_button)
+					recipient_button.bg:SetTemplate("Default")
+					recipient_button.bg:SetPoint("TOPLEFT", recipient_button, "TOPRIGHT", 4, 0)
+					recipient_button.bg:SetPoint("BOTTOMRIGHT", _G["TradeRecipientItem"..i.."NameFrame"], "BOTTOMRIGHT", 0, 14)
+					recipient_button.bg:SetFrameLevel(recipient_button:GetFrameLevel() - 3)					
+					
+				end
+			end
+			
+			TradeHighlightPlayerTop:SetTexture(0, 1, 0, 0.2)
+			TradeHighlightPlayerBottom:SetTexture(0, 1, 0, 0.2)
+			TradeHighlightPlayerMiddle:SetTexture(0, 1, 0, 0.2)
+			TradeHighlightPlayer:SetFrameStrata("HIGH")
+			TradeHighlightPlayer:Point("TOPLEFT", TradeFrame, "TOPLEFT", 23, -100)
+			
+			TradeHighlightPlayerEnchantTop:SetTexture(0, 1, 0, 0.2)
+			TradeHighlightPlayerEnchantBottom:SetTexture(0, 1, 0, 0.2)
+			TradeHighlightPlayerEnchantMiddle:SetTexture(0, 1, 0, 0.2)
+			TradeHighlightPlayerEnchant:SetFrameStrata("HIGH")
+			
+			TradeHighlightRecipientTop:SetTexture(0, 1, 0, 0.2)
+			TradeHighlightRecipientBottom:SetTexture(0, 1, 0, 0.2)
+			TradeHighlightRecipientMiddle:SetTexture(0, 1, 0, 0.2)
+			TradeHighlightRecipient:SetFrameStrata("HIGH")
+			TradeHighlightRecipient:Point("TOPLEFT", TradeFrame, "TOPLEFT", 192, -100)
+			
+			TradeHighlightRecipientEnchantTop:SetTexture(0, 1, 0, 0.2)
+			TradeHighlightRecipientEnchantBottom:SetTexture(0, 1, 0, 0.2)
+			TradeHighlightRecipientEnchantMiddle:SetTexture(0, 1, 0, 0.2)
+			TradeHighlightRecipientEnchant:SetFrameStrata("HIGH")			
+
+		end
 		--Gossip Frame
 		do
 
@@ -1700,6 +2008,7 @@ ElvuiSkin:SetScript("OnEvent", function(self, event, addon)
 				SkinCheckBox(_G["LFDQueueFrameSpecificListButton"..i.."EnableButton"])
 			end
 			
+			LFDQueueFrameCapBar:SetPoint("LEFT", 40, 0)
 			LFDQueueFrameRandom:HookScript("OnShow", function()
 				for i=1, LFD_MAX_REWARDS do
 					local button = _G["LFDQueueFrameRandomScrollFrameChildFrameItem"..i]
@@ -1761,6 +2070,10 @@ ElvuiSkin:SetScript("OnEvent", function(self, event, addon)
 		do
 			QuestFrame:StripTextures(true)
 			QuestFrameDetailPanel:StripTextures(true)
+			QuestDetailScrollFrame:StripTextures(true)
+			QuestDetailScrollChildFrame:StripTextures(true)
+			QuestRewardScrollFrame:StripTextures(true)
+			QuestRewardScrollChildFrame:StripTextures(true)
 			QuestFrameProgressPanel:StripTextures(true)
 			QuestFrameRewardPanel:StripTextures(true)
 			QuestFrame:CreateBackdrop("Transparent")
@@ -1779,12 +2092,13 @@ ElvuiSkin:SetScript("OnEvent", function(self, event, addon)
 				local texture = _G["QuestProgressItem"..i.."IconTexture"]
 				button:StripTextures()
 				button:StyleButton()
-				button:Width(_G["QuestInfoItem"..i]:GetWidth() - 4)
+				button:Width(_G["QuestProgressItem"..i]:GetWidth() - 4)
 				button:SetFrameLevel(button:GetFrameLevel() + 2)
 				texture:SetTexCoord(.08, .92, .08, .92)
 				texture:SetDrawLayer("OVERLAY")
 				texture:Point("TOPLEFT", 2, -2)
 				texture:Size(texture:GetWidth() - 2, texture:GetHeight() - 2)
+				_G["QuestProgressItem"..i.."Count"]:SetDrawLayer("OVERLAY")
 				button:SetTemplate("Default")				
 			end
 			
@@ -1883,7 +2197,7 @@ ElvuiSkin:SetScript("OnEvent", function(self, event, addon)
 				_G["QuestInfoItem"..i.."IconTexture"]:Point("TOPLEFT", 2, -2)
 				_G["QuestInfoItem"..i.."IconTexture"]:Size(_G["QuestInfoItem"..i.."IconTexture"]:GetWidth() - 2, _G["QuestInfoItem"..i.."IconTexture"]:GetHeight() - 2)
 				_G["QuestInfoItem"..i]:SetTemplate("Default")
-				
+				_G["QuestInfoItem"..i.."Count"]:SetDrawLayer("OVERLAY")
 			end
 			QuestInfoItemHighlight:StripTextures()
 			QuestInfoItemHighlight:SetTemplate("Default")
@@ -2366,11 +2680,19 @@ ElvuiSkin:SetScript("OnEvent", function(self, event, addon)
 						end
 					end	
 					
+					local r, g, b = _G["SpellButton"..i.."SpellName"]:GetTextColor()
+
+					if r < 0.8 then
+						_G["SpellButton"..i.."SpellName"]:SetTextColor(0.6, 0.6, 0.6)
+					end
 					_G["SpellButton"..i.."SubSpellName"]:SetTextColor(0.6, 0.6, 0.6)
+					_G["SpellButton"..i.."RequiredLevelString"]:SetTextColor(0.6, 0.6, 0.6)
 				end
 			end
 			SpellButtons(nil, true)
 			hooksecurefunc("SpellButton_UpdateButton", SpellButtons)
+			
+			SpellBookPageText:SetTextColor(0.6, 0.6, 0.6)
 			
 			--Skill Line Tabs
 			for i=1, MAX_SKILLLINE_TABS do
@@ -2410,6 +2732,20 @@ ElvuiSkin:SetScript("OnEvent", function(self, event, addon)
 				"SecondaryProfession4SpellButtonLeft",
 				"SecondaryProfession4SpellButtonRight",		
 			}
+			
+			local professionheaders = {
+				"PrimaryProfession1",
+				"PrimaryProfession2",
+				"SecondaryProfession1",
+				"SecondaryProfession2",
+				"SecondaryProfession3",
+				"SecondaryProfession4",
+			}
+			
+			for _, header in pairs(professionheaders) do
+				_G[header.."Missing"]:SetTextColor(1, 1, 0)
+				_G[header].missingText:SetTextColor(0.6, 0.6, 0.6)
+			end
 			
 			for _, button in pairs(professionbuttons) do
 				local icon = _G[button.."IconTexture"]
@@ -2479,6 +2815,8 @@ ElvuiSkin:SetScript("OnEvent", function(self, event, addon)
 			
 			SkinRotateButton(SpellBookCompanionModelFrameRotateRightButton)
 			SkinRotateButton(SpellBookCompanionModelFrameRotateLeftButton)
+			SpellBookCompanionModelFrameRotateRightButton:Point("TOPLEFT", SpellBookCompanionModelFrameRotateLeftButton, "TOPRIGHT", 3, 0)
+			
 			
 			--Bottom Tabs
 			for i=1, 5 do
@@ -2705,6 +3043,7 @@ ElvuiSkin:SetScript("OnEvent", function(self, event, addon)
 			--Reputation
 			local function UpdateFactionSkins()
 				ReputationListScrollFrame:StripTextures()
+				ReputationFrame:StripTextures(true)
 				for i=1, GetNumFactions() do
 					local statusbar = _G["ReputationBar"..i.."ReputationBar"]
 
@@ -2716,14 +3055,15 @@ ElvuiSkin:SetScript("OnEvent", function(self, event, addon)
 						end
 						
 						_G["ReputationBar"..i.."Background"]:SetTexture(nil)
-						_G["ReputationBar"..i.."LeftLine"]:SetTexture(nil)
-						_G["ReputationBar"..i.."BottomLine"]:SetTexture(nil)
+						_G["ReputationBar"..i.."LeftLine"]:Kill()
+						_G["ReputationBar"..i.."BottomLine"]:Kill()
 						_G["ReputationBar"..i.."ReputationBarHighlight1"]:SetTexture(nil)
 						_G["ReputationBar"..i.."ReputationBarHighlight2"]:SetTexture(nil)	
 						_G["ReputationBar"..i.."ReputationBarAtWarHighlight1"]:SetTexture(nil)
 						_G["ReputationBar"..i.."ReputationBarAtWarHighlight2"]:SetTexture(nil)
 						_G["ReputationBar"..i.."ReputationBarLeftTexture"]:SetTexture(nil)
 						_G["ReputationBar"..i.."ReputationBarRightTexture"]:SetTexture(nil)
+						
 					end		
 				end
 				ReputationDetailFrame:StripTextures()
