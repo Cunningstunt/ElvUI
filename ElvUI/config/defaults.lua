@@ -319,6 +319,7 @@ DB["others"] = {
 	["sellgrays"] = true,                  -- automaticly sell grays?
 	["autorepair"] = true,                 -- automaticly repair?
 	["guildbankrepair"] = true,						 -- use guildbank for auto repair (when available)
+	["questreward"] = true,								 -- Automatically select quest reward with highest vendor price
 	
 	["buffreminder"] = true,                     -- this is now the new innerfire warning script for all armor/aspect class.
 	["remindersound"] = true,                      -- enable warning sound notification for reminder.

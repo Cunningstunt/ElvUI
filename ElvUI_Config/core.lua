@@ -2835,6 +2835,12 @@ function ElvuiConfig.GenerateOptionsInternal()
 								name = L["All-In-One Bag"],
 								desc = L["Enable/Disable the All-In-One Bag, you must disable this if you wish to run another bag addon"],										
 							},						
+							questreward = {
+								type = "toggle",
+								order = 5,
+								name = L["Auto select quest reward"],
+								desc = L["Automatically select the highest vendor price quest reward item."],							
+							},
 						},
 					},
 					LootGroup = {
