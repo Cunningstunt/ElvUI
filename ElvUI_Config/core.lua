@@ -2137,6 +2137,13 @@ function ElvuiConfig.GenerateOptionsInternal()
 								desc = L["Display Mana Regen Rate"]..L["DATATEXT_POS"],
 								min = 0, max = 8, step = 1,									
 							},
+							calltoarms = {
+								order = 18,
+								type = "range",
+								name = L["Call to Arms"],
+								desc = L["Display the active roles that will recieve a reward for completing a random dungeon"]..L["DATATEXT_POS"],
+								min = 0, max = 8, step = 1,								
+							},
 						},
 					},
 				},
@@ -2524,6 +2531,11 @@ function ElvuiConfig.GenerateOptionsInternal()
 								type = "toggle",
 								name = L["Character Frame"],
 								desc = L["TOGGLESKIN_DESC"],								
+							},
+							lfr = {
+								type = "toggle",
+								name = L["LFR Frame"],
+								desc = L["TOGGLESKIN_DESC"],
 							},
 							misc = {
 								type = "toggle",

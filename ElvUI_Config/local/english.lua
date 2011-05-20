@@ -361,7 +361,9 @@ L["Data Texts"] = true
 		L["Display Critical Strike Rating"] = true
 	L["Mana Regen"] = true
 		L["Display Mana Regen Rate"] = true
-
+	L["Call to Arms"] = true
+		L["Display the active roles that will recieve a reward for completing a random dungeon"] = true
+	
 --chat
 L["Chat"] = true
 	L["CHAT_DESC"] = "Adjust chat settings"
@@ -448,6 +450,7 @@ L["Skins"] = true
 	L["Friends"] = true
 	L["Spellbook"] = true
 	L["Character Frame"] = true
+	L["LFR Frame"] = true
 	L["Misc Frames"] = true
 	
 	L["Blizzard Skins"] = true

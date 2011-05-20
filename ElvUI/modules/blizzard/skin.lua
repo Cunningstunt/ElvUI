@@ -11,11 +11,8 @@ if C["skin"].enable ~= true then return end
 	REMINDER TO SELF: NEED TO CHECK THAT THERE ARE NO RECURRING FRAMES!!!!!!!!!!!!!!
 
 	To do:
-	LFDRoleCheckPopup
-	LF Raid Frame (all subs)
 	(PTR) War Games tab of the PVP Frame
 	(PTR) Statusbar on the PVP Frame
-	(PTR) Boss Journal
 ]]
 
 local function SetModifiedBackdrop(self)
@@ -190,7 +187,13 @@ local function SkinCheckBox(frame)
 		frame:SetCheckedTexture("Interface\\Buttons\\UI-CheckBox-Check")
 	end
 	
-	frame:SetDisabledTexture("Interface\\Buttons\\UI-CheckBox-Check-Disabled")
+	if frame.SetDisabledTexture then
+		frame:SetDisabledTexture("Interface\\Buttons\\UI-CheckBox-Check-Disabled")
+	end
+	
+	frame.SetNormalTexture = E.dummy
+	frame.SetPushedTexture = E.dummy
+	frame.SetHighlightTexture = E.dummy
 end
 
 local function SkinCloseButton(f, point)
@@ -569,24 +572,41 @@ ElvuiSkin:SetScript("OnEvent", function(self, event, addon)
 		for i=1, 7 do
 			local frame = _G["AchievementFrameAchievementsContainerButton"..i]
 			_G["AchievementFrameAchievementsContainerButton"..i.."Highlight"]:Kill()
-			frame:StripTextures()
-						
-			frame:CreateBackdrop("Default", true)
-			frame.backdrop:Point("TOPLEFT", 2, -2)
-			frame.backdrop:Point("BOTTOMRIGHT", -2, 2)
+			frame:StripTextures(true)
 			frame.SetBackdropBorderColor = E.dummy
 
+			--Initiate fucked up method of creating a backdrop
+			frame.bg1 = frame:CreateTexture(nil, "BACKGROUND")
+			frame.bg1:SetDrawLayer("BACKGROUND", 4)
+			frame.bg1:SetTexture(C["media"].glossTex) --Default TukUI users this is normTex, glossTex doesn't exist
+			frame.bg1:SetVertexColor(unpack(C["media"].backdropcolor))
+			frame.bg1:Point("TOPLEFT", E.mult*4, -E.mult*4)
+			frame.bg1:Point("BOTTOMRIGHT", -E.mult*4, E.mult*4)				
+			
+			frame.bg2 = frame:CreateTexture(nil, "BACKGROUND")
+			frame.bg2:SetDrawLayer("BACKGROUND", 3)
+			frame.bg2:SetTexture(0,0,0)
+			frame.bg2:Point("TOPLEFT", E.mult*3, -E.mult*3)
+			frame.bg2:Point("BOTTOMRIGHT", -E.mult*3, E.mult*3)
+			
+			frame.bg3 = frame:CreateTexture(nil, "BACKGROUND")
+			frame.bg3:SetDrawLayer("BACKGROUND", 2)
+			frame.bg3:SetTexture(unpack(C["media"].bordercolor))
+			frame.bg3:Point("TOPLEFT", E.mult*2, -E.mult*2)
+			frame.bg3:Point("BOTTOMRIGHT", -E.mult*2, E.mult*2)			
+
+			frame.bg4 = frame:CreateTexture(nil, "BACKGROUND")
+			frame.bg4:SetDrawLayer("BACKGROUND", 1)
+			frame.bg4:SetTexture(0,0,0)
+			frame.bg4:Point("TOPLEFT", E.mult, -E.mult)
+			frame.bg4:Point("BOTTOMRIGHT", -E.mult, E.mult)					
+
+	
+			
 			_G["AchievementFrameAchievementsContainerButton"..i.."Description"]:SetTextColor(0.6, 0.6, 0.6)
 			_G["AchievementFrameAchievementsContainerButton"..i.."Description"].SetTextColor = E.dummy
 			_G["AchievementFrameAchievementsContainerButton"..i.."HiddenDescription"]:SetTextColor(1, 1, 1)
 			_G["AchievementFrameAchievementsContainerButton"..i.."HiddenDescription"].SetTextColor = E.dummy
-			
-			_G["AchievementFrameAchievementsContainerButton"..i.."HiddenDescription"]:SetParent(frame.backdrop)
-			_G["AchievementFrameAchievementsContainerButton"..i.."Description"]:SetParent(frame.backdrop)
-			_G["AchievementFrameAchievementsContainerButton"..i.."Icon"]:SetParent(frame.backdrop)
-			_G["AchievementFrameAchievementsContainerButton"..i.."Shield"]:SetParent(frame.backdrop)
-			_G["AchievementFrameAchievementsContainerButton"..i.."Label"]:SetParent(frame.backdrop)
-			_G["AchievementFrameAchievementsContainerButton"..i.."Reward"]:SetParent(frame.backdrop)
 			
 			_G["AchievementFrameAchievementsContainerButton"..i.."IconBling"]:Kill()
 			_G["AchievementFrameAchievementsContainerButton"..i.."IconOverlay"]:Kill()
@@ -599,7 +619,23 @@ ElvuiSkin:SetScript("OnEvent", function(self, event, addon)
 			_G["AchievementFrameAchievementsContainerButton"..i.."IconTexture"]:ClearAllPoints()
 			_G["AchievementFrameAchievementsContainerButton"..i.."IconTexture"]:Point("TOPLEFT", 2, -2)
 			_G["AchievementFrameAchievementsContainerButton"..i.."IconTexture"]:Point("BOTTOMRIGHT", -2, 2)		
+			
+			
+			_G["AchievementFrameAchievementsContainerButton"..i.."Tracked"].oborder = "Don't use sharp border" --Needed for ElvUI only
+			_G["AchievementFrameAchievementsContainerButton"..i.."Tracked"]:StripTextures()
+			_G["AchievementFrameAchievementsContainerButton"..i.."Tracked"]:SetTemplate("Default")
+			_G["AchievementFrameAchievementsContainerButton"..i.."Tracked"]:SetCheckedTexture("Interface\\Buttons\\UI-CheckBox-Check")
+			_G["AchievementFrameAchievementsContainerButton"..i.."Tracked"]:Size(12, 12)
+			_G["AchievementFrameAchievementsContainerButton"..i.."Tracked"]:GetCheckedTexture():Point("TOPLEFT", -4, 4)
+			_G["AchievementFrameAchievementsContainerButton"..i.."Tracked"]:GetCheckedTexture():Point("BOTTOMRIGHT", 4, -4)
+			
+			_G["AchievementFrameAchievementsContainerButton"..i.."Tracked"]:ClearAllPoints()
+			_G["AchievementFrameAchievementsContainerButton"..i.."Tracked"]:Point("BOTTOMLEFT", frame, "BOTTOMLEFT", 5, 5)
+			
+			_G["AchievementFrameAchievementsContainerButton"..i.."Tracked"].ClearAllPoints = E.dummy
+			_G["AchievementFrameAchievementsContainerButton"..i.."Tracked"].SetPoint = E.dummy
 		end
+
 		
 		local compares = {
 			"Player",
@@ -678,6 +714,8 @@ ElvuiSkin:SetScript("OnEvent", function(self, event, addon)
 					frame:SetStatusBarColor(4/255, 179/255, 30/255)
 					frame:SetFrameLevel(frame:GetFrameLevel() + 3)
 					
+					frame:Height(frame:GetHeight() - 2)
+					
 					--Initiate fucked up method of creating a backdrop
 					frame.bg1 = frame:CreateTexture(nil, "BACKGROUND")
 					frame.bg1:SetDrawLayer("BACKGROUND", -7)
@@ -698,8 +736,16 @@ ElvuiSkin:SetScript("OnEvent", function(self, event, addon)
 					frame.bg3:Point("BOTTOMRIGHT", E.mult, -E.mult)		
 					
 					frame.text:ClearAllPoints()
-					frame.text:SetPoint("CENTER", frame, "CENTER", 0, -2)
+					frame.text:SetPoint("CENTER", frame, "CENTER", 0, -1)
 					frame.text:SetJustifyH("CENTER")
+					
+					if index > 1 then
+						frame:ClearAllPoints()
+						frame:Point("TOP", _G["AchievementFrameProgressBar"..index-1], "BOTTOM", 0, -5)
+						frame.SetPoint = E.dummy
+						frame.ClearAllPoints = E.dummy
+					end
+					
 					frame.skinned = true
 				end
 
@@ -3307,7 +3353,7 @@ ElvuiSkin:SetScript("OnEvent", function(self, event, addon)
 			WorldMapFrame:HookScript("OnEvent", function(self, event)
 				if event == "PLAYER_LOGIN" then
 					if not GetCVarBool("miniWorldMap") then
-						ToggleFrame(WorldMapFrame)
+						ToggleFrame(WorldMapFrame)				
 						ToggleFrame(WorldMapFrame)
 					end
 				end
@@ -3401,7 +3447,74 @@ ElvuiSkin:SetScript("OnEvent", function(self, event, addon)
 			SkinCloseButton(TaxiFrameCloseButton)
 		end
 		
-		--LFD frame
+		--LFR frame
+		if C["skin"].lfr == true then
+			local buttons = {
+			  "LFRQueueFrameFindGroupButton",
+			  "LFRQueueFrameAcceptCommentButton",
+			  "LFRBrowseFrameSendMessageButton",
+			  "LFRBrowseFrameInviteButton",
+			  "LFRBrowseFrameRefreshButton",
+			}
+
+			LFRParentFrame:StripTextures()
+			LFRParentFrame:SetTemplate("Transparent")
+			LFRQueueFrame:StripTextures()
+			LFRBrowseFrame:StripTextures()
+
+
+			for i=1, #buttons do
+			  SkinButton(_G[buttons[i]])
+			end
+
+			--Close button doesn't have a fucking name, extreme hackage
+			for i=1, LFRParentFrame:GetNumChildren() do
+			  local child = select(i, LFRParentFrame:GetChildren())
+			  if child.GetPushedTexture and child:GetPushedTexture() and not child:GetName() then
+				SkinCloseButton(child)
+			  end
+			end
+
+			SkinTab(LFRParentFrameTab1)
+			SkinTab(LFRParentFrameTab2)
+
+			SkinDropDownBox(LFRBrowseFrameRaidDropDown)
+
+			for i=1, 20 do
+			  local button = _G["LFRQueueFrameSpecificListButton"..i.."ExpandOrCollapseButton"]
+
+			  if button then
+				button:HookScript("OnClick", function()
+				  SkinCloseButton(button)
+				end)
+				SkinCloseButton(button)
+			  end
+			end
+
+			LFRQueueFrameCommentTextButton:CreateBackdrop("Default")
+			LFRQueueFrameCommentTextButton:Height(35)
+
+			for i=1, 7 do
+				local button = "LFRBrowseFrameColumnHeader"..i
+				_G[button.."Left"]:Kill()
+				_G[button.."Middle"]:Kill()
+				_G[button.."Right"]:Kill()
+			end		
+			
+			for i=1, NUM_LFR_CHOICE_BUTTONS do
+				local button = _G["LFRQueueFrameSpecificListButton"..i]
+				SkinCheckBox(button.enableButton)
+			end
+			
+			--DPS, Healer, Tank check button's don't have a name, use it's parent as a referance.
+			SkinCheckBox(LFRQueueFrameRoleButtonTank:GetChildren())
+			SkinCheckBox(LFRQueueFrameRoleButtonHealer:GetChildren())
+			SkinCheckBox(LFRQueueFrameRoleButtonDPS:GetChildren())
+			LFRQueueFrameRoleButtonTank:GetChildren():SetFrameLevel(LFRQueueFrameRoleButtonTank:GetChildren():GetFrameLevel() + 2)
+			LFRQueueFrameRoleButtonHealer:GetChildren():SetFrameLevel(LFRQueueFrameRoleButtonHealer:GetChildren():GetFrameLevel() + 2)
+			LFRQueueFrameRoleButtonDPS:GetChildren():SetFrameLevel(LFRQueueFrameRoleButtonDPS:GetChildren():GetFrameLevel() + 2)
+		end
+		
 		if C["skin"].lfd == true then
 			local StripAllTextures = {
 				"LFDParentFrame",
@@ -4145,7 +4258,15 @@ ElvuiSkin:SetScript("OnEvent", function(self, event, addon)
 					local icon = _G["SpellButton"..i.."IconTexture"]
 					
 					if first then
-						button:StripTextures()
+						--button:StripTextures()
+						for i=1, button:GetNumRegions() do
+							local region = select(i, button:GetRegions())
+							if region:GetObjectType() == "Texture" then
+								if region:GetTexture() ~= "Interface\\Buttons\\ActionBarFlyoutButton" then
+									region:SetTexture(nil)
+								end
+							end
+						end
 					end
 					
 					if _G["SpellButton"..i.."Highlight"] then
@@ -4643,6 +4764,18 @@ ElvuiSkin:SetScript("OnEvent", function(self, event, addon)
 					_G[ChatMenus[i]]:HookScript("OnShow", function(self) self:SetTemplate("Default", true) self:SetBackdropColor(unpack(C["media"].backdropfadecolor)) end)
 				end
 			end
+			
+			--LFD Role Picker frame
+			LFDRoleCheckPopup:StripTextures()
+			LFDRoleCheckPopup:SetTemplate("Transparent")
+			SkinButton(LFDRoleCheckPopupAcceptButton)
+			SkinButton(LFDRoleCheckPopupDeclineButton)
+			SkinCheckBox(LFDRoleCheckPopupRoleButtonTank:GetChildren())
+			SkinCheckBox(LFDRoleCheckPopupRoleButtonDPS:GetChildren())
+			SkinCheckBox(LFDRoleCheckPopupRoleButtonHealer:GetChildren())
+			LFDRoleCheckPopupRoleButtonTank:GetChildren():SetFrameLevel(LFDRoleCheckPopupRoleButtonTank:GetChildren():GetFrameLevel() + 1)
+			LFDRoleCheckPopupRoleButtonDPS:GetChildren():SetFrameLevel(LFDRoleCheckPopupRoleButtonDPS:GetChildren():GetFrameLevel() + 1)
+			LFDRoleCheckPopupRoleButtonHealer:GetChildren():SetFrameLevel(LFDRoleCheckPopupRoleButtonHealer:GetChildren():GetFrameLevel() + 1)
 			
 			-- reskin popup buttons
 			for i = 1, 2 do
