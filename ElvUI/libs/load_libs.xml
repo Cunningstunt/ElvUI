@@ -4,4 +4,5 @@
 	<Include file="LibSharedMedia-3.0\lib.xml"/>
 	<Script file="LibMapData-1.0\library.lua"/>
 	<Include file="LibRangeCheck-2.0\LibRangeCheck-2.0.lua"/>
+	<Include file="LibQuestItem-1.0\lib.xml"/>
 </Ui>

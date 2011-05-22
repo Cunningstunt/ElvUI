@@ -28,8 +28,8 @@ local function SelectQuestRewardItem()
 	for index = 1, num do
 		local link = GetQuestItemLink("choice", index);
 		if (link) then
-			local _, _, _, _, _, _, _, _, _, _, vsp = GetItemInfo(link);
-			if vsp > price then
+			local vsp = select(11, GetItemInfo(link))
+			if vsp and vsp > price then
 				price = vsp
 				choice = index
 			end
