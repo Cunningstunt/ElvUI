@@ -45,6 +45,8 @@ Create Tagfile=0
 33=modules - unitframes - layouts
 34=modules - unitframes - plugins
 35=modules - unitframes - templates
+36=libs - LibQuestItem_1.0
+37=libs - Unfit_1.0
 [Files - config]
 0=config\autodisable.lua
 1=config\configui.lua
@@ -170,6 +172,8 @@ Create Tagfile=0
 14=modules\misc\announce.lua
 15=modules\misc\damage.lua
 16=modules\misc\threat.lua
+17=modules\misc\reward.lua
+18=modules\misc\scrapbot.lua
 [Files - modules - nameplates]
 0=modules\nameplates\load_nameplates.xml
 1=modules\nameplates\nameplates.lua
@@ -267,3 +271,9 @@ Create Tagfile=0
 1=modules\unitframes\templates\load_templates.xml
 2=modules\unitframes\templates\maintanktargets.xml
 3=modules\unitframes\templates\partytargets.xml
+[Files - libs - LibQuestItem_1.0]
+0=libs\LibQuestItem-1.0\lib.xml
+1=libs\LibQuestItem-1.0\LibQuestItem-1.0.lua
+[Files - libs - Unfit_1.0]
+0=libs\Unfit-1.0\lib.xml
+1=libs\Unfit-1.0\Unfit-1.0.lua
