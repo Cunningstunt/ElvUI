@@ -6,15 +6,6 @@ local FONTFLAG = "THINOUTLINE"
 
 if C["skin"].enable ~= true then return end
 
---[[
-	
-	REMINDER TO SELF: NEED TO CHECK THAT THERE ARE NO RECURRING FRAMES!!!!!!!!!!!!!!
-
-	To do:
-	(PTR) War Games tab of the PVP Frame
-	(PTR) Statusbar on the PVP Frame
-]]
-
 local function SetModifiedBackdrop(self)
 	if C["general"].classcolortheme == true then
 		self:SetBackdropBorderColor(unpack(C["media"].bordercolor))		
@@ -112,7 +103,10 @@ local function SkinNextPrevButton(btn, horizonal)
 		btn:GetDisabledTexture():SetTexCoord(0.3, 0.29, 0.3, 0.75, 0.65, 0.29, 0.65, 0.75)	
 	else
 		btn:GetNormalTexture():SetTexCoord(0.3, 0.29, 0.3, 0.81, 0.65, 0.29, 0.65, 0.81)
-		btn:GetPushedTexture():SetTexCoord(0.3, 0.35, 0.3, 0.81, 0.65, 0.35, 0.65, 0.81)
+		
+		if btn:GetPushedTexture() then
+			btn:GetPushedTexture():SetTexCoord(0.3, 0.35, 0.3, 0.81, 0.65, 0.35, 0.65, 0.81)
+		end
 		if btn:GetDisabledTexture() then
 			btn:GetDisabledTexture():SetTexCoord(0.3, 0.29, 0.3, 0.75, 0.65, 0.29, 0.65, 0.75)
 		end
@@ -121,8 +115,14 @@ local function SkinNextPrevButton(btn, horizonal)
 	btn:GetNormalTexture():ClearAllPoints()
 	btn:GetNormalTexture():Point("TOPLEFT", 2, -2)
 	btn:GetNormalTexture():Point("BOTTOMRIGHT", -2, 2)
-	btn:GetDisabledTexture():SetAllPoints(btn:GetNormalTexture())
-	btn:GetPushedTexture():SetAllPoints(btn:GetNormalTexture())
+	if btn:GetDisabledTexture() then
+		btn:GetDisabledTexture():SetAllPoints(btn:GetNormalTexture())
+	end
+	
+	if btn:GetPushedTexture() then
+		btn:GetPushedTexture():SetAllPoints(btn:GetNormalTexture())
+	end
+	
 	btn:GetHighlightTexture():SetTexture(1, 1, 1, 0.3)
 	btn:GetHighlightTexture():SetAllPoints(btn:GetNormalTexture())
 end
@@ -217,6 +217,55 @@ local ElvuiSkin = CreateFrame("Frame")
 ElvuiSkin:RegisterEvent("ADDON_LOADED")
 ElvuiSkin:SetScript("OnEvent", function(self, event, addon)
 	if IsAddOnLoaded("Skinner") or IsAddOnLoaded("Aurora") then return end
+
+	if addon == "Blizzard_TimeManager" and C["skin"].timemanager == true then
+		TimeManagerFrame:StripTextures()
+		TimeManagerFrame:SetTemplate("Transparent")
+
+		SkinCloseButton(TimeManagerCloseButton)
+
+		SkinDropDownBox(TimeManagerAlarmHourDropDown, 80)
+		SkinDropDownBox(TimeManagerAlarmMinuteDropDown, 80)
+		SkinDropDownBox(TimeManagerAlarmAMPMDropDown, 80)
+		
+		SkinEditBox(TimeManagerAlarmMessageEditBox)
+		
+		SkinButton(TimeManagerAlarmEnabledButton, true)
+		TimeManagerAlarmEnabledButton:HookScript("OnClick", function(self)
+			SkinButton(self)
+		end)
+
+		TimeManagerFrame:HookScript("OnShow", function(self)
+			SkinButton(TimeManagerAlarmEnabledButton)
+		end)		
+		
+		SkinCheckBox(TimeManagerMilitaryTimeCheck)
+		SkinCheckBox(TimeManagerLocalTimeCheck)
+		
+		TimeManagerStopwatchFrame:StripTextures()
+		TimeManagerStopwatchCheck:SetTemplate("Default")
+		TimeManagerStopwatchCheck:GetNormalTexture():SetTexCoord(.08, .92, .08, .92)
+		TimeManagerStopwatchCheck:GetNormalTexture():ClearAllPoints()
+		TimeManagerStopwatchCheck:GetNormalTexture():Point("TOPLEFT", 2, -2)
+		TimeManagerStopwatchCheck:GetNormalTexture():Point("BOTTOMRIGHT", -2, 2)
+		local hover = TimeManagerStopwatchCheck:CreateTexture("frame", nil, TimeManagerStopwatchCheck) -- hover
+		hover:SetTexture(1,1,1,0.3)
+		hover:Point("TOPLEFT",TimeManagerStopwatchCheck,2,-2)
+		hover:Point("BOTTOMRIGHT",TimeManagerStopwatchCheck,-2,2)
+		TimeManagerStopwatchCheck:SetHighlightTexture(hover)
+		
+		StopwatchFrame:StripTextures()
+		StopwatchFrame:CreateBackdrop("Transparent")
+		StopwatchFrame.backdrop:Point("TOPLEFT", 0, -17)
+		StopwatchFrame.backdrop:Point("BOTTOMRIGHT", 0, 2)
+		
+		StopwatchTabFrame:StripTextures()
+		SkinCloseButton(StopwatchCloseButton)
+		SkinNextPrevButton(StopwatchPlayPauseButton)
+		SkinNextPrevButton(StopwatchResetButton)
+		StopwatchPlayPauseButton:Point("RIGHT", StopwatchResetButton, "LEFT", -4, 0)
+		StopwatchResetButton:Point("BOTTOMRIGHT", StopwatchFrame, "BOTTOMRIGHT", -4, 6)
+	end
 	
 	if addon == "Blizzard_ReforgingUI" and C["skin"].reforge == true then
 		ReforgingFrame:StripTextures()
@@ -410,7 +459,8 @@ ElvuiSkin:SetScript("OnEvent", function(self, event, addon)
 		CalendarViewEventInviteList:SetTemplate("Transparent")
 		CalendarViewEventInviteListSection:StripTextures()
 		SkinCloseButton(CalendarViewEventCloseButton)
-
+		SkinScrollBar(CalendarViewEventInviteListScrollFrameScrollBar)
+		
 		local buttons = {
 		    "CalendarViewEventAcceptButton",
 		    "CalendarViewEventTentativeButton",
@@ -649,28 +699,44 @@ ElvuiSkin:SetScript("OnEvent", function(self, event, addon)
 				_G[frame]:StripTextures()
 				_G[frame.."Background"]:Kill()
 				
-				_G[frame]:CreateBackdrop("Default", true)
-				_G[frame].backdrop:Point("TOPLEFT", 2, -2)
-				_G[frame].backdrop:Point("BOTTOMRIGHT", -2, 2)
 				_G[frame].SetBackdropBorderColor = E.dummy		
 				
 				if _G[frame.."Description"] then
 					_G[frame.."Description"]:SetTextColor(0.6, 0.6, 0.6)
 					_G[frame.."Description"].SetTextColor = E.dummy
-					_G[frame.."Description"]:SetParent(_G[frame].backdrop)
 				end
+
+				--Initiate fucked up method of creating a backdrop
+				_G[frame].bg1 = _G[frame]:CreateTexture(nil, "BACKGROUND")
+				_G[frame].bg1:SetDrawLayer("BACKGROUND", 4)
+				_G[frame].bg1:SetTexture(C["media"].glossTex) --Default TukUI users this is normTex, glossTex doesn't exist
+				_G[frame].bg1:SetVertexColor(unpack(C["media"].backdropcolor))
+				_G[frame].bg1:Point("TOPLEFT", E.mult*4, -E.mult*4)
+				_G[frame].bg1:Point("BOTTOMRIGHT", -E.mult*4, E.mult*4)				
 				
-				_G[frame.."Icon"]:SetParent(_G[frame].backdrop)
-				_G[frame.."Shield"]:SetParent(_G[frame].backdrop)
+				_G[frame].bg2 = _G[frame]:CreateTexture(nil, "BACKGROUND")
+				_G[frame].bg2:SetDrawLayer("BACKGROUND", 3)
+				_G[frame].bg2:SetTexture(0,0,0)
+				_G[frame].bg2:Point("TOPLEFT", E.mult*3, -E.mult*3)
+				_G[frame].bg2:Point("BOTTOMRIGHT", -E.mult*3, E.mult*3)
+				
+				_G[frame].bg3 = _G[frame]:CreateTexture(nil, "BACKGROUND")
+				_G[frame].bg3:SetDrawLayer("BACKGROUND", 2)
+				_G[frame].bg3:SetTexture(unpack(C["media"].bordercolor))
+				_G[frame].bg3:Point("TOPLEFT", E.mult*2, -E.mult*2)
+				_G[frame].bg3:Point("BOTTOMRIGHT", -E.mult*2, E.mult*2)			
+
+				_G[frame].bg4 = _G[frame]:CreateTexture(nil, "BACKGROUND")
+				_G[frame].bg4:SetDrawLayer("BACKGROUND", 1)
+				_G[frame].bg4:SetTexture(0,0,0)
+				_G[frame].bg4:Point("TOPLEFT", E.mult, -E.mult)
+				_G[frame].bg4:Point("BOTTOMRIGHT", -E.mult, E.mult)	
+				
 				
 				if compare == "Friend" then
-					_G[frame.."Shield"]:Point("TOPRIGHT", _G["AchievementFrameComparisonContainerButton"..i.."Friend"], "TOPRIGHT", -20, -9)
+					_G[frame.."Shield"]:Point("TOPRIGHT", _G["AchievementFrameComparisonContainerButton"..i.."Friend"], "TOPRIGHT", -20, -3)
 				end
-				
-				if _G[frame.."Label"] then
-					_G[frame.."Label"]:SetParent(_G[frame].backdrop)
-				end
-				
+								
 				_G[frame.."IconBling"]:Kill()
 				_G[frame.."IconOverlay"]:Kill()
 				_G[frame.."Icon"]:SetTemplate("Default")
@@ -825,11 +891,11 @@ ElvuiSkin:SetScript("OnEvent", function(self, event, addon)
 		LookingForGuildCommentInputFrame:StripTextures(false)
 		
 		-- skin container buttons on browse and request page
-		for i = 1, 4 do
+		for i = 1, 5 do
 			local b = _G["LookingForGuildBrowseFrameContainerButton"..i]
 			local t = _G["LookingForGuildAppsFrameContainerButton"..i]
-			SkinButton(b, true)
-			SkinButton(t, true)
+			b:SetBackdrop(nil)
+			t:SetBackdrop(nil)
 		end
 		
 		-- skin tabs
@@ -837,6 +903,12 @@ ElvuiSkin:SetScript("OnEvent", function(self, event, addon)
 			SkinTab(_G["LookingForGuildFrameTab"..i])
 		end
 		
+		GuildFinderRequestMembershipFrame:StripTextures(true)
+		GuildFinderRequestMembershipFrame:SetTemplate("Transparent")
+		SkinButton(GuildFinderRequestMembershipFrameAcceptButton)
+		SkinButton(GuildFinderRequestMembershipFrameCancelButton)
+		GuildFinderRequestMembershipFrameInputFrame:StripTextures()
+		GuildFinderRequestMembershipFrameInputFrame:SetTemplate("Default")
 	end	
 	
 	--Inspect Frame
@@ -1659,6 +1731,7 @@ ElvuiSkin:SetScript("OnEvent", function(self, event, addon)
 			"PlayerTalentFramePanel2SummaryRoleIcon",
 			"PlayerTalentFramePanel3SummaryRoleIcon",
 			"PlayerTalentFramePetShadowOverlay",
+			"PlayerTalentFrameHeaderHelpBox",
 		}
 
 		for _, texture in pairs(KillTextures) do
@@ -1779,7 +1852,7 @@ ElvuiSkin:SetScript("OnEvent", function(self, event, addon)
 		PlayerSpecTab1.SetPoint = E.dummy
 		
 		local function TalentSummaryClean(i)
-			frame = _G["PlayerTalentFramePanel"..i.."Summary"]
+			local frame = _G["PlayerTalentFramePanel"..i.."Summary"]
 			frame:SetFrameLevel(frame:GetFrameLevel() + 2)
 			frame:CreateBackdrop("Default")
 			frame:SetFrameLevel(frame:GetFrameLevel() +1)
@@ -1788,6 +1861,8 @@ ElvuiSkin:SetScript("OnEvent", function(self, event, addon)
 			b:Hide()
 			d:Hide()
 			m:Hide()
+			
+			_G["PlayerTalentFramePanel"..i.."SummaryIcon"]:SetTexCoord(.08, .92, .08, .92)
 		end
 
 		local function TalentHeaderIcon(self, first, i)
@@ -2658,7 +2733,52 @@ ElvuiSkin:SetScript("OnEvent", function(self, event, addon)
 					end
 				end
 			end
-			hooksecurefunc("AchievementAlertFrame_FixAnchors", SkinAchievePopUp)		
+			hooksecurefunc("AchievementAlertFrame_FixAnchors", SkinAchievePopUp)
+			
+			function SkinDungeonPopUP()
+				for i = 1, DUNGEON_COMPLETION_MAX_REWARDS do
+					local frame = _G["DungeonCompletionAlertFrame"..i]
+					if frame then
+						frame:SetAlpha(1)
+						frame.SetAlpha = E.dummy
+						if not frame.backdrop then
+							frame:CreateBackdrop("Default")
+							frame.backdrop:Point("TOPLEFT", frame, "TOPLEFT", -2, -6)
+							frame.backdrop:Point("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -2, 6)		
+						end
+						
+						-- Background
+						for i=1, frame:GetNumRegions() do
+							local region = select(i, frame:GetRegions())
+							if region:GetObjectType() == "Texture" then
+								if region:GetTexture() == "Interface\\LFGFrame\\UI-LFG-DUNGEONTOAST" then
+									region:Kill()
+								end
+							end
+						end
+						
+						_G["DungeonCompletionAlertFrame"..i.."Shine"]:Kill()
+						_G["DungeonCompletionAlertFrame"..i.."GlowFrame"]:Kill()
+						_G["DungeonCompletionAlertFrame"..i.."GlowFrame"].glow:Kill()
+						
+						-- Icon
+						_G["DungeonCompletionAlertFrame"..i.."DungeonTexture"]:SetTexCoord(0.08, 0.92, 0.08, 0.92)
+						
+						_G["DungeonCompletionAlertFrame"..i.."DungeonTexture"]:ClearAllPoints()
+						_G["DungeonCompletionAlertFrame"..i.."DungeonTexture"]:Point("LEFT", frame, 7, 0)
+						
+						if not _G["DungeonCompletionAlertFrame"..i.."DungeonTexture"].b then
+							_G["DungeonCompletionAlertFrame"..i.."DungeonTexture"].b = CreateFrame("Frame", nil, _G["DungeonCompletionAlertFrame"..i])
+							_G["DungeonCompletionAlertFrame"..i.."DungeonTexture"].b:SetFrameLevel(0)
+							_G["DungeonCompletionAlertFrame"..i.."DungeonTexture"].b:SetTemplate("Default")
+							_G["DungeonCompletionAlertFrame"..i.."DungeonTexture"].b:Point("TOPLEFT", _G["DungeonCompletionAlertFrame"..i.."DungeonTexture"], "TOPLEFT", -2, 2)
+							_G["DungeonCompletionAlertFrame"..i.."DungeonTexture"].b:Point("BOTTOMRIGHT", _G["DungeonCompletionAlertFrame"..i.."DungeonTexture"], "BOTTOMRIGHT", 2, -2)
+						end
+					end
+				end				
+			end
+			
+			hooksecurefunc("DungeonCompletionAlertFrame_FixAnchors", SkinDungeonPopUP)
 		end
 		
 		-- bg score frame
@@ -3271,7 +3391,30 @@ ElvuiSkin:SetScript("OnEvent", function(self, event, addon)
 		if E.IsPTRVersion() then
 			do
 				EncounterJournal:StripTextures(true)
-				EncounterJournal:SetTemplate("Transparent")
+				
+				EncounterJournal.backdrop = EncounterJournal:CreateTexture(nil, "BACKGROUND")
+				EncounterJournal.backdrop:SetDrawLayer("BACKGROUND", -7)
+				EncounterJournal.backdrop:SetTexture(0, 0, 0)
+				EncounterJournal.backdrop:Point("TOPLEFT", EncounterJournal, "TOPLEFT", -E.mult*3, E.mult*3)
+				EncounterJournal.backdrop:Point("BOTTOMRIGHT", EncounterJournal, "BOTTOMRIGHT", E.mult*3, -E.mult*3)
+				
+				EncounterJournal.backdrop2 = EncounterJournal:CreateTexture(nil, "BACKGROUND")
+				EncounterJournal.backdrop2:SetDrawLayer("BACKGROUND", -6)
+				EncounterJournal.backdrop2:SetTexture(unpack(C["media"].bordercolor))
+				EncounterJournal.backdrop2:Point("TOPLEFT", EncounterJournal, "TOPLEFT", -E.mult*2, E.mult*2)
+				EncounterJournal.backdrop2:Point("BOTTOMRIGHT", EncounterJournal, "BOTTOMRIGHT", E.mult*2, -E.mult*2)						
+
+				EncounterJournal.backdrop3 = EncounterJournal:CreateTexture(nil, "BACKGROUND")
+				EncounterJournal.backdrop3:SetDrawLayer("BACKGROUND", -5)
+				EncounterJournal.backdrop3:SetTexture(0, 0, 0)
+				EncounterJournal.backdrop3:Point("TOPLEFT", EncounterJournal, "TOPLEFT", -E.mult, E.mult)
+				EncounterJournal.backdrop3:Point("BOTTOMRIGHT", EncounterJournal, "BOTTOMRIGHT", E.mult, -E.mult)					
+
+				EncounterJournal.backdrop4 = EncounterJournal:CreateTexture(nil, "BACKGROUND")
+				EncounterJournal.backdrop4:SetDrawLayer("BACKGROUND", -4)
+				EncounterJournal.backdrop4:SetTexture(unpack(C["media"].backdropcolor))
+				EncounterJournal.backdrop4:SetAllPoints()						
+				
 				EncounterJournalNavBar:StripTextures(true)
 				EncounterJournalNavBarOverlay:StripTextures(true)
 				
@@ -3284,14 +3427,69 @@ ElvuiSkin:SetScript("OnEvent", function(self, event, addon)
 				SkinCloseButton(EncounterJournalCloseButton)
 				
 				EncounterJournalInset:StripTextures(true)
-				EncounterJournalInset:CreateBackdrop("Default")
-				EncounterJournalInset.backdrop:Point("TOPLEFT", 0, -2)
-				EncounterJournalInset.backdrop:Point("BOTTOMRIGHT", -2, 0)
-				EncounterJournalInset.backdrop:SetFrameLevel(EncounterJournalInset.backdrop:GetFrameLevel() + 1)
-				
-				EncounterJournalInstanceSelect:SetFrameLevel(EncounterJournalInstanceSelect:GetFrameLevel() + 1)
+				EncounterJournal:HookScript("OnShow", function()
+					if not EncounterJournalInstanceSelect.backdrop then						
+						EncounterJournalInstanceSelect.backdrop = EncounterJournalInstanceSelect:CreateTexture(nil, "BACKGROUND")
+						EncounterJournalInstanceSelect.backdrop:SetDrawLayer("BACKGROUND", -3)
+						EncounterJournalInstanceSelect.backdrop:SetTexture(0, 0, 0)
+						EncounterJournalInstanceSelect.backdrop:Point("TOPLEFT", EncounterJournalInstanceSelect.bg, "TOPLEFT", -E.mult*3, E.mult*3)
+						EncounterJournalInstanceSelect.backdrop:Point("BOTTOMRIGHT", EncounterJournalInstanceSelect.bg, "BOTTOMRIGHT", E.mult*3, -E.mult*3)
+						
+						EncounterJournalInstanceSelect.backdrop2 = EncounterJournalInstanceSelect:CreateTexture(nil, "BACKGROUND")
+						EncounterJournalInstanceSelect.backdrop2:SetDrawLayer("BACKGROUND", -2)
+						EncounterJournalInstanceSelect.backdrop2:SetTexture(unpack(C["media"].bordercolor))
+						EncounterJournalInstanceSelect.backdrop2:Point("TOPLEFT", EncounterJournalInstanceSelect.bg, "TOPLEFT", -E.mult*2, E.mult*2)
+						EncounterJournalInstanceSelect.backdrop2:Point("BOTTOMRIGHT", EncounterJournalInstanceSelect.bg, "BOTTOMRIGHT", E.mult*2, -E.mult*2)						
+
+						EncounterJournalInstanceSelect.backdrop3 = EncounterJournalInstanceSelect:CreateTexture(nil, "BACKGROUND")
+						EncounterJournalInstanceSelect.backdrop3:SetDrawLayer("BACKGROUND", -1)
+						EncounterJournalInstanceSelect.backdrop3:SetTexture(0, 0, 0)
+						EncounterJournalInstanceSelect.backdrop3:Point("TOPLEFT", EncounterJournalInstanceSelect.bg, "TOPLEFT", -E.mult, E.mult)
+						EncounterJournalInstanceSelect.backdrop3:Point("BOTTOMRIGHT", EncounterJournalInstanceSelect.bg, "BOTTOMRIGHT", E.mult, -E.mult)								
+					end
+					
+					if not EncounterJournalEncounterFrameInfo.backdrop then						
+						EncounterJournalEncounterFrameInfo.backdrop = EncounterJournalEncounterFrameInfo:CreateTexture(nil, "BACKGROUND")
+						EncounterJournalEncounterFrameInfo.backdrop:SetDrawLayer("BACKGROUND", -3)
+						EncounterJournalEncounterFrameInfo.backdrop:SetTexture(0, 0, 0)
+						EncounterJournalEncounterFrameInfo.backdrop:Point("TOPLEFT", EncounterJournalEncounterFrameInfoBG, "TOPLEFT", -E.mult*3, E.mult*3)
+						EncounterJournalEncounterFrameInfo.backdrop:Point("BOTTOMRIGHT", EncounterJournalEncounterFrameInfoBG, "BOTTOMRIGHT", E.mult*3, -E.mult*3)
+						
+						EncounterJournalEncounterFrameInfo.backdrop2 = EncounterJournalEncounterFrameInfo:CreateTexture(nil, "BACKGROUND")
+						EncounterJournalEncounterFrameInfo.backdrop2:SetDrawLayer("BACKGROUND", -2)
+						EncounterJournalEncounterFrameInfo.backdrop2:SetTexture(unpack(C["media"].bordercolor))
+						EncounterJournalEncounterFrameInfo.backdrop2:Point("TOPLEFT", EncounterJournalEncounterFrameInfoBG, "TOPLEFT", -E.mult*2, E.mult*2)
+						EncounterJournalEncounterFrameInfo.backdrop2:Point("BOTTOMRIGHT", EncounterJournalEncounterFrameInfoBG, "BOTTOMRIGHT", E.mult*2, -E.mult*2)						
+
+						EncounterJournalEncounterFrameInfo.backdrop3 = EncounterJournalEncounterFrameInfo:CreateTexture(nil, "BACKGROUND")
+						EncounterJournalEncounterFrameInfo.backdrop3:SetDrawLayer("BACKGROUND", -1)
+						EncounterJournalEncounterFrameInfo.backdrop3:SetTexture(0, 0, 0)
+						EncounterJournalEncounterFrameInfo.backdrop3:Point("TOPLEFT", EncounterJournalEncounterFrameInfoBG, "TOPLEFT", -E.mult, E.mult)
+						EncounterJournalEncounterFrameInfo.backdrop3:Point("BOTTOMRIGHT", EncounterJournalEncounterFrameInfoBG, "BOTTOMRIGHT", E.mult, -E.mult)								
+					end	
+					EncounterJournalEncounterFrameInfoBossTab:ClearAllPoints()
+					EncounterJournalEncounterFrameInfoBossTab:Point("LEFT", EncounterJournalEncounterFrameInfoEncounterTile, "RIGHT", -10, 4)
+					EncounterJournalEncounterFrameInfoLootTab:ClearAllPoints()
+					EncounterJournalEncounterFrameInfoLootTab:Point("LEFT", EncounterJournalEncounterFrameInfoBossTab, "RIGHT", -24, 0)
+					
+					EncounterJournalEncounterFrameInfoBossTab:SetFrameStrata("HIGH")
+					EncounterJournalEncounterFrameInfoLootTab:SetFrameStrata("HIGH")
+					
+					EncounterJournalEncounterFrameInfoBossTab:SetScale(0.75)
+					EncounterJournalEncounterFrameInfoLootTab:SetScale(0.75)
+				end)
 				
 				SkinScrollBar(EncounterJournalInstanceSelectScrollFrameScrollBar)
+
+				EncounterJournalEncounterFrameInfoBossTab:GetNormalTexture():SetTexture(nil)
+				EncounterJournalEncounterFrameInfoBossTab:GetPushedTexture():SetTexture(nil)
+				EncounterJournalEncounterFrameInfoBossTab:GetDisabledTexture():SetTexture(nil)
+				EncounterJournalEncounterFrameInfoBossTab:GetHighlightTexture():SetTexture(nil)
+
+				EncounterJournalEncounterFrameInfoLootTab:GetNormalTexture():SetTexture(nil)
+				EncounterJournalEncounterFrameInfoLootTab:GetPushedTexture():SetTexture(nil)
+				EncounterJournalEncounterFrameInfoLootTab:GetDisabledTexture():SetTexture(nil)
+				EncounterJournalEncounterFrameInfoLootTab:GetHighlightTexture():SetTexture(nil)		
 			end
 		end
 		
@@ -3391,6 +3589,7 @@ ElvuiSkin:SetScript("OnEvent", function(self, event, addon)
 				if not InCombatLockdown() then
 					WorldMapFrame:SetScale(1)
 					WorldMapFrameSizeDownButton:Show()
+					WorldMapFrame:SetFrameLevel(10)
 				else
 					WorldMapFrameSizeDownButton:Disable()
 					WorldMapFrameSizeUpButton:Disable()
@@ -3578,6 +3777,8 @@ ElvuiSkin:SetScript("OnEvent", function(self, event, addon)
 			LFRQueueFrameRoleButtonTank:GetChildren():SetFrameLevel(LFRQueueFrameRoleButtonTank:GetChildren():GetFrameLevel() + 2)
 			LFRQueueFrameRoleButtonHealer:GetChildren():SetFrameLevel(LFRQueueFrameRoleButtonHealer:GetChildren():GetFrameLevel() + 2)
 			LFRQueueFrameRoleButtonDPS:GetChildren():SetFrameLevel(LFRQueueFrameRoleButtonDPS:GetChildren():GetFrameLevel() + 2)
+			
+			LFRQueueFrameSpecificListScrollFrame:StripTextures()
 		end
 		
 		if C["skin"].lfd == true then
@@ -3603,6 +3804,8 @@ ElvuiSkin:SetScript("OnEvent", function(self, event, addon)
 			local buttons = {
 				"LFDQueueFrameFindGroupButton",
 				"LFDQueueFrameCancelButton",
+				"LFDQueueFramePartyBackfillBackfillButton",
+				"LFDQueueFramePartyBackfillNoBackfillButton",
 			}
 			
 			local checkButtons = {
@@ -3903,7 +4106,15 @@ ElvuiSkin:SetScript("OnEvent", function(self, event, addon)
 						QuestInfoRequiredMoneyText:SetTextColor(1, 1, 0)
 					end
 				end			
-			end)			
+			end)		
+			
+			QuestLogFrame:HookScript("OnShow", function()
+				QuestLogScrollFrame:Height(QuestLogScrollFrame:GetHeight() - 4)
+				QuestLogDetailScrollFrame:Height(QuestLogScrollFrame:GetHeight() - 4)
+				
+				QuestLogScrollFrame:SetTemplate("Default")
+				QuestLogDetailScrollFrame:CreateBackdrop("Default")
+			end)
 		end
 		
 		
@@ -4015,13 +4226,23 @@ ElvuiSkin:SetScript("OnEvent", function(self, event, addon)
 			PVPTeamManagementFrameInvalidTeamFrame.backdrop:Point( "TOPLEFT", PVPTeamManagementFrameInvalidTeamFrame, "TOPLEFT")
 			PVPTeamManagementFrameInvalidTeamFrame.backdrop:Point( "BOTTOMRIGHT", PVPTeamManagementFrameInvalidTeamFrame, "BOTTOMRIGHT")
 			PVPTeamManagementFrameInvalidTeamFrame.backdrop:SetFrameLevel(PVPTeamManagementFrameInvalidTeamFrame:GetFrameLevel())
-			PVPFrameConquestBar:StripTextures()
-			
+
 			if not E.IsPTRVersion() then
+				PVPFrameConquestBar:StripTextures()
 				PVPFrameConquestBar:SetStatusBarTexture(C["media"].normTex)
+				PVPFrameConquestBar:CreateBackdrop("Default")
+			else
+				PVPFrameConquestBarLeft:Kill()
+				PVPFrameConquestBarRight:Kill()
+				PVPFrameConquestBarMiddle:Kill()
+				PVPFrameConquestBarBG:Kill()
+				PVPFrameConquestBarShadow:Kill()
+				PVPFrameConquestBar.progress:SetTexture(C["media"].normTex)
+				PVPFrameConquestBar:CreateBackdrop("Default")
+				PVPFrameConquestBar.backdrop:Point("TOPLEFT", PVPFrameConquestBar.progress, "TOPLEFT", -2, 2)
+				PVPFrameConquestBar.backdrop:Point("BOTTOMRIGHT", PVPFrameConquestBar, "BOTTOMRIGHT", -2, 2)			
 			end
 			
-			PVPFrameConquestBar:CreateBackdrop("Default")
 			PVPBannerFrame:CreateBackdrop("Transparent")
 			PVPBannerFrame.backdrop:Point( "TOPLEFT", PVPBannerFrame, "TOPLEFT")
 			PVPBannerFrame.backdrop:Point( "BOTTOMRIGHT", PVPBannerFrame, "BOTTOMRIGHT")
@@ -4058,6 +4279,7 @@ ElvuiSkin:SetScript("OnEvent", function(self, event, addon)
 				
 				WarGameStartButton:ClearAllPoints()
 				WarGameStartButton:Point("LEFT", PVPFrameLeftButton, "RIGHT", 2, 0)
+				WarGamesFrameDescription:SetTextColor(1, 1, 1)
 			end
 			
 			--Freaking gay Cancel Button FFSlocal
@@ -4145,7 +4367,6 @@ ElvuiSkin:SetScript("OnEvent", function(self, event, addon)
 		--Friends/Social Pane
 		if C["skin"].friends == true then
 			local StripAllTextures = {
-				"FriendsFrame",
 				"FriendsListFrame",
 				"FriendsTabHeader",
 				"FriendsFrameFriendsScrollFrame",
@@ -4228,6 +4449,7 @@ ElvuiSkin:SetScript("OnEvent", function(self, event, addon)
 			for _, object in pairs(StripAllTextures) do
 				_G[object]:StripTextures()
 			end
+			FriendsFrame:StripTextures(true)
 
 			SkinEditBox(AddFriendNameEditBox)
 			AddFriendFrame:SetTemplate("Transparent")			
@@ -4368,11 +4590,11 @@ ElvuiSkin:SetScript("OnEvent", function(self, event, addon)
 			--Skill Line Tabs
 			for i=1, MAX_SKILLLINE_TABS do
 				local tab = _G["SpellBookSkillLineTab"..i]
+				_G["SpellBookSkillLineTab"..i.."Flash"]:Kill()
 				if tab then
 					tab:StripTextures()
 					tab:GetNormalTexture():SetTexCoord(.08, .92, .08, .92)
 					tab:GetNormalTexture():ClearAllPoints()
-
 					tab:GetNormalTexture():Point("TOPLEFT", 2, -2)
 					tab:GetNormalTexture():Point("BOTTOMRIGHT", -2, 2)
 					
@@ -4381,10 +4603,23 @@ ElvuiSkin:SetScript("OnEvent", function(self, event, addon)
 					tab:StyleButton(true)				
 					
 					local point, relatedTo, point2, x, y = tab:GetPoint()
-					tab:Point(point, relatedTo, point2, 2, y)
+					tab:Point(point, relatedTo, point2, 1, y)
 				end
 			end
 			
+			local function SkinSkillLine()
+				for i=1, MAX_SKILLLINE_TABS do
+					local tab = _G["SpellBookSkillLineTab"..i]
+					local _, _, _, _, isGuild = GetSpellTabInfo(i)
+					if isGuild then
+						tab:GetNormalTexture():ClearAllPoints()
+						tab:GetNormalTexture():Point("TOPLEFT", 2, -2)
+						tab:GetNormalTexture():Point("BOTTOMRIGHT", -2, 2)	
+						tab:GetNormalTexture():SetTexCoord(.08, .92, .08, .92)					
+					end
+				end
+			end
+			hooksecurefunc("SpellBookFrame_UpdateSkillLineTabs", SkinSkillLine)
 			SpellBookFrame:SetTemplate("Transparent")
 			SpellBookFrame:CreateShadow("Default")
 			

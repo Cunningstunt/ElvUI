@@ -8,7 +8,7 @@ function E.Install()
 	local MAX_PAGE = 7
 	
 	local function InstallComplete()
-		ElvuiData[E.myrealm][E.myname].v2installed = true
+		ElvuiData[E.myrealm][E.myname].v2_installed = true
 		FoolsDay = nil
 	
 		ReloadUI()
@@ -349,13 +349,17 @@ function E.Install()
 		
 		f:FontString("Desc1", C["media"].font, 12)
 		f.Desc1:Point("TOPLEFT", 20, -75)	
-
+		f.Desc1:Width(f:GetWidth() - 40)
+		
+		
 		f:FontString("Desc2", C["media"].font, 12)
 		f.Desc2:Point("TOPLEFT", 20, -125)		
-
+		f.Desc2:Width(f:GetWidth() - 40)
+		
 		f:FontString("Desc3", C["media"].font, 12)
 		f.Desc3:Point("TOPLEFT", 20, -175)	
-
+		f.Desc3:Width(f:GetWidth() - 40)
+		
 		local close = CreateFrame("Button", "InstallCloseButton", f, "UIPanelCloseButton")
 		close:SetPoint("TOPRIGHT", f, "TOPRIGHT")
 		close:SetScript("OnClick", function()
@@ -400,8 +404,9 @@ ElvuiOnLogon:SetScript("OnEvent", function(self, event)
 		if ElvuiData[E.myrealm] == nil then ElvuiData[E.myrealm] = {} end
 		if ElvuiData[E.myrealm][E.myname] == nil then ElvuiData[E.myrealm][E.myname] = {} end
 		
+		ElvuiData[E.myrealm][E.myname].v2installed = nil--Depreciated
 		ElvuiData[E.myrealm][E.myname].installed = nil--Depreciated
-		if ElvuiData[E.myrealm][E.myname].v2installed ~= true then
+		if ElvuiData[E.myrealm][E.myname].v2_installed ~= true then
 			E.Install()
 		end
 	end

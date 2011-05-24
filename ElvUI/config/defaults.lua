@@ -86,6 +86,7 @@ DB["skin"] = {
 		["lfr"] = true,
 		["tabard"] = true,
 		["guildregistrar"] = true,
+		["timemanager"] = true,
 	["recount"] = true,
 	["skada"] = true,
 	["omen"] = true,
@@ -152,8 +153,13 @@ DB["unitframes"] = {
 	["playerdebuffsonly"] = true,			-- show the players debuffs on target, and any debuff in the whitelist (see debuffFilter.lua)
 	["totdebuffs"] = true,                -- enable tot debuffs (high reso only)
 	["focusdebuffs"] = true,              -- enable focus debuffs 
-	["playtarbuffperrow"] = 8,				-- buffs/debuffs per row on player/target frames
-	["smallbuffperrow"] = 5,				-- debuffs per row on targettarget/focus frames
+	["playeraurasperrow"] = 8,				-- buffs/debuffs per row on player/target frames
+	["targetaurasperrow"] = 8,
+	["smallaurasperrow"] = 5,				-- debuffs per row on targettarget/focus frames
+	["playernumbuffrows"] = 1,
+	["playernumdebuffrows"] = 1,	
+	["targetnumbuffrows"] = 1,
+	["targetnumdebuffrows"] = 1,
 	
 	--castbar
 	["unitcastbar"] = true, -- enable Elvui castbar
