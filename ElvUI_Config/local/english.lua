@@ -514,6 +514,13 @@ L["Misc"] = true
 		L["Enable/Disable the All-In-One Bag, you must disable this if you wish to run another bag addon"] = true
 	L["Map Skin"] = true
 		L["Enable/Disable the map skin"] = true
+	L["ScrapBot"] = true
+	L["Enable ScrapBot"] = true
+		L["Automatically remove the lowest valued item in the Junk list of scrapbot when bags are full."] = true
+	L["Sell Scrap"] = true
+		L["Automatically sell all items in the Junk list of scrapbot when visiting a vendor."] = true
+	L["Scrap Consumables"] = true
+		L["Allow scrapbot to mark low level consumables as Junk (Do not use when you want to transfer them to alts)."] = true
 		
 L["Filters"] = true
 L["SPELL_FILTER_DESC"] = "Filter everything from spell names to nameplate names."

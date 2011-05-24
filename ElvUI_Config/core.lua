@@ -2375,7 +2375,7 @@ function ElvuiConfig.GenerateOptionsInternal()
 						type = "group",
 						name = L["Blizzard Skins"],
 						guiInline = true,
-						disabled = function() return not db.skin.enable end,	
+						disabled = function() return not db.skin.enable end,
 						args = {
 							reforge = {
 								type = "toggle",
@@ -2999,6 +2999,33 @@ function ElvuiConfig.GenerateOptionsInternal()
 								order = 6,
 								name = L["Minimap Auras"],
 								desc = L["Display blizzard skinned auras by the minimap"],							
+							},
+						},
+					},
+					ScrapBotGroup = {
+						order = 4,
+						type = "group",
+						name = L["ScrapBot"],	
+						args = {
+							enablescrapbot = {
+								type = "toggle",
+								order = 1,
+								name = L["Enable ScrapBot"],
+								desc = L["Automatically remove the lowest valued item in the Junk list of scrapbot when bags are full."],
+							},
+							sellscrap = {
+								type = "toggle",
+								order = 2,
+								name = L["Sell Scrap"],
+								desc = L["Automatically sell all items in the Junk list of scrapbot when visiting a vendor."],
+								disabled = function() return not db.others.enablescrapbot end,
+							},
+							scrapconsumables = {
+								type = "toggle",
+								order = 3,
+								name = L["Scrap Consumables"],
+								desc = L["Allow scrapbot to mark low level consumables as Junk (Do not use when you want to transfer them to alts)."],								
+								disabled = function() return not db.others.enablescrapbot end,
 							},
 						},
 					},

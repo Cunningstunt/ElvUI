@@ -330,6 +330,9 @@ DB["others"] = {
 	["autorepair"] = true,                 -- automaticly repair?
 	["guildbankrepair"] = true,						 -- use guildbank for auto repair (when available)
 	["questreward"] = true,								 -- Automatically select quest reward with highest vendor price
+	["enablescrapbot"] = true,						 -- Automatically drop lowest valued junk item when bags are full
+	["sellscrap"] = false,								 -- Automatically sell items marked as junk when visiting vendor
+	["scrapconsumables"] = false,					 -- Add low level consumables to the junk list
 	
 	["buffreminder"] = true,                     -- this is now the new innerfire warning script for all armor/aspect class.
 	["remindersound"] = true,                      -- enable warning sound notification for reminder.

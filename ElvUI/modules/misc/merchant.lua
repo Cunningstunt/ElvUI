@@ -25,12 +25,38 @@ local function formatMoney(money)
 	end
 end
 
+local function AutoSellScrap()
+	local cost = 0
+	for bag, slot, id in E.IterateJunk() do
+		local bagType = select(2, GetContainerNumFreeSlots(bag))
+		if not bagType then
+			return
+		end
+	
+		if bagType == 0 then
+			local maxStack, _, _, payed = select(8, GetItemInfo(id))
+			local stack = select(2, GetContainerItemInfo(bag, slot))
+			if not stack or not maxStack then
+				return
+			end
+			
+			UseContainerItem(bag, slot)
+			PickupMerchantItem()
+			
+			cost = cost + (stack * payed)
+		end
+	end
+	
+	if cost > 0 then 
+		DEFAULT_CHAT_FRAME:AddMessage(format(vendorInfoString, L.merchant_trashsell, formatMoney(cost)))
+	end
+end
+
 local function AutoSellGrayItems()
-	local link, payed
 	local cost = 0
 	for bag = 0, 4 do
 		for slot = 1 ,GetContainerNumSlots(bag) do
-			link = GetContainerItemLink(bag, slot)
+			local link = GetContainerItemLink(bag, slot)
 			if link then
 				local payed = select(11, GetItemInfo(link)) * select(2, GetContainerItemInfo(bag, slot))
 				if select(3, GetItemInfo(link)) == 0 and payed > 0 then
@@ -87,7 +113,11 @@ end
 
 local f = CreateFrame("Frame")
 f:SetScript("OnEvent", function()
-	if C["others"].sellgrays then AutoSellGrayItems() end
+	if C["others"].enablescrapbot and C["others"].sellscrap then 
+		AutoSellScrap()
+	elseif C["others"].sellgrays then 
+		AutoSellGrayItems() 
+	end
 	if not IsShiftKeyDown() then RepairAllPlayerItems() end
 end)
 f:RegisterEvent("MERCHANT_SHOW")

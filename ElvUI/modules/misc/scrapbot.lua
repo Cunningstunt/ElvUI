@@ -3,6 +3,8 @@
 --------------------------------------------------------------------------
 local E, C, L, DB = unpack(select(2, ...)) -- Import Functions/Constants, Config, Locales
 
+if C["others"].enablescrapbot ~= true then return end
+
 local QI = LibStub('LibQuestItem-1.0')
 local UNFIT = LibStub('Unfit-1.0')
 
@@ -63,7 +65,7 @@ function E.CheckFilters(id)
 	local _, link, quality, level, _, class, subClass, _, slot, _, value = GetItemInfo(id)
 	local isPoor = quality == ITEM_QUALITY_POOR and value > 0
 	
-	if class == CONSUMABLES then
+	if C["others"].scrapconsumables and class == CONSUMABLES then
 		 return value > 0 and quality < 3 and level ~= 0 and (UnitLevel('player') - level) > 10
 	elseif class == ARMOR or class == WEAPON then
 		if isPoor then
