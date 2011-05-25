@@ -3,27 +3,7 @@
 ----------------------------------------------------------------------------------
 local E, C, L = unpack(select(2, ...)) -- Import Functions/Constants, Config, Locales
 
-local format	= string.format
-local join		= string.join
-local abs 		= math.abs
-
-local moneyCopperFormatString = join("", " |cffffffff%d|r", L.copperabbrev)
-local moneySilverFormatString = join("", " |cffffffff%d|r", L.silverabbrev, moneyCopperFormatString)
-local moneyGoldFormatString = join("", " |cffffffff%d|r", L.goldabbrev, moneySilverFormatString)
 local vendorInfoString = "|cffffff00%s|r %s"
-
-
-local function formatMoney(money)
-	if not money then return end
-	local gold, silver, copper = abs(money / 10000), abs(mod(money / 100, 100)), abs(mod(money, 100))
-	if floor(gold) ~= 0 then
-		return format(moneyGoldFormatString, gold, silver, copper)
-	elseif floor(silver) ~= 0 then
-		return format(moneySilverFormatString, silver, copper)
-	else
-		return format(moneyCopperFormatString, copper)
-	end
-end
 
 local function AutoSellScrap()
 	local cost = 0
@@ -48,13 +28,13 @@ local function AutoSellScrap()
 	end
 	
 	if cost > 0 then 
-		DEFAULT_CHAT_FRAME:AddMessage(format(vendorInfoString, L.merchant_trashsell, formatMoney(cost)))
+		DEFAULT_CHAT_FRAME:AddMessage(format(vendorInfoString, L.merchant_trashsell, E.FormatMoney(cost, false)))
 	end
 end
 
 local function AutoSellGrayItems()
 	local cost = 0
-	for bag = 0, 4 do
+	for bag = 0, NUM_BAG_FRAMES do
 		for slot = 1 ,GetContainerNumSlots(bag) do
 			local link = GetContainerItemLink(bag, slot)
 			if link then
@@ -69,7 +49,7 @@ local function AutoSellGrayItems()
 	end
 
 	if cost > 0 then 
-		DEFAULT_CHAT_FRAME:AddMessage(format(vendorInfoString, L.merchant_trashsell, formatMoney(cost)))
+		DEFAULT_CHAT_FRAME:AddMessage(format(vendorInfoString, L.merchant_trashsell, E.FormatMoney(cost, false)))
 	end
 end
 
@@ -108,7 +88,7 @@ local function RepairAllPlayerItems()
 	
 	RepairAllItems(useGuildRep)
 	
-	DEFAULT_CHAT_FRAME:AddMessage(format(vendorInfoString, L.merchant_repaircost, formatMoney(cost)))
+	DEFAULT_CHAT_FRAME:AddMessage(format(vendorInfoString, L.merchant_repaircost, E.FormatMoney(cost, false)))
 end
 
 local f = CreateFrame("Frame")

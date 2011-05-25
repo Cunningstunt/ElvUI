@@ -61,6 +61,22 @@ function E.IterateJunk()
 	end
 end
 
+-- TODO: Currently a test function, used for fine tuning Junk Filter
+function E.ScanBags()
+	for bag = 0, NUM_BAG_FRAMES do
+		for slot = 1 ,GetContainerNumSlots(bag) do
+			local link = GetContainerItemLink(bag, slot)
+			if link then
+				local name, link, quality, iLevel, reqLevel, class, subclass, maxStack, equipSlot, texture, vendorPrice = GetItemInfo(link)
+				
+				if (quality == 1) then
+					print(string.format("(%d/%d)%s [%s-%s] %s %d", iLevel, reqLevel, name, class, subclass, equipSlot, vendorPrice))
+				end
+			end
+		end
+	end
+end
+
 function E.CheckFilters(id)
 	local _, link, quality, level, _, class, subClass, _, slot, _, value = GetItemInfo(id)
 	local isPoor = quality == ITEM_QUALITY_POOR and value > 0

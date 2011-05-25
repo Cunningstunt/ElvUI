@@ -481,6 +481,54 @@ function Stuffing:CreateBagFrame(w)
 		f:SetPoint("BOTTOMRIGHT", ChatRBackground2, "BOTTOMRIGHT")
 	end
 	
+	if C["others"].enablescrapbot and w ~= "Bank" then
+		-- info button
+		f.b_info = CreateFrame("Button", "BagItemInfo", f)
+		f.b_info:SetSize(E.Scale(30), E.Scale(14))
+		f.b_info:SetPoint("BOTTOMRIGHT", -2, 2)
+	
+		f.b_info.text = f.b_info:CreateFontString(nil, "OVERLAY", f.b_info)
+		f.b_info.text:SetFont(C["media"].font, E.Scale(12))
+		f.b_info.text:SetPoint("CENTER")
+		f.b_info.text:SetJustifyH("CENTER")
+		f.b_info.text:SetText("Junk")
+		f.b_info:SetFontString(f.b_info.text)
+	
+		f.b_info:SetScript("OnClick", function(self, btn)
+			if btn == "RightButton" then
+				E.ScanBags()
+			end
+		end)
+		f.b_info:RegisterForClicks("AnyUp")
+		f.b_info:HookScript("OnEnter", function(self)
+			GameTooltip:SetOwner(self, "ANCHOR_CURSOR")
+			GameTooltip:ClearLines()
+			GameTooltip:AddLine("Items marked as Junk:")
+			
+			for bag, slot, id in E.IterateJunk() do
+				local bagType = select(2, GetContainerNumFreeSlots(bag))
+				if not bagType then
+					return
+				end
+			
+				if bagType == 0 then
+					local name, link, quality, iLevel, reqLevel, class, subclass, maxStack, equipSlot, texture, vendorPrice = GetItemInfo(id)
+					local stack = select(2, GetContainerItemInfo(bag, slot))
+					if not stack or not maxStack then
+						return
+					end
+					
+					GameTooltip:AddDoubleLine(string.format("%s (%dx)", name, stack), E.FormatMoney(vendorPrice * stack, false), 1, 1, 1, 1, 1, 1)
+				end
+			end
+			
+			GameTooltip:Show()
+		end)
+		f.b_info:HookScript("OnLeave", function(self)
+			GameTooltip:Hide()
+		end)
+	end
+	
 	-- close button
 	f.b_close = CreateFrame("Button", "Stuffing_CloseButton" .. w, f, "UIPanelCloseButton")
 	f.b_close:SetWidth(E.Scale(32))
@@ -578,7 +626,6 @@ function Stuffing:CreateBagFrame(w)
 
 	return f
 end
-
 
 function Stuffing:InitBank()
 	if self.bankFrame then

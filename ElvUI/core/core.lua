@@ -67,8 +67,6 @@ RoleUpdater:RegisterEvent("UPDATE_BONUS_ACTIONBAR")
 RoleUpdater:SetScript("OnEvent", CheckRole)
 CheckRole()
 
-
-
 --Check if our embed right addon is shown
 function E.CheckAddOnShown()
 	if E.ChatRightShown == true and E.RightChat and E.RightChat == true then
@@ -93,5 +91,22 @@ function E.CheckAddOnShown()
 		end
 	else
 		return false
+	end
+end
+
+local moneyGoldString = "%s"..L.goldabbrev.." %s"..L.silverabbrev.." %s"..L.copperabbrev
+local moneySilverString = "%s"..L.silverabbrev.." %s"..L.copperabbrev
+local moneyCopperString = "%s"..L.copperabbrev
+
+function E.FormatMoney(money, longFormat)
+	if not money then return end
+
+	local gold, silver, copper = floor(math.abs(money) / 10000), mod(floor(math.abs(money) / 100), 100), mod(floor(math.abs(money)), 100)
+	if gold ~= 0 or longFormat then
+		return format(moneyGoldString, gold, silver, copper)
+	elseif silver ~= 0 then
+		return format(moneySilverString, silver, copper)
+	else
+		return format(moneyCopperString, copper)
 	end
 end
