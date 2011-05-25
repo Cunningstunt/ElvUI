@@ -469,6 +469,8 @@ end
 function Stuffing:CreateBagFrame(w)
 	local n = "StuffingFrame"  .. w
 	local f = CreateFrame ("Frame", n, UIParent)
+	local btns = self.buttons
+
 	f:EnableMouse(1)
 	f:SetMovable(1)
 	f:SetToplevel(1)
@@ -485,7 +487,7 @@ function Stuffing:CreateBagFrame(w)
 		-- info button
 		f.b_info = CreateFrame("Button", "BagItemInfo", f)
 		f.b_info:SetSize(E.Scale(30), E.Scale(14))
-		f.b_info:SetPoint("BOTTOMRIGHT", -2, 2)
+		f.b_info:SetPoint("TOPRIGHT", -2, -32)
 	
 		f.b_info.text = f.b_info:CreateFontString(nil, "OVERLAY", f.b_info)
 		f.b_info.text:SetFont(C["media"].font, E.Scale(12))
@@ -501,16 +503,18 @@ function Stuffing:CreateBagFrame(w)
 		end)
 		f.b_info:RegisterForClicks("AnyUp")
 		f.b_info:HookScript("OnEnter", function(self)
-			GameTooltip:SetOwner(self, "ANCHOR_CURSOR")
+			local haveJunk = false
+		
+			GameTooltip:SetOwner(f, "ANCHOR_TOPLEFT")
 			GameTooltip:ClearLines()
-			GameTooltip:AddLine("Items marked as Junk:")
-			
+
+			local junkslots = {}			
 			for bag, slot, id in E.IterateJunk() do
 				local bagType = select(2, GetContainerNumFreeSlots(bag))
 				if not bagType then
 					return
 				end
-			
+				
 				if bagType == 0 then
 					local name, link, quality, iLevel, reqLevel, class, subclass, maxStack, equipSlot, texture, vendorPrice = GetItemInfo(id)
 					local stack = select(2, GetContainerItemInfo(bag, slot))
@@ -518,13 +522,38 @@ function Stuffing:CreateBagFrame(w)
 						return
 					end
 					
-					GameTooltip:AddDoubleLine(string.format("%s (%dx)", name, stack), E.FormatMoney(vendorPrice * stack, false), 1, 1, 1, 1, 1, 1)
+					if not haveJunk then
+						GameTooltip:AddLine("Items marked as junk:")
+						haveJunk = true
+					end
+					
+					junkslots[bag] = junkslots[bag] or { }
+					junkslots[bag][slot] = id
+					
+					GameTooltip:AddDoubleLine(string.format("%s (%dx)", name, stack), E.FormatMoney(vendorPrice * stack, false), .7, .7, .7, 1, 1, 1)
+				end
+			end
+			
+			if not haveJunk then
+				GameTooltip:AddLine("Currently no items marked as junk.")
+			end
+			
+			-- light up junk...darken rest
+			for _, btn in ipairs(btns) do
+				if junkslots[btn.bag] and junkslots[btn.bag][btn.slot] then
+					btn.frame:SetAlpha(1)
+				else
+					btn.frame:SetAlpha(0.2)
 				end
 			end
 			
 			GameTooltip:Show()
 		end)
 		f.b_info:HookScript("OnLeave", function(self)
+			-- lite up entire bag again
+			for _, btn in ipairs(btns) do
+				btn.frame:SetAlpha(1)
+			end
 			GameTooltip:Hide()
 		end)
 	end
