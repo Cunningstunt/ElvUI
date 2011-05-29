@@ -96,7 +96,7 @@ end
 local function SkinNextPrevButton(btn, horizonal)
 	btn:SetTemplate("Default")
 	btn:Size(btn:GetWidth() - 7, btn:GetHeight() - 7)	
-	
+
 	if horizonal then
 		btn:GetNormalTexture():SetTexCoord(0.3, 0.29, 0.3, 0.72, 0.65, 0.29, 0.65, 0.72)
 		btn:GetPushedTexture():SetTexCoord(0.3, 0.35, 0.3, 0.8, 0.65, 0.35, 0.65, 0.8)
@@ -1118,6 +1118,30 @@ ElvuiSkin:SetScript("OnEvent", function(self, event, addon)
 		for i=1, 4 do
 			SkinTab(_G["GuildBankFrameTab"..i])
 		end
+		
+		--Popup
+		GuildBankPopupFrame:StripTextures()
+		GuildBankPopupScrollFrame:StripTextures()
+		GuildBankPopupFrame:SetTemplate("Transparent")
+		GuildBankPopupFrame:Point("TOPLEFT", GuildBankFrame, "TOPRIGHT", 1, -30)
+		SkinButton(GuildBankPopupOkayButton)
+		SkinButton(GuildBankPopupCancelButton)
+		SkinEditBox(GuildBankPopupEditBox)
+		GuildBankPopupNameLeft:Kill()
+		GuildBankPopupNameRight:Kill()
+		GuildBankPopupNameMiddle:Kill()
+		
+		for i=1, 16 do
+			local button = _G["GuildBankPopupButton"..i]
+			local icon = _G[button:GetName().."Icon"]
+			button:StripTextures()
+			button:SetTemplate("Default")
+			button:StyleButton(true)
+			icon:ClearAllPoints()
+			icon:Point("TOPLEFT", 2, -2)
+			icon:Point("BOTTOMRIGHT", -2, 2)
+			icon:SetTexCoord(.08, .92, .08, .92)
+		end
 	end
 	
 	--Archaeology
@@ -1128,6 +1152,7 @@ ElvuiSkin:SetScript("OnEvent", function(self, event, addon)
 		ArchaeologyFrame:CreateShadow("Default")
 		
 		SkinButton(ArchaeologyFrameArtifactPageSolveFrameSolveButton, true)
+		SkinButton(ArchaeologyFrameArtifactPageBackButton, true)
 		SkinDropDownBox(ArchaeologyFrameRaceFilter, 125)
 		
 		ArchaeologyFrameRankBar:StripTextures()
@@ -1652,16 +1677,9 @@ ElvuiSkin:SetScript("OnEvent", function(self, event, addon)
 			_G[object]:StripTextures()
 		end
 
-		local function raidskinupdate()
-			nummembers = GetNumRaidMembers();
-
-			for i=1,nummembers do
-				SkinButton(_G["RaidGroupButton"..i])
-			end
+		for i=1, MAX_RAID_GROUPS*5 do
+			SkinButton(_G["RaidGroupButton"..i], true)
 		end
-		raidskinupdate()
-		RaidFrame:HookScript("OnShow", raidskinupdate)
-		hooksecurefunc("RaidGroupFrame_OnEvent", raidskinupdate)
 
 		for i=1,8 do
 			for j=1,5 do
@@ -2336,11 +2354,20 @@ ElvuiSkin:SetScript("OnEvent", function(self, event, addon)
 			button:GetPushedTexture():SetAllPoints(button:GetHighlightTexture())			
 		end
 		
+		--[[for i=1, AuctionFrameBrowse:GetNumRegions() do 
+			local region = select(i, AuctionFrameBrowse:GetRegions());
+			if region:GetObjectType() == "FontString" then 
+				print(region:GetText(), region:GetName()) 
+			end 
+		end]]
+		
 		--Custom Backdrops
 		AuctionFrameBrowse.bg1 = CreateFrame("Frame", nil, AuctionFrameBrowse)
 		AuctionFrameBrowse.bg1:SetTemplate("Default")
 		AuctionFrameBrowse.bg1:Point("TOPLEFT", 20, -103)
 		AuctionFrameBrowse.bg1:Point("BOTTOMRIGHT", -575, 40)
+		BrowseNoResultsText:SetParent(AuctionFrameBrowse.bg1)
+		BrowseSearchCountText:SetParent(AuctionFrameBrowse.bg1)
 		BrowseFilterScrollFrame:Height(300) --Adjust scrollbar height a little off
 
 		AuctionFrameBrowse.bg2 = CreateFrame("Frame", nil, AuctionFrameBrowse)
@@ -3807,7 +3834,7 @@ ElvuiSkin:SetScript("OnEvent", function(self, event, addon)
 				"LFDQueueFramePartyBackfillBackfillButton",
 				"LFDQueueFramePartyBackfillNoBackfillButton",
 			}
-			
+
 			local checkButtons = {
 				"LFDQueueFrameRoleButtonTank",
 				"LFDQueueFrameRoleButtonHealer",
@@ -3816,29 +3843,14 @@ ElvuiSkin:SetScript("OnEvent", function(self, event, addon)
 			}
 			
 			for _, object in pairs(checkButtons) do
-				_G[object]:GetChildren():SetFrameLevel(_G[object]:GetChildren():GetFrameLevel() + 2)
-				SkinCheckBox(_G[object]:GetChildren())
+				_G[object].checkButton:SetFrameLevel(_G[object].checkButton:GetFrameLevel() + 2)
+				SkinCheckBox(_G[object].checkButton)
 			end
 			
-			for _, object in pairs(StripAllTextures) do
-				_G[object]:StripTextures()
-			end
-
-			for _, texture in pairs(KillTextures) do
-				_G[texture]:Kill()
-			end
-
-			for i = 1, #buttons do
-				_G[buttons[i]]:StripTextures()
-				SkinButton(_G[buttons[i]])
-			end	
-
-			for i= 1,15 do
-				SkinCheckBox(_G["LFDQueueFrameSpecificListButton"..i.."EnableButton"])
-			end
-			
-			LFDQueueFrameCapBar:SetPoint("LEFT", 40, 0)
-			LFDQueueFrameRandom:HookScript("OnShow", function()
+			hooksecurefunc("LFDQueueFrameRandom_UpdateFrame", function()
+				local dungeonID = LFDQueueFrame.type
+				local _, _, _, _, _, numRewards = GetLFGDungeonRewards(dungeonID)
+				
 				for i=1, LFD_MAX_REWARDS do
 					local button = _G["LFDQueueFrameRandomScrollFrameChildFrameItem"..i]
 					local icon = _G["LFDQueueFrameRandomScrollFrameChildFrameItem"..i.."IconTexture"]
@@ -3848,7 +3860,9 @@ ElvuiSkin:SetScript("OnEvent", function(self, event, addon)
 					local role3 = _G["LFDQueueFrameRandomScrollFrameChildFrameItem"..i.."RoleIcon3"]
 					
 					if button then
+						local __texture = _G[button:GetName().."IconTexture"]:GetTexture()
 						button:StripTextures()
+						icon:SetTexture(__texture)
 						icon:SetTexCoord(.08, .92, .08, .92)
 						icon:Point("TOPLEFT", 2, -2)
 						icon:SetDrawLayer("OVERLAY")
@@ -3874,8 +3888,39 @@ ElvuiSkin:SetScript("OnEvent", function(self, event, addon)
 							end							
 						end
 					end
+				end				
+			end)
+			
+			hooksecurefunc("LFDQueueFrameSpecificListButton_SetDungeon", function(button, dungeonID, mode, submode)
+				for _, object in pairs(checkButtons) do
+					local button = _G[object]
+					if not ( button.checkButton:GetChecked() ) then
+						button.checkButton:SetDisabledTexture(nil)	
+					else
+						button.checkButton:SetDisabledTexture("Interface\\Buttons\\UI-CheckBox-Check-Disabled")	
+					end
 				end
 			end)
+			
+			
+			for _, object in pairs(StripAllTextures) do
+				_G[object]:StripTextures()
+			end
+
+			for _, texture in pairs(KillTextures) do
+				_G[texture]:Kill()
+			end
+
+			for i = 1, #buttons do
+				_G[buttons[i]]:StripTextures()
+				SkinButton(_G[buttons[i]])
+			end	
+
+			for i= 1,15 do
+				SkinCheckBox(_G["LFDQueueFrameSpecificListButton"..i.."EnableButton"])
+			end
+			
+			LFDQueueFrameCapBar:SetPoint("LEFT", 40, 0)
 			
 			LFDQueueFrameSpecificListScrollFrame:StripTextures()
 			LFDQueueFrameSpecificListScrollFrame:Height(LFDQueueFrameSpecificListScrollFrame:GetHeight() - 8)
