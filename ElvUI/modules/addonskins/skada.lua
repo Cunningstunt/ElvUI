@@ -120,13 +120,13 @@ function EmbedSkada()
 	local xSpacing = ((borderWidth * 2) + barSpacing)
 	local ySpacing = ((borderWidth + barSpacing) * 2)
 	if #windows == 1 then
-		EmbedWindow(windows[1], C["chat"].chatwidth - xSpacing, C["chat"].chatheight - ySpacing, "TOPRIGHT", ChatRBackground2, "TOPRIGHT", -borderWidth, -borderWidth)
+		EmbedWindow(windows[1], C["chat"].chatwidth - xSpacing, C["chat"].chatheight - ySpacing, "TOPRIGHT", ChatRBackground, "TOPRIGHT", -borderWidth, -borderWidth)
 	elseif #windows == 2 then
-		EmbedWindow(windows[1], ((C["chat"].chatwidth) / 2) - xSpacing, C["chat"].chatheight - ySpacing, "TOPRIGHT", ChatRBackground2, "TOPRIGHT", -borderWidth, -borderWidth)
-		EmbedWindow(windows[2], ((C["chat"].chatwidth) / 2) - xSpacing, C["chat"].chatheight - ySpacing, "TOPLEFT", ChatRBackground2, "TOPLEFT", borderWidth, -borderWidth)
+		EmbedWindow(windows[1], ((C["chat"].chatwidth) / 2) - xSpacing, C["chat"].chatheight - ySpacing, "TOPRIGHT", ChatRBackground, "TOPRIGHT", -borderWidth, -borderWidth)
+		EmbedWindow(windows[2], ((C["chat"].chatwidth) / 2) - xSpacing, C["chat"].chatheight - ySpacing, "TOPLEFT", ChatRBackground, "TOPLEFT", borderWidth, -borderWidth)
 	elseif #windows > 2 then
-		EmbedWindow(windows[1], ((C["chat"].chatwidth) / 2) - xSpacing, C["chat"].chatheight - ySpacing, "TOPRIGHT", ChatRBackground2, "TOPRIGHT", -borderWidth, -borderWidth)
-		EmbedWindow(windows[2], ((C["chat"].chatwidth) / 2) - xSpacing, ((C["chat"].chatheight - ySpacing) / 2) - borderWidth, "TOPLEFT", ChatRBackground2, "TOPLEFT", borderWidth, -borderWidth)
+		EmbedWindow(windows[1], ((C["chat"].chatwidth) / 2) - xSpacing, C["chat"].chatheight - ySpacing, "TOPRIGHT", ChatRBackground, "TOPRIGHT", -borderWidth, -borderWidth)
+		EmbedWindow(windows[2], ((C["chat"].chatwidth) / 2) - xSpacing, ((C["chat"].chatheight - ySpacing) / 2) - borderWidth, "TOPLEFT", ChatRBackground, "TOPLEFT", borderWidth, -borderWidth)
 		EmbedWindow(windows[3], ((C["chat"].chatwidth) / 2) - xSpacing, ((C["chat"].chatheight - ySpacing) / 2) - borderWidth + barSpacing, "TOPLEFT", windows[2].bargroup.bgframe, "BOTTOMLEFT", borderWidth, -borderWidth)
 	end
 end
