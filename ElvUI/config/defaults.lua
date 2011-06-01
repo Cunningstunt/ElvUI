@@ -91,10 +91,12 @@ DB["skin"] = {
 	["skada"] = true,
 	["omen"] = true,
 	["kle"] = true,
+	["dxe"] = true,
 	["dbm"] = true,
 	["bigwigs"] = true,
-	["hookkleright"] = true,			-- force KLE's top bar anchor to be hooked onto the right chat window
-	["hookbwright"] = true,			-- force BigWig's bar anchor to be hooked onto the right chat window
+	["hookkleright"] = false,			-- force KLE's top bar anchor to be hooked onto the right chat window
+	["hookbwright"] = false,			-- force BigWig's bar anchor to be hooked onto the right chat window
+	["hookdxeright"] = false,
 	["embedright"] = "NONE",				-- Addon to embed to the right frame ("Omen", "Recount", "Skada")
 }
 
@@ -108,7 +110,7 @@ DB["unitframes"] = {
 	["pettarget"] = true,					-- show player's pet's target (DPS)
 	["showtotalhpmp"] = false,             -- change the display of info text on player and target with XXXX/Total.
 	["showsmooth"] = true,                 -- enable smooth bar
-	["charportrait"] = true,              -- enable character portrait
+	["charportrait"] = false,              -- enable character portrait
 	["charportraithealth"] = false,			-- portrait overlay healthbar
 	["classcolor"] = false,                  -- color unitframes by class
 	["classcolorpower"] = false,
@@ -120,8 +122,8 @@ DB["unitframes"] = {
 	["debuffhighlight"] = true,				--highlight frame with the debuff color if the frame is dispellable
 	["classbar"] = true,                    -- enable runebar/totembar/holypowerbar/soulshardbar/eclipsebar
 	["combat"] = false,						-- only show main unitframes when in combat/havetarget/or mouseover
-	["mini_powerbar"] = false,
-	["mini_classbar"] = false,
+	["mini_powerbar"] = true,
+	["mini_classbar"] = true,
 	["powerbar_offset"] = 0,
 	["showboss"] = true,                   -- enable boss unit frames for PVELOL encounters.
 	["arena"] = true,                 -- enable elvui arena unitframes (requirement : Elvui unitframes enabled)	
@@ -211,7 +213,7 @@ DB["raidframes"] = {
 	["buffindicatorsize"] = 6,				-- size of the buff indicator on raid/party frames
 	["debuffs"] = true,
 	["displayaggro"] = true,
-	["mini_powerbar"] = false,
+	["mini_powerbar"] = true,
 	["gridonly"] = false,
 }
 

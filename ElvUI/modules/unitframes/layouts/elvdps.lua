@@ -158,6 +158,26 @@ local function Shared(self, unit)
 		power.value:Point("LEFT", health, "LEFT", 4, 0)
 		self.Power = power
 		
+		--Druid Power Bar
+		if E.myclass == "DRUID" then
+			local dpower = CreateFrame('Frame', nil, self)
+			dpower:SetFrameStrata("LOW")
+			dpower:Point("TOPLEFT", power, "BOTTOMLEFT", -BORDER, -(BORDER+SPACING))
+			dpower:Point("BOTTOMRIGHT", power, "BOTTOMRIGHT", BORDER, -((BORDER+SPACING)+POWERBAR_HEIGHT))
+			dpower:SetTemplate("Default")
+			dpower:SetFrameLevel(dpower:GetFrameLevel() + 1)
+			dpower.ManaBar = CreateFrame('StatusBar', nil, dpower)
+			dpower.ManaBar:SetStatusBarTexture(C["media"].normTex)
+			dpower.ManaBar:Point("TOPLEFT", dpower, "TOPLEFT", BORDER, -BORDER)		
+			dpower.ManaBar:Point("BOTTOMRIGHT", dpower, "BOTTOMRIGHT", -BORDER, BORDER)	
+			dpower.bg = dpower:CreateTexture(nil, "BORDER")
+			dpower.bg:SetAllPoints(dpower.ManaBar)
+			dpower.bg:SetTexture(C["media"].blank)
+			dpower.bg.multiplier = 0.3
+			dpower.colorPower = true
+			self.DruidAltMana = dpower
+		end
+		
 		--Portrait
 		if C["unitframes"].charportrait == true then
 			if C["unitframes"].charportraithealth == true then
@@ -392,6 +412,12 @@ local function Shared(self, unit)
 			experience:Point("TOPRIGHT", self, "BOTTOMRIGHT", -BORDER, -(BORDER*2+BORDER))
 			experience:SetFrameStrata("LOW")
 			
+			if C["unitframes"].combat == true then
+				experience:HookScript("OnEnter", function(self) E.Fader(self:GetParent(), true) end)
+				experience:HookScript("OnLeave", function(self) E.Fader(self:GetParent(), false) end)
+			end
+
+			
 			experience.Rested = CreateFrame('StatusBar', nil, experience)
 			experience.Rested:SetStatusBarTexture(NORMTEX)
 			experience.Rested:SetStatusBarColor(1, 0, 1, 0.2)
@@ -425,7 +451,10 @@ local function Shared(self, unit)
 			reputation:SetFrameStrata("LOW")
 
 			reputation.Tooltip = true
-
+			if C["unitframes"].combat == true then
+				reputation:HookScript("OnEnter", function(self) E.Fader(self:GetParent(), true) end)
+				reputation:HookScript("OnLeave", function(self) E.Fader(self:GetParent(), false) end)
+			end
 
 			reputation.backdrop = CreateFrame("Frame", nil, reputation)
 			reputation.backdrop:SetTemplate("Default")
@@ -1013,7 +1042,7 @@ local function Shared(self, unit)
 				
 		--Combo Bar
 		local combo = CreateFrame("Frame", nil, self)
-		if MINI_CLASSBAR then
+		if C["unitframes"].mini_classbar then
 			CLASSBAR_WIDTH = CLASSBAR_WIDTH * 4/5
 			combo:Point("CENTER", health.backdrop, "TOP", -(BORDER*3 + 6), 0)
 			combo:SetFrameStrata("MEDIUM")
@@ -1030,7 +1059,7 @@ local function Shared(self, unit)
 			combo[i]:SetStatusBarTexture(NORMTEX)
 			combo[i]:GetStatusBarTexture():SetHorizTile(false)
 			
-			if MINI_CLASSBAR then
+			if C["unitframes"].mini_classbar then
 				combo[i].backdrop = CreateFrame("Frame", nil, combo)
 				combo[i].backdrop:SetTemplate("Default")
 				combo[i].backdrop:Point("TOPLEFT", combo[i], "TOPLEFT", -BORDER, BORDER)
@@ -1041,7 +1070,7 @@ local function Shared(self, unit)
 			if i == 1 then
 				combo[i]:SetPoint("LEFT", combo)
 			else
-				if MINI_CLASSBAR then
+				if C["unitframes"].mini_classbar then
 					combo[i]:Point("LEFT", combo[i-1], "RIGHT", SPACING+(BORDER*2)+2, 0)
 				else
 					combo[i]:Point("LEFT", combo[i-1], "RIGHT", SPACING, 0)
@@ -1058,7 +1087,7 @@ local function Shared(self, unit)
 		combo[5]:SetStatusBarColor(0.33, 0.59, 0.33)
 		
 		
-		if not MINI_CLASSBAR then
+		if not C["unitframes"].mini_classbar then
 			combo.backdrop = CreateFrame("Frame", nil, combo)
 			combo.backdrop:SetTemplate("Default")
 			combo.backdrop:Point("TOPLEFT", -BORDER, BORDER)
